@@ -5,3 +5,7 @@ class Step( object ):
     self.id = id
     self.sentence = sentence
     self.filename = filename
+    self.func = None
+  @property
+  def Sentence( self ):
+    return self.sentence

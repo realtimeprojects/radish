@@ -6,20 +6,26 @@ import re
 from radish.Feature import Feature
 from radish.Scenario import Scenario
 from radish.Step import Step
+from radish.FileSystemHelper import FileSystemHelper as fsh
 
 class FeatureParser( object ):
   def __init__( self, feature_files ):
+    self.features = []
     self.feature_files = []
     feature_files = feature_files if isinstance( feature_files, list ) else [feature_files]
     for f in feature_files:
-      self.feature_files.append( os.path.expanduser( os.path.expandvars( f )))
+      self.feature_files.append( fsh.expand( f ))
+
+  @property
+  def Features( self ):
+    return self.features
 
   def parse( self ):
-    features = []
+    self.feature_id = 1
     for f in self.feature_files:
-      features.extend( self.parse_feature( f ))
+      self.features.extend( self.parse_feature( f ))
 
-    for f in features:
+    for f in self.features:
       print f.sentence
       for l in f.description.splitlines( ):
         print "  " + l
@@ -32,15 +38,12 @@ class FeatureParser( object ):
         print
       print
 
-    self.features = features
-
   def parse_feature( self, feature_file ):
     if not os.path.exists( feature_file ):
       return False # FIXME: raise FeatureFileNotFoundException
 
     features    = []
     in_feature  = False
-    feature_id  = 1
     scenario_id = 1
     step_id     = 1
 
@@ -54,8 +57,8 @@ class FeatureParser( object ):
 
       if feature_match: # create new feature
         in_feature = True
-        features.append( Feature( feature_id, feature_match.group( 1 ), feature_file ))
-        feature_id += 1
+        features.append( Feature( self.feature_id, feature_match.group( 1 ), feature_file ))
+        self.feature_id += 1
         scenario_id = 1
       elif scenario_match: # create new scenario
         in_feature = False
