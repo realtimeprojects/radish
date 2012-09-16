@@ -3,3 +3,8 @@
 
 # python bytecode files
 *.pyc
+
+# setuptools files
+build/
+dist/
+radish.egg-info/
