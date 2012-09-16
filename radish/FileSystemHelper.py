@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 
 import os
+import sys
 import fnmatch
 
 class FileSystemHelper( object ):
@@ -37,3 +38,21 @@ class FileSystemHelper( object ):
         files.append( os.path.join( p, filename ))
     files.sort( )
     return files
+
+  @classmethod
+  def import_module( cls, root, module_pattern ):
+    """Import a module to the current environment"""
+    files = cls.locate( root, module_pattern )
+    for f in files:
+      root = cls.dirname( f )
+      sys.path.insert( 0, root )
+      module_name = cls.filename( f, False )
+      try:
+        module = __import__( module_name )
+        sys.path.remove( root )
+      except ValueError, e:
+        import traceback
+        if "empty module name" in traceback.format_exc( e ).lower( ):
+          continue
+        else:
+          raise e
