@@ -3,16 +3,23 @@
 from radish.StepRegistry import StepRegistry
 from radish.FileSystemHelper import FileSystemHelper as fsh
 
-class StepDefinitionLoader( object ):
+class Loader( object ):
   def __init__( self, basedir, features ):
-    # FIXME: check if basedir exists
-    self.basedir  = basedir
+    self.basedir = basedir
     self.features = features
 
-  def load_steps( self ):
-    fsh.import_module( self.basedir, "steps.py" )
+  def load( self ):
+    self.load_terrain( )
+    self.load_step_definitions( )
 
-  def merge_steps_with_defintions( self ):
+  def load_terrain( self ):
+    fsh.import_module( self.basedir, "terrain.py" )
+
+  def load_step_definitions( self ):
+    fsh.import_module( self.basedir, "steps.py" )
+    self.merge_steps_with_definitions( )
+
+  def merge_steps_with_definitions( self ):
     sr = StepRegistry( )
     for feature in self.features:
       for scenario in feature.Scenarios:

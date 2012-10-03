@@ -25,19 +25,6 @@ class FeatureParser( object ):
     for f in self.feature_files:
       self.features.extend( self.parse_feature( f ))
 
-    for f in self.features:
-      print f.sentence
-      for l in f.description.splitlines( ):
-        print "  " + l
-
-      print
-      for s in f.Scenarios:
-        print "  " + s.sentence
-        for step in s.Steps:
-          print "    " + step.sentence
-        print
-      print
-
   def parse_feature( self, feature_file ):
     if not os.path.exists( feature_file ):
       return False # FIXME: raise FeatureFileNotFoundException
@@ -69,6 +56,7 @@ class FeatureParser( object ):
         line = l.rstrip( os.linesep ).strip( )
         if not in_feature:
           features[-1].Scenarios[-1].AppendStep( Step( step_id, line, feature_file ))
+          step_id += 1
         else:
           features[-1].AppendDescriptionLine( line )
 

@@ -8,12 +8,12 @@ def main( ):
   fp = radish.FeatureParser( "~/Work/radish/testfiles/features/001-feature.feature" )
   fp.parse( )
 
-  tl = radish.TerrainLoader( basedir )
-  tl.load_terrain( )
+  loader = radish.Loader( basedir, fp.Features )
+  loader.load_terrain( )
+  loader.load_step_definitions( )
 
-  sdl = radish.StepDefinitionLoader( basedir, fp.Features )
-  sdl.load_steps( )
-  sdl.merge_steps_with_defintions( )
+  runner = radish.Runner( fp.Features )
+  runner.run( )
 
 if __name__ == "__main__":
   main( )
