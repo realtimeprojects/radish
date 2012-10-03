@@ -4,7 +4,7 @@
 import radish
 
 def main( ):
-  basedir = "~/Work/radish/testfiles/steps/"
+  basedir = "~/Work/radish/testfiles/radish/"
   fp = radish.FeatureParser( "~/Work/radish/testfiles/features/001-feature.feature" )
   fp.parse( )
 

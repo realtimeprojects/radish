@@ -3,5 +3,3 @@
 import threading
 
 world = threading.local( )
-
-# TODO: implement hooks
