@@ -4,9 +4,9 @@
 
 ***
 
-*Author:* Timo Furrer
-*License:* GPL
-*Version:* 0.00.01
+**Author:** Timo Furrer<br />
+**License:** GPL<br />
+**Version:** 0.00.01<br />
 
 ## In testphase
 It is not recommended to use this tool for real software testing - because it is still under developement and needs much improvements!
