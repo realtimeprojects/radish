@@ -25,3 +25,6 @@ Coming soon ...
 
 ## Contributing
 Coming soon ...
+
+## Infos
+The files which are currently in the testfiles-folder are from lettuce - another TDD tool!
