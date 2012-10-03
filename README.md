@@ -8,6 +8,9 @@
 *License:* GPL
 *Version:* 0.00.01
 
+## In testphase
+It is not recommended to use this tool for real software testing - because it is still under developement and needs much improvements!
+
 ## What is `radish` ?
 `radish` is a "Test-Driven Developement"-Tool which is written in python.
 
