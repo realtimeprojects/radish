@@ -28,11 +28,3 @@ class Step( object ):
       self.func( self, **kw )
     else:
       self.func( self, *self.match.groups( ))
-    self.rewrite( )
-
-  # FIXME: better names for self.write and self.rewrite ... e.g. writeSentence, writeResult ;)
-  def write( self ):
-    colorful.out.bold_black( "      "  + str( self.id ) + ". " + self.sentence )
-
-  def rewrite( self ):
-    colorful.out.bold_green( "\033[A      " + str( self.id ) + ". " + self.sentence )

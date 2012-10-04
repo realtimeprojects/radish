@@ -1,6 +1,5 @@
 # -*- coding: utf-8 -*-
 
-from radish.Colorful import colorful
 from radish.Step import Step
 
 class Scenario( object ):
@@ -17,6 +16,3 @@ class Scenario( object ):
   def AppendStep( self, step ):
     if isinstance( step, Step ):
       self.steps.append( step )
-
-  def write( self ):
-    colorful.out.bold_white( "    " + self.sentence )
