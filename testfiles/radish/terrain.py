@@ -6,7 +6,7 @@ def before_all( ):
   pass
 
 @after.all
-def after_all( ):
+def after_all( endResult ):
   #print "after_all"
   pass
 

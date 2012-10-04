@@ -16,6 +16,12 @@ class Feature( object ):
   def Scenarios( self ):
     return self.scenarios
 
+  @property
+  def Passed( self ):
+    for s in self.scenarios:
+      if not s.Passed: return False
+    return True
+
   def AppendScenario( self, scenario ):
     if isinstance( scenario, Scenario ):
       self.scenarios.append( scenario )

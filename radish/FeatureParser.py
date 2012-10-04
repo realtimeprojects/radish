@@ -34,6 +34,7 @@ class FeatureParser( object ):
     scenario_id = 1
     step_id     = 1
 
+    # FIXME: compile regex patterns
     f = open( feature_file, "r" )
     for l in f.readlines( ):
       if not l.strip( ) or re.search( "^[ ]*?#", l ):

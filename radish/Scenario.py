@@ -13,6 +13,12 @@ class Scenario( object ):
   def Steps( self ):
     return self.steps
 
+  @property
+  def Passed( self ):
+    for s in self.steps:
+      if not s.Passed: return False
+    return True
+
   def AppendStep( self, step ):
     if isinstance( step, Step ):
       self.steps.append( step )
