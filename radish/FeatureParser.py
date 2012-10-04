@@ -9,6 +9,8 @@ from radish.Step import Step
 from radish.FileSystemHelper import FileSystemHelper as fsh
 
 class FeatureParser( object ):
+  longest_feature_text = 0
+
   def __init__( self, feature_files ):
     self.features = []
     self.feature_files = []
@@ -48,6 +50,8 @@ class FeatureParser( object ):
         features.append( Feature( self.feature_id, feature_match.group( 1 ), feature_file ))
         self.feature_id += 1
         scenario_id = 1
+        if len( feature_match.group( 1 )) > FeatureParser.longest_feature_text:
+          FeatureParser.longest_feature_text = len( feature_match.group( 1 ))
       elif scenario_match: # create new scenario
         in_feature = False
         features[-1].AppendScenario( Scenario( scenario_id, scenario_match.group( 1 ), feature_file ))
@@ -60,6 +64,8 @@ class FeatureParser( object ):
           step_id += 1
         else:
           features[-1].AppendDescriptionLine( line )
+          if len( line ) + 2 > FeatureParser.longest_feature_text:
+            FeatureParser.longest_feature_text = len( line ) + 2
 
     f.close( )
     return features
