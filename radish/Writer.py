@@ -5,10 +5,11 @@ import sys
 from radish.Colorful import colorful
 from radish.FeatureParser import FeatureParser
 from radish.HookRegistry import after, before
+from radish.FileSystemHelper import FileSystemHelper as fsh
 
 @before.each_feature
 def print_before_feature( feature ):
-  print( colorful.bold_white( "  " + feature.sentence + " " * (FeatureParser.longest_feature_text - len( feature.sentence ))) + " " * 10 + colorful.bold_black( "# " + feature.filename ))
+  print( colorful.bold_white( "  " + feature.sentence + " " * (FeatureParser.longest_feature_text - len( feature.sentence ))) + " " * 10 + colorful.bold_black( "# " + fsh.filename( feature.filename )))
   for l in feature.description.splitlines( ):
     colorful.out.white( "    " + l )
   print( "" )
