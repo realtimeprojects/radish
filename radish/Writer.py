@@ -8,7 +8,7 @@ from radish.HookRegistry import after, before
 
 @before.each_feature
 def print_before_feature( feature ):
-  print( colorful.bold_white( "  " + feature.sentence + " " * (FeatureParser.longest_feature_text - len( feature.sentence ))) + " " * 10 + colorful.black( "# " + feature.filename ))
+  print( colorful.bold_white( "  " + feature.sentence + " " * (FeatureParser.longest_feature_text - len( feature.sentence ))) + " " * 10 + colorful.bold_black( "# " + feature.filename ))
   for l in feature.description.splitlines( ):
     colorful.out.white( "    " + l )
   print( "" )

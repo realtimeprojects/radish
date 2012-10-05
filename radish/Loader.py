@@ -3,6 +3,7 @@
 from radish.Config import Config
 from radish.StepRegistry import StepRegistry
 from radish.FileSystemHelper import FileSystemHelper as fsh
+from radish.Exceptions import StepDefinitionNotFoundException
 
 class Loader( object ):
   def __init__( self, features ):
@@ -29,4 +30,5 @@ class Loader( object ):
             step.func = func
             step.match = match
           else:
-            return False # FIXME: raise StepDefinitionNotFoundException
+            print StepDefinitionNotFoundException( step.Sentence )
+            raise SystemExit( 1 )

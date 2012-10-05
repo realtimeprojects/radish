@@ -7,6 +7,7 @@ from radish.Feature import Feature
 from radish.Scenario import Scenario
 from radish.Step import Step
 from radish.FileSystemHelper import FileSystemHelper as fsh
+from radish.Exceptions import FeatureFileNotFoundException
 
 class FeatureParser( object ):
   longest_feature_text = 0
@@ -29,7 +30,8 @@ class FeatureParser( object ):
 
   def parse_feature( self, feature_file ):
     if not os.path.exists( feature_file ):
-      return False # FIXME: raise FeatureFileNotFoundException
+      print FeatureFileNotFoundException( feature_file )
+      raise SystemExit( 1 )
 
     features    = []
     in_feature  = False
