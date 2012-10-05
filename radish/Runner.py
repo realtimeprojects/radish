@@ -2,6 +2,7 @@
 
 import sys
 
+from radish.Config import Config
 from radish.HookRegistry import HookRegistry
 from radish.EndResult import EndResult
 
@@ -13,6 +14,7 @@ class Runner( object ):
     hr = HookRegistry( )
     hr.call_hook( "before", "all" )
 
+    abort       = False
     interrupted = False
     for f in self.features:
       hr.call_hook( "before", "feature", f )
@@ -29,11 +31,15 @@ class Runner( object ):
               passed = step.run( )
               if not passed:
                 skip_remaining_steps = True
+                if Config( ).abort_fail:
+                  abort = True
             except KeyboardInterrupt, e:
               interrupted = True
               sys.stdout.write( "\r" )
 
           hr.call_hook( "after", "step", step )
         hr.call_hook( "after", "scenario", s )
+        if abort: break; # if -a is set
       hr.call_hook( "after", "feature", f )
+      if abort: break; # if -a is set
     hr.call_hook( "after", "all", EndResult( self.features ))
