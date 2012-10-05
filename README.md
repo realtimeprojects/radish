@@ -19,10 +19,13 @@ Coming soon ...
 
 ## How to install?
 To install it on your system you can use the `setup.py` script:
+
     python setup.py install
+
 *Note: You need root access for the above command* <br />
 
 You can now start it with:
+
     radish [arguments]
 
 ## How to use?
