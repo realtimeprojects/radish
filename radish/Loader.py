@@ -1,11 +1,11 @@
 # -*- coding: utf-8 -*-
 
+from radish.Config import Config
 from radish.StepRegistry import StepRegistry
 from radish.FileSystemHelper import FileSystemHelper as fsh
 
 class Loader( object ):
-  def __init__( self, basedir, features ):
-    self.basedir = basedir
+  def __init__( self, features ):
     self.features = features
 
   def load( self ):
@@ -13,10 +13,10 @@ class Loader( object ):
     self.load_step_definitions( )
 
   def load_terrain( self ):
-    fsh.import_module( self.basedir, "terrain.py" )
+    fsh.import_module( Config( ).basedir, "terrain.py" )
 
   def load_step_definitions( self ):
-    fsh.import_module( self.basedir, "steps.py" )
+    fsh.import_module( Config( ).basedir, "steps.py" )
     self.merge_steps_with_definitions( )
 
   def merge_steps_with_definitions( self ):
