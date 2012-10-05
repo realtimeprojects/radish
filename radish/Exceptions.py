@@ -25,3 +25,20 @@ class FeatureFileNotFoundException( Exception ):
 
   def __str__( self ):
     return colorful.bold_red( "The feature file '%s' could not be found"%( self.path ))
+
+class BasedirNotFoundException( Exception ):
+  """Raised when the basedir could not be found"""
+  def __init__( self, basedir ):
+    self.basedir = basedir
+
+  def __str__( self ):
+    return colorful.bold_red( "The basedir '%s' could not be found"%( self.basedir ))
+
+class StepDefinitionFileNotFoundException( Exception ):
+  """Raised when the step definition file could not be found"""
+  def __init__( self, root, pattern ):
+    self.root = root
+    self.pattern = pattern
+
+  def __str__( self ):
+    return colorful.bold_red( "The step definition file '%s' could not be found in the directory '%s'"%( self.pattern, self.root ))

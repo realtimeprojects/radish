@@ -3,6 +3,7 @@
 import os
 import re
 
+from radish.Config import Config
 from radish.Feature import Feature
 from radish.Scenario import Scenario
 from radish.Step import Step
@@ -12,12 +13,14 @@ from radish.Exceptions import FeatureFileNotFoundException
 class FeatureParser( object ):
   longest_feature_text = 0
 
-  def __init__( self, feature_files ):
+  def __init__( self ):
     self.features = []
     self.feature_files = []
-    feature_files = feature_files if isinstance( feature_files, list ) else [feature_files]
-    for f in feature_files:
-      self.feature_files.append( fsh.expand( f ))
+    for f in Config( ).feature_files:
+      if os.path.isdir( f ):
+        self.feature_files.extend( fsh.locate( f, "*.feature" ))
+      else:
+        self.feature_files.append( f )
 
   @property
   def Features( self ):

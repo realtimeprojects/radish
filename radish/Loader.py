@@ -3,7 +3,7 @@
 from radish.Config import Config
 from radish.StepRegistry import StepRegistry
 from radish.FileSystemHelper import FileSystemHelper as fsh
-from radish.Exceptions import StepDefinitionNotFoundException
+from radish.Exceptions import StepDefinitionFileNotFoundException, StepDefinitionNotFoundException
 
 class Loader( object ):
   def __init__( self, features ):
@@ -17,6 +17,10 @@ class Loader( object ):
     fsh.import_module( Config( ).basedir, "terrain.py" )
 
   def load_step_definitions( self ):
+    if len( fsh.locate( Config( ).basedir, "steps.py" )) == 0:
+      print StepDefinitionFileNotFoundException( Config( ).basedir, "steps.py" )
+      raise SystemExit( 1 )
+
     fsh.import_module( Config( ).basedir, "steps.py" )
     self.merge_steps_with_definitions( )
 
