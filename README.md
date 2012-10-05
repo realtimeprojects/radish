@@ -1,12 +1,12 @@
 # radish
 > `radish` is a "Test-Driven Developement"-Tool written in python
-> Version: 0.00.01
+> Version: 0.00.02
 
 ***
 
-**Author:** Timo Furrer<br />
+**Author:** Timo Furrer <tuxtimo@gmail.com><br />
 **License:** GPL<br />
-**Version:** 0.00.01<br />
+**Version:** 0.00.02<br />
 
 ## In testphase
 It is not recommended to use this tool for real software testing - because it is still under developement and needs much improvements!
@@ -18,7 +18,12 @@ It is not recommended to use this tool for real software testing - because it is
 Coming soon ...
 
 ## How to install?
-Coming soon ...
+To install it on your system you can use the `setup.py` script:
+    python setup.py install
+*Note: You need root access for the above command* <br />
+
+You can now start it with:
+    radish [arguments]
 
 ## How to use?
 Coming soon ...
