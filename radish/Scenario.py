@@ -10,6 +10,10 @@ class Scenario( object ):
     self.steps = []
 
   @property
+  def Sentence( self ):
+    return self.sentence
+
+  @property
   def Steps( self ):
     return self.steps
 

@@ -9,14 +9,14 @@ from radish.FileSystemHelper import FileSystemHelper as fsh
 
 @before.each_feature
 def print_before_feature( feature ):
-  print( colorful.bold_white( "  " + feature.sentence + " " * (FeatureParser.longest_feature_text - len( feature.sentence ))) + " " * 10 + colorful.bold_black( "# " + fsh.filename( feature.filename )))
+  print( colorful.bold_white( "  " + feature.Sentence + " " * (FeatureParser.longest_feature_text - len( feature.sentence ))) + " " * 10 + colorful.bold_black( "# " + fsh.filename( feature.filename )))
   for l in feature.description.splitlines( ):
     colorful.out.white( "    " + l )
   print( "" )
 
 @before.each_scenario
 def print_before_scenario( scenario ):
-  colorful.out.bold_white( "    " + scenario.sentence )
+  colorful.out.bold_white( "    " + scenario.Sentence )
 
 @after.each_scenario
 def print_after_scenario( scenario ):
@@ -24,7 +24,7 @@ def print_after_scenario( scenario ):
 
 @before.each_step
 def print_before_step( step ):
-  colorful.out.bold_black( "      "  + str( step.id ) + ". " + step.sentence )
+  colorful.out.bold_black( "      "  + str( step.id ) + ". " + step.Sentence )
 
 @after.each_step
 def print_after_step( step ):
@@ -35,7 +35,7 @@ def print_after_step( step ):
     fn = colorful.out.bold_red
   elif step.passed == None:
     fn = colorful.out.cyan
-  fn( "      " + str( step.id ) + ". " + step.sentence )
+  fn( "      " + str( step.id ) + ". " + step.Sentence )
 
   if step.passed == False:
     for l in step.fail_reason.traceback.splitlines( ):

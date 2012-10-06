@@ -13,6 +13,10 @@ class Feature( object ):
     self.description = ""
 
   @property
+  def Sentence( self ):
+    return self.sentence
+
+  @property
   def Scenarios( self ):
     return self.scenarios
 
