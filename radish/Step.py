@@ -15,6 +15,10 @@ class Step( object ):
     self.fail_reason = None
 
   @property
+  def Id( self ):
+    return self.id
+
+  @property
   def Sentence( self ):
     return self.sentence
 

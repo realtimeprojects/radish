@@ -29,24 +29,24 @@ def log_after_all( endResult ):
 
 @before.each_feature
 def log_before_feature( feature ):
-  Logger.log( "start feature %d: '%s'"%( feature.id, feature.Sentence ))
+  Logger.log( "start feature %d: '%s'"%( feature.Id, feature.Sentence ))
 
 @after.each_feature
 def log_after_feature( feature ):
-  Logger.log( "terminated feature %d: '%s'"%( feature.id, feature.Sentence ))
+  Logger.log( "terminated feature %d: '%s'"%( feature.Id, feature.Sentence ))
 
 @before.each_scenario
 def log_before_scenario( scenario ):
-  Logger.log( "start scenario %d: '%s'"%( scenario.id, scenario.Sentence ))
+  Logger.log( "start scenario %d: '%s'"%( scenario.Id, scenario.Sentence ))
 
 @after.each_scenario
 def log_after_scenario( scenario ):
-  Logger.log( "terminated scenario %d: '%s'"%( scenario.id, scenario.Sentence ))
+  Logger.log( "terminated scenario %d: '%s'"%( scenario.Id, scenario.Sentence ))
 
 @before.each_step
 def log_before_step( step ):
-  Logger.log( "start step %d: '%s'"%( step.id, step.Sentence ))
+  Logger.log( "start step %d: '%s'"%( step.Id, step.Sentence ))
 
 @after.each_step
 def log_after_step( step ):
-  Logger.log( "terminated step %d: '%s'"%( step.id, step.Sentence ))
+  Logger.log( "terminated step %d: '%s'"%( step.Id, step.Sentence ))

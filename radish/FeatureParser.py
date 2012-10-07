@@ -12,6 +12,7 @@ from radish.Exceptions import FeatureFileNotFoundException
 
 class FeatureParser( object ):
   longest_feature_text = 0
+  highest_step_id      = 0
 
   def __init__( self ):
     self.features = []
@@ -66,6 +67,8 @@ class FeatureParser( object ):
         line = l.rstrip( os.linesep ).strip( )
         if not in_feature:
           features[-1].Scenarios[-1].AppendStep( Step( step_id, line, feature_file ))
+          if step_id > FeatureParser.highest_step_id:
+            FeatureParser.highest_step_id = step_id
           step_id += 1
         else:
           features[-1].AppendDescriptionLine( line )
