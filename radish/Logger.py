@@ -3,6 +3,7 @@
 import syslog
 
 from radish.HookRegistry import after, before
+from radish.Config import Config
 
 class Logger( object ):
   @staticmethod
@@ -20,11 +21,11 @@ class Logger( object ):
 @before.all
 def log_before_all( ):
   Logger.init( )
-  Logger.log( "start to run features" )
+  Logger.log( "start to run features (Marker: %d)"%( Config( ).marker ))
 
 @after.all
 def log_after_all( endResult ):
-  Logger.log( "finished features" )
+  Logger.log( "finished features (Marker: %d)"%( Config( ).marker ))
   Logger.free( )
 
 @before.each_feature

@@ -4,6 +4,7 @@
 import radish
 
 import os
+import time
 import argparse
 
 def main( ):
@@ -21,6 +22,10 @@ def main( ):
                        default = 1,
                        help    = "The verbosity level for the output"
                      )
+  parser.add_argument( "-m", "--marker",
+                       default = int( time.time( )),
+                       help    = "A specific marker for the step loggings"
+                     )
   parser.add_argument( "feature_files",
                        nargs = "+",
                        help  = "The feature files"
@@ -34,6 +39,7 @@ def main( ):
   cf.feature_files = args.feature_files
   cf.abort_fail    = args.abort_fail
   cf.verbosity     = args.verbosity
+  cf.marker        = args.marker
 
   # parse feature files
   fp = radish.FeatureParser( )
