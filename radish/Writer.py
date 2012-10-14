@@ -30,12 +30,12 @@ def print_before_step( step ):
 def print_after_step( step ):
   sys.stdout.write( "\033[A" )
   if step.passed:
-    fn = colorful.out.bold_green
+    color_fn = colorful.out.bold_green
   elif step.passed == False:
-    fn = colorful.out.bold_red
+    color_fn = colorful.out.bold_red
   elif step.passed == None:
-    fn = colorful.out.cyan
-  fn( "      %*d. %s"%( len( str( FeatureParser.highest_step_id )), step.Id, step.Sentence ))
+    color_fn = colorful.out.cyan
+  color_fn( "      %*d. %s"%( len( str( FeatureParser.highest_step_id )), step.Id, step.Sentence ))
 
   if step.passed == False:
     for l in step.fail_reason.traceback.splitlines( ):
