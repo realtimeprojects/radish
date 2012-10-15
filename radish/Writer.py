@@ -12,7 +12,7 @@ from radish.FileSystemHelper import FileSystemHelper as fsh
 @before.each_feature
 def print_before_feature( feature ):
   if not feature.DryRun:
-    print( colorful.bold_white( "  " + feature.Sentence + " " * (FeatureParser.longest_feature_text - len( feature.Sentence ))) + " " * 10 + colorful.bold_black( "# " + fsh.filename( feature.filename )))
+    print( colorful.bold_white( "  %*d. "%( len( str( FeatureParser.highest_feature_id )), feature.Id ) + feature.Sentence + " " * (FeatureParser.longest_feature_text - len( feature.Sentence ))) + " " * 10 + colorful.bold_black( "# " + fsh.filename( feature.filename )))
     for l in feature.description.splitlines( ):
       colorful.out.white( "    " + l )
     print( "" )
@@ -20,7 +20,7 @@ def print_before_feature( feature ):
 @before.each_scenario
 def print_before_scenario( scenario ):
   if not scenario.DryRun:
-    colorful.out.bold_white( "    " + scenario.Sentence )
+    colorful.out.bold_white( "    %*d. %s"%( len( str( FeatureParser.highest_scenario_id )), scenario.Id, scenario.Sentence ))
 
 @after.each_scenario
 def print_after_scenario( scenario ):
