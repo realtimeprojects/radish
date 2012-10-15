@@ -2,6 +2,7 @@
 
 import traceback
 import inspect
+import sys
 
 from radish.Colorful import colorful
 from radish.Config import Config
@@ -9,7 +10,7 @@ from radish.UtilRegistry import UtilRegistry
 from radish.Exceptions import ValidationException
 
 class Step( object ):
-  CHARS_PER_LINE = 80
+  CHARS_PER_LINE = 100
 
   def __init__( self, id, sentence, filename ):
     self.id = id
@@ -76,12 +77,12 @@ class Step( object ):
       self.fail_reason = Step.FailReason( e )
       if self.DryRun:
         caller = inspect.trace( )[-1]
-        print( "%s:%d: error: %s"%( caller[1], caller[2], unicode( e )))
+        sys.stderr.write( "%s:%d: error: %s\n"%( caller[1], caller[2], unicode( e )))
     return self.passed
 
   def ValidationError( self, msg ):
     if self.DryRun:
       caller = inspect.getouterframes( inspect.currentframe( ))[1]
-      print( "%s:%d: error: %s"%( caller[1], caller[2], msg ))
+      sys.stderr.write( "%s:%d: error: %s\n"%( caller[1], caller[2], msg ))
     else:
       raise ValidationException( msg )
