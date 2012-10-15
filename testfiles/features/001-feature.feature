@@ -22,6 +22,10 @@ Feature: Compute factorial
         When I compute its factorial
         Then I see the number 1
 
+    Scenario: Line split test
+        Given I have the number 0
+        When I dfgdfgdfgdfgdfgdfgdfgdfgdfgdfgdfgdfgdfgdfgdfgdfgdfgdfgdfgdfgdfgdfgdfgdfgdfgdfgdfgdfgdfgdfgdfgdfgdfgdfgdfgdfgdfgdfgdfgdfgdfgdfgdfgdfgdfgdfgdfgdfgdfgdfgdfgdfgdfgdfgdfgdfgdfgdfgdfgdfgdfgdfg
+
 Feature: Compute factorial
     In order to play with Lettuce
     As beginners

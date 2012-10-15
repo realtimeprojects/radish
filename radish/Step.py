@@ -5,9 +5,12 @@ import inspect
 
 from radish.Colorful import colorful
 from radish.Config import Config
+from radish.UtilRegistry import UtilRegistry
 from radish.Exceptions import ValidationException
 
 class Step( object ):
+  CHARS_PER_LINE = 80
+
   def __init__( self, id, sentence, filename ):
     self.id = id
     self.sentence = sentence
@@ -24,6 +27,15 @@ class Step( object ):
   @property
   def Sentence( self ):
     return self.sentence
+
+  @property
+  def SplittedSentence( self ):
+    ur = UtilRegistry( )
+    if ur.has_util( "split_sentence" ):
+      return ur.call_util( "split_sentence", self.sentence )
+    else:
+      splitted = [self.sentence[i:i+Step.CHARS_PER_LINE] for i in range( 0, len( self.sentence ), Step.CHARS_PER_LINE )]
+      return len( splitted ), ( "\n          " ).join( splitted )
 
   @property
   def DryRun( self ):

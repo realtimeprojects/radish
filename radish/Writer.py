@@ -5,6 +5,7 @@ import sys
 from radish.Colorful import colorful
 from radish.Config import Config
 from radish.FeatureParser import FeatureParser
+from radish.Step import Step
 from radish.HookRegistry import after, before
 from radish.FileSystemHelper import FileSystemHelper as fsh
 
@@ -29,19 +30,20 @@ def print_after_scenario( scenario ):
 @before.each_step
 def print_before_step( step ):
   if not step.DryRun:
-    colorful.out.bold_brown( "      %*d. %s"%( len( str( FeatureParser.highest_step_id )), step.Id, step.Sentence ))
+    colorful.out.bold_brown( "      %*d. %s"%( len( str( FeatureParser.highest_step_id )), step.Id, step.SplittedSentence[1] ))
 
 @after.each_step
 def print_after_step( step ):
   if not step.DryRun:
-    sys.stdout.write( "\033[A" )
+    splitted = step.SplittedSentence
+    sys.stdout.write( "\033[A" * splitted[0] )
     if step.passed:
       color_fn = colorful.out.bold_green
     elif step.passed == False:
       color_fn = colorful.out.bold_red
     elif step.passed == None:
       color_fn = colorful.out.cyan
-    color_fn( "      %*d. %s"%( len( str( FeatureParser.highest_step_id )), step.Id, step.Sentence ))
+    color_fn( "      %*d. %s"%( len( str( FeatureParser.highest_step_id )), step.Id, splitted[1] ))
 
     if step.passed == False:
       for l in step.fail_reason.traceback.splitlines( ):

@@ -39,3 +39,7 @@ def bestep( step ):
 def aestep( step ):
   #print "After step: " + step.sentence
   pass
+
+#@utils( "split_sentence" )
+#def util_split_sentence( sentence ):
+  #return 1, sentence

@@ -26,5 +26,10 @@ def check_number(step, expected):
     sleep( 1 )
     assert world.number == expected, "Got %d" % world.number
 
+@step(r'(dfg)+')
+def dfg( step, dfg ):
+  if not step.DryRun:
+    sleep( 1 )
+
 def factorial(number):
   return -1
