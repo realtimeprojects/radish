@@ -4,15 +4,20 @@ from radish.Config import Config
 from radish.Step import Step
 
 class Scenario( object ):
-  def __init__( self, id, sentence, filename ):
+  def __init__( self, id, sentence, filename, line_no ):
     self.id = id
     self.sentence = sentence
     self.filename = filename
+    self.line_no = line_no
     self.steps = []
 
   @property
   def Id( self ):
     return self.id
+
+  @property
+  def LineNo( self ):
+    return self.line_no
 
   @property
   def Sentence( self ):

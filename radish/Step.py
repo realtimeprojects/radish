@@ -12,10 +12,11 @@ from radish.Exceptions import ValidationException
 class Step( object ):
   CHARS_PER_LINE = 100
 
-  def __init__( self, id, sentence, filename ):
+  def __init__( self, id, sentence, filename, line_no ):
     self.id = id
     self.sentence = sentence
     self.filename = filename
+    self.line_no = line_no
     self.func = None
     self.match = None
     self.passed = None
@@ -24,6 +25,10 @@ class Step( object ):
   @property
   def Id( self ):
     return self.id
+
+  @property
+  def LineNo( self ):
+    return self.line_no
 
   @property
   def Sentence( self ):
@@ -82,7 +87,8 @@ class Step( object ):
 
   def ValidationError( self, msg ):
     if self.DryRun:
-      caller = inspect.getouterframes( inspect.currentframe( ))[1]
-      sys.stderr.write( "%s:%d: error: %s\n"%( caller[1], caller[2], msg ))
+      #caller = inspect.getouterframes( inspect.currentframe( ))[1]
+      #sys.stderr.write( "%s:%d: error: %s\n"%( caller[1], caller[2], msg ))
+      sys.stderr.write( "%s:%d: error: %s\n"%( self.filename, self.line_no, msg ))
     else:
       raise ValidationException( msg )

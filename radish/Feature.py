@@ -6,16 +6,21 @@ from radish.Config import Config
 from radish.Scenario import Scenario
 
 class Feature( object ):
-  def __init__( self, id, sentence, filename ):
+  def __init__( self, id, sentence, filename, line_no ):
     self.id = id
     self.sentence = sentence
     self.filename = filename
+    self.line_no = line_no
     self.scenarios = []
     self.description = ""
 
   @property
   def Id( self ):
     return self.id
+
+  @property
+  def LineNo( self ):
+    return self.line_no
 
   @property
   def Sentence( self ):
