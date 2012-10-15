@@ -8,7 +8,7 @@ from radish.Config import Config
 class Logger( object ):
   @staticmethod
   def init( ):
-    syslog.openlog( "radish", facility = syslog.LOG_USER )
+    syslog.openlog( "radish" )
 
   @staticmethod
   def free( ):
