@@ -11,11 +11,6 @@ from radish.FileSystemHelper import FileSystemHelper as fsh
 from radish.Exceptions import FeatureFileNotFoundException
 
 class FeatureParser( object ):
-  longest_feature_text = 0
-  highest_feature_id   = 0
-  highest_scenario_id  = 0
-  highest_step_id      = 0
-
   def __init__( self ):
     self.features = []
     self.feature_files = []
@@ -30,10 +25,15 @@ class FeatureParser( object ):
     return self.features
 
   def parse( self ):
-    self.feature_id = 0
+    conf = Config( )
+    conf.highest_feature_id   = 0
+    conf.highest_scenario_id  = 0
+    conf.highest_step_id      = 0
+    conf.longest_feature_text = 0
+    self.feature_id           = 0
     for f in self.feature_files:
       self.features.extend( self.parse_feature( f ))
-    FeatureParser.highest_feature_id = self.feature_id
+    conf.highest_feature_id = self.feature_id
 
   def parse_feature( self, feature_file ):
     if not os.path.exists( feature_file ):
@@ -59,26 +59,26 @@ class FeatureParser( object ):
         self.feature_id += 1
         scenario_id = 0
         features.append( Feature( self.feature_id, feature_match.group( 1 ), feature_file ))
-        if len( feature_match.group( 1 )) > FeatureParser.longest_feature_text:
-          FeatureParser.longest_feature_text = len( feature_match.group( 1 ))
+        if len( feature_match.group( 1 )) > Config( ).longest_feature_text:
+          Config( ).longest_feature_text = len( feature_match.group( 1 ))
       elif scenario_match: # create new scenario
         in_feature = False
         scenario_id += 1
         step_id = 0
         features[-1].AppendScenario( Scenario( scenario_id, scenario_match.group( 1 ), feature_file ))
-        if scenario_id > FeatureParser.highest_scenario_id:
-          FeatureParser.highest_scenario_id = scenario_id
+        if scenario_id > Config( ).highest_scenario_id:
+          Config( ).highest_scenario_id = scenario_id
       else: # create new step or append feature description line
         line = l.rstrip( os.linesep ).strip( )
         if not in_feature:
           step_id += 1
           features[-1].Scenarios[-1].AppendStep( Step( step_id, line, feature_file ))
-          if step_id > FeatureParser.highest_step_id:
-            FeatureParser.highest_step_id = step_id
+          if step_id > Config( ).highest_step_id:
+            Config( ).highest_step_id = step_id
         else:
           features[-1].AppendDescriptionLine( line )
-          if len( line ) + 2 > FeatureParser.longest_feature_text:
-            FeatureParser.longest_feature_text = len( line ) + 2
+          if len( line ) + 2 > Config( ).longest_feature_text:
+            Config( ).longest_feature_text = len( line ) + 2
 
     f.close( )
     return features

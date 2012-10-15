@@ -19,6 +19,10 @@ class Scenario( object ):
     return self.sentence
 
   @property
+  def Indentation( self ):
+    return "  " + " " * len( str( Config( ).highest_feature_id )) + "  "
+
+  @property
   def DryRun( self ):
     return Config( ).dry_run
 

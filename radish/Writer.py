@@ -4,7 +4,6 @@ import sys
 
 from radish.Colorful import colorful
 from radish.Config import Config
-from radish.FeatureParser import FeatureParser
 from radish.Step import Step
 from radish.HookRegistry import after, before
 from radish.FileSystemHelper import FileSystemHelper as fsh
@@ -12,15 +11,15 @@ from radish.FileSystemHelper import FileSystemHelper as fsh
 @before.each_feature
 def print_before_feature( feature ):
   if not feature.DryRun:
-    print( colorful.bold_white( "  %*d. "%( len( str( FeatureParser.highest_feature_id )), feature.Id ) + feature.Sentence + " " * (FeatureParser.longest_feature_text - len( feature.Sentence ))) + " " * 10 + colorful.bold_black( "# " + fsh.filename( feature.filename )))
+    print( colorful.bold_white( feature.Indentation + "%*d. "%( len( str( Config( ).highest_feature_id )), feature.Id ) + feature.Sentence + " " * (Config( ).longest_feature_text - len( feature.Sentence ))) + " " * 10 + colorful.bold_black( "# " + fsh.filename( feature.filename )))
     for l in feature.description.splitlines( ):
-      colorful.out.white( "    " + l )
+      colorful.out.white( feature.Indentation + " " * len( str( Config( ).highest_feature_id )) + "  " + l )
     print( "" )
 
 @before.each_scenario
 def print_before_scenario( scenario ):
   if not scenario.DryRun:
-    colorful.out.bold_white( "    %*d. %s"%( len( str( FeatureParser.highest_scenario_id )), scenario.Id, scenario.Sentence ))
+    colorful.out.bold_white( scenario.Indentation + "%*d. %s"%( len( str( Config( ).highest_scenario_id )), scenario.Id, scenario.Sentence ))
 
 @after.each_scenario
 def print_after_scenario( scenario ):
@@ -30,7 +29,7 @@ def print_after_scenario( scenario ):
 @before.each_step
 def print_before_step( step ):
   if not step.DryRun:
-    colorful.out.bold_brown( "      %*d. %s"%( len( str( FeatureParser.highest_step_id )), step.Id, step.SplittedSentence[1] ))
+    colorful.out.bold_brown( step.Indentation + "%*d. %s"%( len( str( Config( ).highest_step_id )), step.Id, step.SplittedSentence[1] ))
 
 @after.each_step
 def print_after_step( step ):
@@ -43,11 +42,11 @@ def print_after_step( step ):
       color_fn = colorful.out.bold_red
     elif step.passed == None:
       color_fn = colorful.out.cyan
-    color_fn( "      %*d. %s"%( len( str( FeatureParser.highest_step_id )), step.Id, splitted[1] ))
+    color_fn( step.Indentation + "%*d. %s"%( len( str( Config( ).highest_step_id )), step.Id, splitted[1] ))
 
     if step.passed == False:
       for l in step.fail_reason.traceback.splitlines( ):
-        colorful.out.red( "      " + l )
+        colorful.out.red( step.Indentation + " " * len( str( Config( ).highest_step_id )) + "  " + l )
 
 @after.all
 def print_after_all( endResult ):

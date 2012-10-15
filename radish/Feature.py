@@ -22,6 +22,10 @@ class Feature( object ):
     return self.sentence
 
   @property
+  def Indentation( self ):
+    return "  "
+
+  @property
   def DryRun( self ):
     return Config( ).dry_run
 

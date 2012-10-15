@@ -35,7 +35,11 @@ class Step( object ):
       return ur.call_util( "split_sentence", self.sentence )
     else:
       splitted = [self.sentence[i:i+Step.CHARS_PER_LINE] for i in range( 0, len( self.sentence ), Step.CHARS_PER_LINE )]
-      return len( splitted ), ( "\n          " ).join( splitted )
+      return len( splitted ), ( "\n  " + " " * ( len( str( Config( ).highest_feature_id )) + len( str( Config( ).highest_scenario_id )) + len( str( Config( ).highest_step_id ))) + "      " ).join( splitted )
+
+  @property
+  def Indentation( self ):
+    return "  " + " " * ( len( str( Config( ).highest_feature_id )) + len( str( Config( ).highest_scenario_id ))) + "    "
 
   @property
   def DryRun( self ):
