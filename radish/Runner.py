@@ -29,7 +29,7 @@ class Runner( object ):
           if not skip_remaining_steps and not interrupted:
             try:
               passed = step.run( )
-              if not passed:
+              if not passed and not Config( ).dry_run:
                 skip_remaining_steps = True
                 if Config( ).abort_fail:
                   abort = True

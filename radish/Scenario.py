@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 
+from radish.Config import Config
 from radish.Step import Step
 
 class Scenario( object ):
@@ -16,6 +17,10 @@ class Scenario( object ):
   @property
   def Sentence( self ):
     return self.sentence
+
+  @property
+  def DryRun( self ):
+    return Config( ).dry_run
 
   @property
   def Steps( self ):

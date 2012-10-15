@@ -1,8 +1,11 @@
 # -*- coding: utf-8 -*-
 
 import traceback
+import inspect
 
 from radish.Colorful import colorful
+from radish.Config import Config
+from radish.Exceptions import ValidationException
 
 class Step( object ):
   def __init__( self, id, sentence, filename ):
@@ -21,6 +24,10 @@ class Step( object ):
   @property
   def Sentence( self ):
     return self.sentence
+
+  @property
+  def DryRun( self ):
+    return Config( ).dry_run
 
   @property
   def Func( self ):
@@ -51,4 +58,14 @@ class Step( object ):
     except Exception, e:
       self.passed = False
       self.fail_reason = Step.FailReason( e )
+      if self.DryRun:
+        caller = inspect.trace( )[-1]
+        print( "%s:%d: error: %s"%( caller[1], caller[2], unicode( e )))
     return self.passed
+
+  def ValidationError( self, msg ):
+    if self.DryRun:
+      caller = inspect.getouterframes( inspect.currentframe( ))[1]
+      print( "%s:%d: error: %s"%( caller[1], caller[2], msg ))
+    else:
+      raise ValidationException( msg )

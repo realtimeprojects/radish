@@ -42,3 +42,11 @@ class StepDefinitionFileNotFoundException( Exception ):
 
   def __str__( self ):
     return colorful.bold_red( "The step definition file '%s' could not be found in the directory '%s'"%( self.pattern, self.root ))
+
+class ValidationException( Exception ):
+  """Raised when a validation error occured during run"""
+  def __init__( self, msg ):
+    self.msg = msg
+
+  def __str__( self ):
+    return colorful.bold_red( self.msg )

@@ -2,6 +2,7 @@
 
 import os
 
+from radish.Config import Config
 from radish.Scenario import Scenario
 
 class Feature( object ):
@@ -19,6 +20,10 @@ class Feature( object ):
   @property
   def Sentence( self ):
     return self.sentence
+
+  @property
+  def DryRun( self ):
+    return Config( ).dry_run
 
   @property
   def Scenarios( self ):
