@@ -35,6 +35,17 @@ def main( ):
                      action  = "store_true",
                      help    = "Executes a dry run to validate steps"
                    )
+  parser.add_option( "--with-xunit",
+                     dest    = "with_xunit",
+                     action  = "store_true",
+                     default = False,
+                     help    = "Generate JUnit xml report to a file"
+                   )
+  parser.add_option( "--xunit-file",
+                     dest    = "xunit_file",
+                     default = None,
+                     help    = "Location where to write to JUnit xml report file"
+                   )
 
   options, args = parser.parse_args( )
 
@@ -46,6 +57,8 @@ def main( ):
   cf.verbosity     = options.verbosity
   cf.marker        = options.marker
   cf.dry_run       = options.dry_run
+  cf.with_xunit    = options.with_xunit
+  cf.xunit_file    = options.xunit_file
 
   # parse feature files
   fp = radish.FeatureParser( )
@@ -57,7 +70,12 @@ def main( ):
 
   # run the features
   runner = radish.Runner( fp.Features )
-  runner.run( )
+  endResult = runner.run( )
+
+  # report writer
+  if cf.with_xunit:
+    rw = radish.ReportWriter( endResult )
+    rw.write( )
 
 if __name__ == "__main__":
   main( )

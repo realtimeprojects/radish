@@ -42,4 +42,6 @@ class Runner( object ):
         if abort: break; # if -a is set
       hr.call_hook( "after", "feature", f )
       if abort: break; # if -a is set
-    hr.call_hook( "after", "all", EndResult( self.features ))
+    endResult = EndResult( self.features )
+    hr.call_hook( "after", "all", endResult )
+    return endResult

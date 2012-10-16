@@ -3,6 +3,8 @@
 import traceback
 import inspect
 import sys
+import datetime
+import time
 
 from radish.Colorful import colorful
 from radish.Config import Config
@@ -13,14 +15,16 @@ class Step( object ):
   CHARS_PER_LINE = 100
 
   def __init__( self, id, sentence, filename, line_no ):
-    self.id = id
-    self.sentence = sentence
-    self.filename = filename
-    self.line_no = line_no
-    self.func = None
-    self.match = None
-    self.passed = None
+    self.id          = id
+    self.sentence    = sentence
+    self.filename    = filename
+    self.line_no     = line_no
+    self.func        = None
+    self.match       = None
+    self.passed      = None
     self.fail_reason = None
+    self.starttime   = None
+    self.endtime     = None
 
   @property
   def Id( self ):
@@ -69,6 +73,13 @@ class Step( object ):
   def Passed( self ):
     return self.passed
 
+  @property
+  def Duration( self ):
+    if self.Passed == True or self.Passed == False:
+      td = self.endtime - self.starttime
+      return (td.microseconds + (td.seconds + td.days * 24 * 3600) * 1e6) / 1e6
+    return -1
+
   class FailReason( object ):
     def __init__( self, e ):
       self.exception = e
@@ -78,6 +89,7 @@ class Step( object ):
   def run( self ):
     kw = self.match.groupdict( )
     try:
+      self.starttime = datetime.datetime.now( )
       if kw:
         self.func( self, **kw )
       else:
@@ -89,6 +101,7 @@ class Step( object ):
       if self.DryRun:
         caller = inspect.trace( )[-1]
         sys.stderr.write( "%s:%d: error: %s\n"%( caller[1], caller[2], unicode( e )))
+    self.endtime = datetime.datetime.now( )
     return self.passed
 
   def ValidationError( self, msg ):

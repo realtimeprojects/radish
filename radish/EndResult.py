@@ -2,6 +2,7 @@
 
 class EndResult( object ):
   def __init__( self, features ):
+    self.features = features
     self.total_features = 0
     self.total_scenarios = 0
     self.total_steps = 0
@@ -37,3 +38,7 @@ class EndResult( object ):
 
     self.failed_features = self.total_features- self.passed_features
     self.failed_scenarios = self.total_scenarios - self.passed_scenarios
+
+  @property
+  def Features( self ):
+    return self.features
