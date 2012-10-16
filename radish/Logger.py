@@ -21,7 +21,7 @@ class Logger( object ):
 @before.all
 def log_before_all( ):
   Logger.init( )
-  Logger.log( "starting test %d"%( Config( ).marker ))
+  Logger.log( "starting test %s"%( unicode( Config( ).marker )))
 
 @after.all
 def log_after_all( endResult ):
