@@ -50,4 +50,7 @@ def log_before_step( step ):
 
 @after.each_step
 def log_after_step( step ):
-  Logger.log( "step %d terminated"%( step.Id ))
+  if step.passed == False:
+    Logger.log( "step %d FAILED"%( step.Id ))
+  else:
+    Logger.log( "step %d terminated"%( step.Id ))
