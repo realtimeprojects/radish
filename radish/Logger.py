@@ -25,7 +25,7 @@ def log_before_all( ):
 
 @after.all
 def log_after_all( endResult ):
-  Logger.log( "test %d terminated"%( Config( ).marker ))
+  Logger.log( "test %s terminated"%( unicode( Config( ).marker )))
   Logger.free( )
 
 @before.each_feature
