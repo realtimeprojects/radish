@@ -38,10 +38,12 @@ class Step( object ):
   def SplittedSentence( self ):
     ur = UtilRegistry( )
     if ur.has_util( "split_sentence" ):
-      return ur.call_util( "split_sentence", self )
-    else:
-      splitted = [self.sentence[i:i+Step.CHARS_PER_LINE] for i in range( 0, len( self.sentence ), Step.CHARS_PER_LINE )]
-      return len( splitted ), ( "\n" + self.SentenceIndentation ).join( splitted )
+      try:
+        return ur.call_util( "split_sentence", self )
+      except KeyboardInterrupt, e:
+        pass
+    splitted = [self.sentence[i:i+Step.CHARS_PER_LINE] for i in range( 0, len( self.sentence ), Step.CHARS_PER_LINE )]
+    return len( splitted ), ( "\n" + self.SentenceIndentation ).join( splitted )
 
   @property
   def Indentation( self ):

@@ -44,7 +44,10 @@ class HookRegistry( object ):
 
   def call_hook( self, when, what, *args, **kw ):
     for h in self.hooks[what][when]:
-      h( *args, **kw )
+      try:
+        h( *args, **kw )
+      except KeyboardInterrupt, e:
+        continue
 
 for what, name in HookRegistry.possible_hooks:
   HookRegistry.Hooker._add_hook( what, name )
