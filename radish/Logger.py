@@ -21,33 +21,33 @@ class Logger( object ):
 @before.all
 def log_before_all( ):
   Logger.init( )
-  Logger.log( "start to run features (Marker: %d)"%( Config( ).marker ))
+  Logger.log( "starting test %d"%( Config( ).marker ))
 
 @after.all
 def log_after_all( endResult ):
-  Logger.log( "finished features (Marker: %d)"%( Config( ).marker ))
+  Logger.log( "test %d terminated"%( Config( ).marker ))
   Logger.free( )
 
 @before.each_feature
 def log_before_feature( feature ):
-  Logger.log( "start feature %d: '%s'"%( feature.Id, feature.Sentence ))
+  Logger.log( "testing feature %d"%( feature.Id ))
 
 @after.each_feature
 def log_after_feature( feature ):
-  Logger.log( "terminated feature %d: '%s'"%( feature.Id, feature.Sentence ))
+  Logger.log( "feature %d terminated"%( feature.Id ))
 
 @before.each_scenario
 def log_before_scenario( scenario ):
-  Logger.log( "start scenario %d: '%s'"%( scenario.Id, scenario.Sentence ))
+  Logger.log( "testing scenario %d"%( scenario.Id ))
 
 @after.each_scenario
 def log_after_scenario( scenario ):
-  Logger.log( "terminated scenario %d: '%s'"%( scenario.Id, scenario.Sentence ))
+  Logger.log( "scenario %d terminated"%( scenario.Id ))
 
 @before.each_step
 def log_before_step( step ):
-  Logger.log( "start step %d: '%s'"%( step.Id, step.Sentence ))
+  Logger.log( "testing step %d"%( step.Id ))
 
 @after.each_step
 def log_after_step( step ):
-  Logger.log( "terminated step %d: '%s'"%( step.Id, step.Sentence ))
+  Logger.log( "step %d terminated"%( step.Id ))
