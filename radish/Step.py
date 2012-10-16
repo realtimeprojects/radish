@@ -38,14 +38,18 @@ class Step( object ):
   def SplittedSentence( self ):
     ur = UtilRegistry( )
     if ur.has_util( "split_sentence" ):
-      return ur.call_util( "split_sentence", self.sentence )
+      return ur.call_util( "split_sentence", self )
     else:
       splitted = [self.sentence[i:i+Step.CHARS_PER_LINE] for i in range( 0, len( self.sentence ), Step.CHARS_PER_LINE )]
-      return len( splitted ), ( "\n  " + " " * ( len( str( Config( ).highest_feature_id )) + len( str( Config( ).highest_scenario_id )) + len( str( Config( ).highest_step_id ))) + "      " ).join( splitted )
+      return len( splitted ), ( "\n" + self.SentenceIndentation ).join( splitted )
 
   @property
   def Indentation( self ):
     return "  " + " " * ( len( str( Config( ).highest_feature_id )) + len( str( Config( ).highest_scenario_id ))) + "    "
+
+  @property
+  def SentenceIndentation( self ):
+    return self.Indentation + " " * len( str( Config( ).highest_step_id )) + "  "
 
   @property
   def DryRun( self ):

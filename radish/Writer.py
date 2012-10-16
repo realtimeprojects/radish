@@ -46,7 +46,7 @@ def print_after_step( step ):
 
     if step.passed == False:
       for l in step.fail_reason.traceback.splitlines( ):
-        colorful.out.red( step.Indentation + " " * len( str( Config( ).highest_step_id )) + "  " + l )
+        colorful.out.red( step.SentenceIndentation + l )
 
 @after.all
 def print_after_all( endResult ):
