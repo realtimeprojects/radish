@@ -15,16 +15,17 @@ class Step( object ):
   CHARS_PER_LINE = 100
 
   def __init__( self, id, sentence, filename, line_no ):
-    self.id          = id
-    self.sentence    = sentence
-    self.filename    = filename
-    self.line_no     = line_no
-    self.func        = None
-    self.match       = None
-    self.passed      = None
-    self.fail_reason = None
-    self.starttime   = None
-    self.endtime     = None
+    self.id               = id
+    self.sentence         = sentence
+    self.filename         = filename
+    self.line_no          = line_no
+    self.func             = None
+    self.match            = None
+    self.passed           = None
+    self.fail_reason      = None
+    self.starttime        = None
+    self.endtime          = None
+    self.validation_error = False
 
   @property
   def Id( self ):
@@ -94,7 +95,7 @@ class Step( object ):
         self.func( self, **kw )
       else:
         self.func( self, *self.match.groups( ))
-      self.passed = True
+      self.passed = not self.validation_error
     except Exception, e:
       self.passed = False
       self.fail_reason = Step.FailReason( e )
@@ -105,9 +106,8 @@ class Step( object ):
     return self.passed
 
   def ValidationError( self, msg ):
+    self.validation_error = True
     if self.DryRun:
-      #caller = inspect.getouterframes( inspect.currentframe( ))[1]
-      #sys.stderr.write( "%s:%d: error: %s\n"%( caller[1], caller[2], msg ))
       sys.stderr.write( "%s:%d: error: %s\n"%( self.filename, self.line_no, msg ))
     else:
       raise ValidationException( msg )
