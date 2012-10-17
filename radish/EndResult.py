@@ -39,6 +39,8 @@ class EndResult( object ):
     self.failed_features = self.total_features- self.passed_features
     self.failed_scenarios = self.total_scenarios - self.passed_scenarios
 
+    self.all_passed = self.total_features == self.passed_features
+
   @property
   def Features( self ):
     return self.features

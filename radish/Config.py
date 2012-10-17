@@ -10,7 +10,7 @@ class Config( object ):
     def SetBasedir( self, basedir ):
       if not os.path.exists( basedir ) or not os.path.isdir( basedir ):
         print BasedirNotFoundException( basedir )
-        raise SystemExit( 1 )
+        raise SystemExit( -2 )
       self.basedir = basedir
 
   def __new__( cls ):

@@ -19,7 +19,7 @@ class Loader( object ):
   def load_step_definitions( self ):
     if len( fsh.locate( Config( ).basedir, "steps.py" )) == 0:
       print StepDefinitionFileNotFoundException( Config( ).basedir, "steps.py" )
-      raise SystemExit( 1 )
+      raise SystemExit( -2 )
 
     fsh.import_module( Config( ).basedir, "steps.py" )
     self.merge_steps_with_definitions( )
@@ -35,4 +35,4 @@ class Loader( object ):
             step.match = match
           else:
             print StepDefinitionNotFoundException( step.Sentence )
-            raise SystemExit( 1 )
+            raise SystemExit( -2 )

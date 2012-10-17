@@ -77,5 +77,7 @@ def main( ):
     rw = radish.ReportWriter( endResult )
     rw.write( )
 
+  raise SystemExit( ( 0 if endResult.all_passed else -1 ))
+
 if __name__ == "__main__":
   main( )

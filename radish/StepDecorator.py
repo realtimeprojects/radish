@@ -11,7 +11,7 @@ def step( regex ):
       re.compile( regex )
     except Exception, e:
       print StepLoadingException( regex )
-      raise SystemExit( 1 )
+      raise SystemExit( -2 )
     StepRegistry( ).register( regex, func )
     return func
   return wrapper
