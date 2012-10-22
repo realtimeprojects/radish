@@ -7,7 +7,7 @@ import datetime
 
 from radish.Config import Config
 from radish.UtilRegistry import UtilRegistry
-from radish.Exceptions import ValidationException
+from radish.Exceptions import ValidationError
 
 
 class Step(object):
@@ -109,4 +109,4 @@ class Step(object):
         if self.DryRun:
             sys.stderr.write("%s:%d: error: %s\n" % (self.filename, self.line_no, msg))
         else:
-            raise ValidationException(msg)
+            raise ValidationError(msg)

@@ -2,7 +2,7 @@
 
 import os
 
-from radish.Exceptions import BasedirNotFoundException
+from radish.Exceptions import BasedirNotFoundError
 
 
 class Config(object):
@@ -11,7 +11,7 @@ class Config(object):
     class __Config(object):
         def SetBasedir(self, basedir):
             if not os.path.exists(basedir) or not os.path.isdir(basedir):
-                print BasedirNotFoundException(basedir)
+                print BasedirNotFoundError(basedir)
                 raise SystemExit(-2)
             self.basedir = basedir
 

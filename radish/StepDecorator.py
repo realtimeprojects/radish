@@ -3,7 +3,7 @@
 import re
 
 from radish.StepRegistry import StepRegistry
-from radish.Exceptions import StepLoadingException
+from radish.Exceptions import StepLoadingError
 
 
 def step(regex):
@@ -11,7 +11,7 @@ def step(regex):
         try:
             re.compile(regex)
         except Exception:
-            print StepLoadingException(regex)
+            print StepLoadingError(regex)
             raise SystemExit(-2)
         StepRegistry().register(regex, func)
         return func

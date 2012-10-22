@@ -3,7 +3,7 @@
 from radish.Colorful import colorful
 
 
-class StepLoadingException(Exception):
+class StepLoadingError(Exception):
     """Raised when a step decorator regex is not valid to compile"""
     def __init__(self, regex):
         self.regex = regex
@@ -12,7 +12,7 @@ class StepLoadingException(Exception):
         return colorful.bold_red("The step decorator regex '%s' is not valid to compile" % (self.regex))
 
 
-class StepDefinitionNotFoundException(Exception):
+class StepDefinitionNotFoundError(Exception):
     """Raised when a step definition could not be found"""
     def __init__(self, step_sentence):
         self.step_sentence = step_sentence
@@ -21,7 +21,7 @@ class StepDefinitionNotFoundException(Exception):
         return colorful.bold_red("The step definition for the step '%s' could not be found" % (self.step_sentence))
 
 
-class FeatureFileNotFoundException(Exception):
+class FeatureFileNotFoundError(Exception):
     """Raised when a feature file could not be found"""
     def __init__(self, path):
         self.path = path
@@ -30,7 +30,7 @@ class FeatureFileNotFoundException(Exception):
         return colorful.bold_red("The feature file '%s' could not be found" % (self.path))
 
 
-class BasedirNotFoundException(Exception):
+class BasedirNotFoundError(Exception):
     """Raised when the basedir could not be found"""
     def __init__(self, basedir):
         self.basedir = basedir
@@ -39,7 +39,7 @@ class BasedirNotFoundException(Exception):
         return colorful.bold_red("The basedir '%s' could not be found" % (self.basedir))
 
 
-class StepDefinitionFileNotFoundException(Exception):
+class StepDefinitionFileNotFoundError(Exception):
     """Raised when the step definition file could not be found"""
     def __init__(self, root, pattern):
         self.root = root
@@ -49,7 +49,7 @@ class StepDefinitionFileNotFoundException(Exception):
         return colorful.bold_red("The step definition file '%s' could not be found in the directory '%s'" % (self.pattern, self.root))
 
 
-class ValidationException(Exception):
+class ValidationError(Exception):
     """Raised when a validation error occured during run"""
     def __init__(self, msg):
         self.msg = msg

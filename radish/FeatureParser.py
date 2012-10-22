@@ -8,7 +8,7 @@ from radish.Feature import Feature
 from radish.Scenario import Scenario
 from radish.Step import Step
 from radish.FileSystemHelper import FileSystemHelper as fsh
-from radish.Exceptions import FeatureFileNotFoundException
+from radish.Exceptions import FeatureFileNotFoundError
 
 
 class FeatureParser(object):
@@ -38,7 +38,7 @@ class FeatureParser(object):
 
     def parse_feature(self, feature_file):
         if not os.path.exists(feature_file):
-            print FeatureFileNotFoundException(feature_file)
+            print FeatureFileNotFoundError(feature_file)
             raise SystemExit(-2)
 
         features = []

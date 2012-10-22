@@ -38,8 +38,8 @@ class BackColors:
     normal = 49
 
 
-class ANSISequenceNotFoundException(Exception):
-    """Exception if an ANSI sequence could not be found"""
+class ANSISequenceNotFoundError(Exception):
+    """Error if an ANSI sequence could not be found"""
     def __init__(self, modetype, name):
         self.modetype = modetype
         self.name = name
@@ -70,7 +70,7 @@ class ColorfulParser:
         if hasattr(modetype, name):
             return cls._GetANSIDecorator(getattr(modetype, name))
         else:
-            raise ANSISequenceNotFoundException(modetype.__class__.__name__, name)
+            raise ANSISequenceNotFoundError(modetype.__class__.__name__, name)
 
     @classmethod
     def ParseAttr(cls, attr):
