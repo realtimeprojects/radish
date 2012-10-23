@@ -95,6 +95,8 @@ class Step(object):
             else:
                 self.func(self, *self.match.groups())
             self.passed = not self.validation_error
+        except KeyboardInterrupt:
+            raise
         except Exception, e:
             self.passed = False
             self.fail_reason = Step.FailReason(e)
