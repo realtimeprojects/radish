@@ -38,8 +38,7 @@ class FeatureParser(object):
 
     def parse_feature(self, feature_file):
         if not os.path.exists(feature_file):
-            print FeatureFileNotFoundError(feature_file)
-            raise SystemExit(-2)
+            raise FeatureFileNotFoundError(feature_file)
 
         features = []
         in_feature = False
