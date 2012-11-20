@@ -4,6 +4,7 @@
 import radish
 
 import os
+import sys
 import time
 import optparse
 
@@ -59,35 +60,42 @@ def main():
 
     options, args = parser.parse_args()
 
-    # initialize config object
-    cf = radish.Config()
-    cf.SetBasedir(radish.FileSystemHelper.expand(options.basedir))
-    cf.feature_files = args
-    cf.abort_fail = options.abort_fail
-    cf.verbosity = options.verbosity
-    cf.marker = options.marker
-    cf.dry_run = options.dry_run
-    cf.with_xunit = options.with_xunit
-    cf.xunit_file = options.xunit_file
+    exitCode = 0
+    try:
+        # initialize config object
+        cf = radish.Config()
+        cf.SetBasedir(radish.FileSystemHelper.expand(options.basedir))
+        cf.feature_files = args
+        cf.abort_fail = options.abort_fail
+        cf.verbosity = options.verbosity
+        cf.marker = options.marker
+        cf.dry_run = options.dry_run
+        cf.with_xunit = options.with_xunit
+        cf.xunit_file = options.xunit_file
 
-    # parse feature files
-    fp = radish.FeatureParser()
-    fp.parse()
+        # parse feature files
+        fp = radish.FeatureParser()
+        fp.parse()
 
-    # load terrain and steps
-    loader = radish.Loader(fp.Features)
-    loader.load()
+        # load terrain and steps
+        loader = radish.Loader(fp.Features)
+        loader.load()
 
-    # run the features
-    runner = radish.Runner(fp.Features)
-    endResult = runner.run()
+        # run the features
+        runner = radish.Runner(fp.Features)
+        endResult = runner.run()
 
-    # report writer
-    if cf.with_xunit:
-        rw = radish.ReportWriter(endResult)
-        rw.write()
+        # report writer
+        if cf.with_xunit:
+            rw = radish.ReportWriter(endResult)
+            rw.write()
 
-    raise SystemExit((0 if endResult.all_passed else -1))
+        exitCode = 0 if endResult.all_passed else 1
+    except radish.RadishError, e:
+        print("%s %s" % (radish.colorful.bold_red("radish error:"), e))
+        exitCode = 2
+
+    sys.exit(exitCode)
 
 if __name__ == "__main__":
     main()

@@ -3,53 +3,57 @@
 from radish.Colorful import colorful
 
 
-class StepLoadingError(Exception):
+class RadishError(Exception):
+    pass
+
+
+class StepLoadingError(RadishError):
     """Raised when a step decorator regex is not valid to compile"""
     def __init__(self, regex):
         self.regex = regex
 
     def __str__(self):
-        return colorful.bold_red("The step decorator regex '%s' is not valid to compile" % (self.regex))
+        return colorful.red("The step decorator regex '%s' is not valid to compile" % (self.regex))
 
 
-class StepDefinitionNotFoundError(Exception):
+class StepDefinitionNotFoundError(RadishError):
     """Raised when a step definition could not be found"""
     def __init__(self, step_sentence):
         self.step_sentence = step_sentence
 
     def __str__(self):
-        return colorful.bold_red("The step definition for the step '%s' could not be found" % (self.step_sentence))
+        return colorful.red("The step definition for the step '%s' could not be found" % (self.step_sentence))
 
 
-class FeatureFileNotFoundError(Exception):
+class FeatureFileNotFoundError(RadishError):
     """Raised when a feature file could not be found"""
     def __init__(self, path):
         self.path = path
 
     def __str__(self):
-        return colorful.bold_red("The feature file '%s' could not be found" % (self.path))
+        return colorful.red("The feature file '%s' could not be found" % (self.path))
 
 
-class BasedirNotFoundError(Exception):
+class BasedirNotFoundError(RadishError):
     """Raised when the basedir could not be found"""
     def __init__(self, basedir):
         self.basedir = basedir
 
     def __str__(self):
-        return colorful.bold_red("The basedir '%s' could not be found" % (self.basedir))
+        return colorful.red("The basedir '%s' could not be found" % (self.basedir))
 
 
-class StepDefinitionFileNotFoundError(Exception):
+class StepDefinitionFileNotFoundError(RadishError):
     """Raised when the step definition file could not be found"""
     def __init__(self, root, pattern):
         self.root = root
         self.pattern = pattern
 
     def __str__(self):
-        return colorful.bold_red("The step definition file '%s' could not be found in the directory '%s'" % (self.pattern, self.root))
+        return colorful.red("The step definition file '%s' could not be found in the directory '%s'" % (self.pattern, self.root))
 
 
-class ValidationError(Exception):
+class ValidationError(RadishError):
     """Raised when a validation error occured during run"""
     def __init__(self, msg):
         self.msg = msg
