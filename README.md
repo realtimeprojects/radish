@@ -1,5 +1,5 @@
 # radish
-> `radish` is a "Test-Driven Developement"-Tool written in python
+> `radish` is a "Behavior-Driven Developement"-Tool written in python
 > Version: 0.00.02
 
 ***
@@ -8,14 +8,10 @@
 **License:** GPL<br />
 **Version:** 0.00.02<br />
 
-## In testphase
-It is not recommended to use this tool for real software testing - because it is still under developement and needs much improvements!
-
 ## What is `radish` ?
-`radish` is a "Test-Driven Developement"-Tool which is written in python.
-
-## Why another one?
-Coming soon ...
+`radish` is a "Behavior-Driven Developement"-Tool written in python.<br />
+It is inspired by other `BDD`-Tools like `lettuce` and `cucumber`.<br />
+The feature, step and terrain files are all compatible with `lettuce`.
 
 ## How to install?
 To install it on your system you can use the `setup.py` script:
