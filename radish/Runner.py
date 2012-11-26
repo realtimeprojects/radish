@@ -3,10 +3,8 @@
 import sys
 
 from radish.Config import Config
-from radish.FileSystemHelper import FileSystemHelper as fsh
 from radish.HookRegistry import HookRegistry
 from radish.EndResult import EndResult
-from radish.Exceptions import WriterNotFoundError
 
 
 class Runner(object):
