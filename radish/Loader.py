@@ -1,9 +1,11 @@
 # -*- coding: utf-8 -*-
 
+import os
+
 from radish.Config import Config
 from radish.StepRegistry import StepRegistry
 from radish.FileSystemHelper import FileSystemHelper as fsh
-from radish.Exceptions import StepDefinitionFileNotFoundError, StepDefinitionNotFoundError
+from radish.Exceptions import StepDefinitionFileNotFoundError, StepDefinitionNotFoundError, WriterNotFoundError
 
 
 class Loader(object):
@@ -13,6 +15,7 @@ class Loader(object):
     def load(self):
         self.load_terrain()
         self.load_step_definitions()
+        self.load_writer()
 
     def load_terrain(self):
         fsh.import_module(Config().basedir, "terrain.py")
@@ -23,6 +26,13 @@ class Loader(object):
 
         fsh.import_module(Config().basedir, "steps.py")
         self.merge_steps_with_definitions()
+
+    def load_writer(self):
+        level = int(Config().verbosity)
+        try:
+            fsh.import_module(os.path.join(os.path.dirname(os.path.abspath(__file__)), "Writers"), "Level_%d.py" % level, no_modules_error=True)
+        except ImportError:
+            raise WriterNotFoundError(level)
 
     def merge_steps_with_definitions(self):
         sr = StepRegistry()

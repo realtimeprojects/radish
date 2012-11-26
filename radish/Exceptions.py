@@ -53,6 +53,15 @@ class StepDefinitionFileNotFoundError(RadishError):
         return colorful.red("The step definition file '%s' could not be found in the directory '%s'" % (self.pattern, self.root))
 
 
+class WriterNotFoundError(RadishError):
+    """Raised when the writer could not be found"""
+    def __init__(self, level):
+        self.level = level
+
+    def __str__(self):
+        return colorful.red("The writer for verbosity level '%d' could not be found!" % self.level)
+
+
 class ValidationError(RadishError):
     """Raised when a validation error occured during run"""
     def __init__(self, msg):

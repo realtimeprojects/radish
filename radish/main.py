@@ -29,7 +29,7 @@ def main():
     parser.add_option(
         "-v", "--verbosity",
         dest="verbosity",
-        default=1,
+        default=4,
         help="The verbosity level for the output"
     )
     parser.add_option(

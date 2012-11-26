@@ -42,18 +42,21 @@ class FileSystemHelper(object):
         return files
 
     @classmethod
-    def import_module(cls, root, module_pattern):
+    def import_module(cls, root, module_pattern, no_modules_error=False):
         """Import a module to the current environment"""
         files = cls.locate(root, module_pattern)
-        for f in files:
-            root = cls.dirname(f)
-            sys.path.insert(0, root)
-            module_name = cls.filename(f, False)
-            try:
-                __import__(module_name)
-                sys.path.remove(root)
-            except ValueError, e:
-                if "empty module name" in traceback.format_exc(e).lower():
-                    continue
-                else:
-                    raise e
+        if files:
+            for f in files:
+                root = cls.dirname(f)
+                sys.path.insert(0, root)
+                module_name = cls.filename(f, False)
+                try:
+                    __import__(module_name)
+                    sys.path.remove(root)
+                except ValueError, e:
+                    if "empty module name" in traceback.format_exc(e).lower():
+                        continue
+                    else:
+                        raise e
+        elif no_modules_error:
+            raise ImportError("Module '%s' in '%s' not found" % (module_pattern, root))
