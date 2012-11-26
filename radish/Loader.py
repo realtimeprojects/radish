@@ -21,18 +21,21 @@ class Loader(object):
         fsh.import_module(Config().basedir, "terrain.py")
 
     def load_step_definitions(self):
-        if len(fsh.locate(Config().basedir, "steps.py")) == 0:
+        if not fsh.locate(Config().basedir, "steps.py"):
             raise StepDefinitionFileNotFoundError(Config().basedir, "steps.py")
 
         fsh.import_module(Config().basedir, "steps.py")
         self.merge_steps_with_definitions()
 
     def load_writer(self):
-        level = int(Config().verbosity)
-        try:
-            fsh.import_module(os.path.join(os.path.dirname(os.path.abspath(__file__)), "Writers"), "Level_%d.py" % level, no_modules_error=True)
-        except ImportError:
-            raise WriterNotFoundError(level)
+        if not fsh.locate(Config().basedir, "writer.py"):
+            level = int(Config().verbosity)
+            try:
+                fsh.import_module(os.path.join(os.path.dirname(os.path.abspath(__file__)), "Writers"), "Level_%d.py" % level, no_modules_error=True)
+            except ImportError:
+                raise WriterNotFoundError(level)
+        else:
+            fsh.import_module(Config().basedir, "writer.py")
 
     def merge_steps_with_definitions(self):
         sr = StepRegistry()
