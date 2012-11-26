@@ -1,7 +1,5 @@
 # -*- coding: utf-8 -*-
 
-import sys
-
 from radish.Colorful import colorful
 from radish.Config import Config
 from radish.HookRegistry import after, before
