@@ -9,6 +9,14 @@ import time
 import optparse
 
 
+def xunit_file_callback(option, opt_str, value, parser):
+    value = radish.ReportWriter.REPORT_FILENAME
+    if parser.rargs:
+        value = parser.rargs[0]
+        del parser.rargs[0]
+    setattr(parser.values, option.dest, value)
+
+
 def main():
     parser = optparse.OptionParser(
         description="radish is a smart 'Test-Driven Developement'-Tool",
@@ -45,16 +53,11 @@ def main():
         help="Executes a dry run to validate steps"
     )
     parser.add_option(
-        "--with-xunit",
-        dest="with_xunit",
-        action="store_true",
-        default=False,
-        help="Generate JUnit xml report to a file"
-    )
-    parser.add_option(
-        "--xunit-file",
+        "-x", "--xunit-file",
         dest="xunit_file",
+        action="callback",
         default=None,
+        callback=xunit_file_callback,
         help="Location where to write to JUnit xml report file"
     )
 
@@ -70,7 +73,6 @@ def main():
         cf.verbosity = options.verbosity
         cf.marker = options.marker
         cf.dry_run = options.dry_run
-        cf.with_xunit = options.with_xunit
         cf.xunit_file = options.xunit_file
 
         # parse feature files
@@ -86,7 +88,7 @@ def main():
         endResult = runner.run()
 
         # report writer
-        if cf.with_xunit:
+        if cf.xunit_file:
             rw = radish.ReportWriter(endResult)
             rw.write()
 
