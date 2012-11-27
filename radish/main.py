@@ -9,14 +9,6 @@ import time
 import optparse
 
 
-def xunit_file_callback(option, opt_str, value, parser):
-    value = radish.ReportWriter.REPORT_FILENAME
-    if parser.rargs:
-        value = parser.rargs[0]
-        del parser.rargs[0]
-    setattr(parser.values, option.dest, value)
-
-
 def main():
     parser = optparse.OptionParser(
         description="radish is a smart 'Test-Driven Developement'-Tool",
@@ -55,9 +47,7 @@ def main():
     parser.add_option(
         "-x", "--xunit-file",
         dest="xunit_file",
-        action="callback",
         default=None,
-        callback=xunit_file_callback,
         help="Location where to write to JUnit xml report file"
     )
 
