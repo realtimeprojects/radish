@@ -50,6 +50,12 @@ def main():
         default=None,
         help="Location where to write to JUnit xml report file"
     )
+    parser.add_option(
+        "-p", "--profile",
+        dest="profile",
+        default=None,
+        help="Define profile"
+    )
 
     options, args = parser.parse_args()
 
@@ -64,6 +70,7 @@ def main():
         cf.marker = options.marker
         cf.dry_run = options.dry_run
         cf.xunit_file = options.xunit_file
+        cf.profile = options.profile
 
         # parse feature files
         fp = radish.FeatureParser()
