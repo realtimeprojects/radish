@@ -43,10 +43,10 @@ def print_after_step(step):
 
         if step.passed is False:
             if Config().with_traceback:
-                for l in step.fail_reason.traceback.splitlines():
+                for l in step.fail_reason.Traceback.splitlines():
                     print(step.SentenceIndentation + l)
             else:
-                print(step.SentenceIndentation + step.fail_reason.name + ": " + step.fail_reason.reason)
+                print(step.SentenceIndentation + step.fail_reason.Name + ": " + step.fail_reason.Reason)
 
 
 @after.all

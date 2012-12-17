@@ -87,6 +87,18 @@ class Step(object):
             self.traceback = traceback.format_exc(e)
             self.name = e.__class__.__name__
 
+        @property
+        def Reason(self):
+            return self.reason
+
+        @property
+        def Traceback(self):
+            return self.traceback
+
+        @property
+        def Name(self):
+            return self.name
+
     def run(self):
         kw = self.match.groupdict()
         try:

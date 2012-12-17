@@ -47,10 +47,10 @@ def print_after_step(step):
 
         if step.passed is False:
             if Config().with_traceback:
-                for l in step.fail_reason.traceback.splitlines():
+                for l in step.fail_reason.Traceback.splitlines():
                     colorful.out.red(step.SentenceIndentation + l)
             else:
-                print(step.SentenceIndentation + colorful.red(step.fail_reason.name + ": ") + colorful.bold_red(step.fail_reason.reason))
+                print(step.SentenceIndentation + colorful.red(step.fail_reason.Name + ": ") + colorful.bold_red(step.fail_reason.Reason))
 
 
 @after.all

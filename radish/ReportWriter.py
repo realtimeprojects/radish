@@ -38,10 +38,10 @@ class ReportWriter(object):
                     if step.passed is False:
                         failure = etree.Element(
                             "failure",
-                            type=step.fail_reason.exception.__class__.__name__,
-                            message=self.stripAnsiText(step.fail_reason.reason)
+                            type=step.fail_reason.Name,
+                            message=self.stripAnsiText(step.fail_reason.Rason)
                         )
-                        failure.text = etree.CDATA(self.stripAnsiText(step.fail_reason.traceback))
+                        failure.text = etree.CDATA(self.stripAnsiText(step.fail_reason.Traceback))
                         testcase.append(failure)
                     testsuite.append(testcase)
                     total_duration += (step.Duration if step.Duration > 0 else 0)
