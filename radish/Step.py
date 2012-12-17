@@ -85,6 +85,7 @@ class Step(object):
             self.exception = e
             self.reason = unicode(e)
             self.traceback = traceback.format_exc(e)
+            self.name = e.__class__.__name__
 
     def run(self):
         kw = self.match.groupdict()

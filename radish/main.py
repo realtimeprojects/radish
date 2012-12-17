@@ -56,6 +56,12 @@ def main():
         default=None,
         help="Define profile"
     )
+    parser.add_option(
+        "-t", "--with-traceback",
+        dest="with_traceback",
+        action="store_true",
+        help="Print traceback if a step fails"
+    )
 
     options, args = parser.parse_args()
 
@@ -71,6 +77,7 @@ def main():
         cf.dry_run = options.dry_run
         cf.xunit_file = options.xunit_file
         cf.profile = options.profile
+        cf.with_traceback = options.with_traceback
 
         # parse feature files
         fp = radish.FeatureParser()

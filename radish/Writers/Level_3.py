@@ -46,8 +46,11 @@ def print_after_step(step):
         color_fn(step.Indentation + "%*d. %s" % (len(str(Config().highest_step_id)), step.Id, splitted[1]))
 
         if step.passed is False:
-            for l in step.fail_reason.traceback.splitlines():
-                colorful.out.red(step.SentenceIndentation + l)
+            if Config().with_traceback:
+                for l in step.fail_reason.traceback.splitlines():
+                    colorful.out.red(step.SentenceIndentation + l)
+            else:
+                print(step.SentenceIndentation + colorful.red(step.fail_reason.name + ": ") + colorful.bold_red(step.fail_reason.reason))
 
 
 @after.all

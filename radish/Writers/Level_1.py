@@ -39,8 +39,11 @@ def print_after_step(step):
         print(step.Indentation + "%*d. %s" % (len(str(Config().highest_step_id)), step.Id, splitted[1]))
 
         if step.passed is False:
-            for l in step.fail_reason.traceback.splitlines():
-                print(step.SentenceIndentation + l)
+            if Config().with_traceback:
+                for l in step.fail_reason.traceback.splitlines():
+                    print(step.SentenceIndentation + l)
+            else:
+                print(step.SentenceIndentation + step.fail_reason.name + ": " + step.fail_reason.reason)
 
 
 @after.all
