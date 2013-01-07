@@ -67,14 +67,14 @@ class FeatureParser(object):
                 in_feature = False
                 scenario_id += 1
                 step_id = 0
-                features[-1].AppendScenario(Scenario(scenario_id, scenario_match.group(1), feature_file, line_no))
+                features[-1].AppendScenario(Scenario(scenario_id, self.feature_id, scenario_match.group(1), feature_file, line_no))
                 if scenario_id > Config().highest_scenario_id:
                     Config().highest_scenario_id = scenario_id
             else:  # create new step or append feature description line
                 line = l.rstrip(os.linesep).strip()
                 if not in_feature:
                     step_id += 1
-                    features[-1].Scenarios[-1].AppendStep(Step(step_id, line, feature_file, line_no))
+                    features[-1].Scenarios[-1].AppendStep(Step(step_id, scenario_id, self.feature_id, line, feature_file, line_no))
                     if step_id > Config().highest_step_id:
                         Config().highest_step_id = step_id
                 else:
