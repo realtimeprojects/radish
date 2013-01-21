@@ -15,5 +15,4 @@ from radish.Terrain import *
 from radish.Colorful import *
 from radish.EndResult import *
 from radish.Exceptions import *
-from radish.Logger import *
 from radish.ReportWriter import *
