@@ -39,7 +39,7 @@ class ReportWriter(object):
                         failure = etree.Element(
                             "failure",
                             type=step.fail_reason.Name,
-                            message=self.stripAnsiText(step.fail_reason.Rason)
+                            message=self.stripAnsiText(step.fail_reason.Reason)
                         )
                         failure.text = etree.CDATA(self.stripAnsiText(step.fail_reason.Traceback))
                         testcase.append(failure)
