@@ -33,12 +33,6 @@ def main():
         help="The verbosity level for the output"
     )
     parser.add_option(
-        "-m", "--marker",
-        dest="marker",
-        default=int(time.time()),
-        help="A specific marker for the step loggings"
-    )
-    parser.add_option(
         "-d", "--dry-run",
         dest="dry_run",
         action="store_true",
@@ -73,7 +67,6 @@ def main():
         cf.feature_files = args
         cf.abort_fail = options.abort_fail
         cf.verbosity = options.verbosity
-        cf.marker = options.marker
         cf.dry_run = options.dry_run
         cf.xunit_file = options.xunit_file
         cf.profile = options.profile
