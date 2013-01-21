@@ -37,6 +37,10 @@ class Loader(object):
         else:
             fsh.import_module(Config().basedir, "writer.py")
 
+    def load_logger(self):
+        if fsh.locate(Config().basedir, "logger.py" ):
+            fsh.import_module(Config().basedir, "logger.py" )
+
     def merge_steps_with_definitions(self):
         sr = StepRegistry()
         for feature in self.features:
