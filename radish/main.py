@@ -11,7 +11,7 @@ import optparse
 
 def main():
     parser = optparse.OptionParser(
-        description="radish is a smart 'Test-Driven Developement'-Tool",
+        description="radish is a smart 'Behavior Driven Developement'-Tool written in python",
         epilog="(C) Copyright 2012 by Timo Furrer <tuxtimo@gmail.com>"
     )
     parser.add_option(
