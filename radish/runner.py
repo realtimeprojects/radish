@@ -2,9 +2,9 @@
 
 import sys
 
-from radish.Config import Config
-from radish.HookRegistry import HookRegistry
-from radish.EndResult import EndResult
+from radish.config import Config
+from radish.hookregistry import HookRegistry
+from radish.endresult import EndResult
 
 
 class Runner(object):

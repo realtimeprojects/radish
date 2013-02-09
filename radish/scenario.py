@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
-from radish.Config import Config
-from radish.Step import Step
+from radish.config import Config
+from radish.step import Step
 
 
 class Scenario(object):

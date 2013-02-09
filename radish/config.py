@@ -2,7 +2,7 @@
 
 import os
 
-from radish.Exceptions import BasedirNotFoundError
+from radish.exceptions import BasedirNotFoundError
 
 
 class Config(object):

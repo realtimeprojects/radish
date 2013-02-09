@@ -1,11 +1,9 @@
 # -*- coding: utf-8 -*-
 
-import sys
-
-from radish.Colorful import colorful
-from radish.Config import Config
-from radish.HookRegistry import after, before
-from radish.FileSystemHelper import FileSystemHelper as fsh
+from radish.colorful import colorful
+from radish.config import Config
+from radish.hookregistry import after, before
+from radish.filesystemhelper import FileSystemHelper as fsh
 
 
 @before.each_feature
@@ -39,7 +37,6 @@ def print_before_step(step):
 def print_after_step(step):
     if not step.DryRun:
         splitted = step.SplittedSentence
-        sys.stdout.write("\033[A" * splitted[0])
         if step.passed:
             color_fn = colorful.out.bold_green
         elif step.passed is False:

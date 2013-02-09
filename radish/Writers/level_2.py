@@ -1,8 +1,10 @@
 # -*- coding: utf-8 -*-
 
-from radish.Config import Config
-from radish.HookRegistry import after, before
-from radish.FileSystemHelper import FileSystemHelper as fsh
+import sys
+
+from radish.config import Config
+from radish.hookregistry import after, before
+from radish.filesystemhelper import FileSystemHelper as fsh
 
 
 @before.each_feature
@@ -36,6 +38,7 @@ def print_before_step(step):
 def print_after_step(step):
     if not step.DryRun:
         splitted = step.SplittedSentence
+        sys.stdout.write("\033[A" * splitted[0])
         print(step.Indentation + "%*d. %s" % (len(str(Config().highest_step_id)), step.Id, splitted[1]))
 
         if step.passed is False:

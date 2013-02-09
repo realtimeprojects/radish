@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-from radish.HookRegistry import after, before
+from radish.hookregistry import after, before
 
 
 @before.each_feature

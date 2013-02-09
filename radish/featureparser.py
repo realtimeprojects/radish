@@ -3,12 +3,12 @@
 import os
 import re
 
-from radish.Config import Config
-from radish.Feature import Feature
-from radish.Scenario import Scenario
-from radish.Step import Step
-from radish.FileSystemHelper import FileSystemHelper as fsh
-from radish.Exceptions import FeatureFileNotFoundError
+from radish.config import Config
+from radish.feature import Feature
+from radish.scenario import Scenario
+from radish.step import Step
+from radish.filesystemhelper import FileSystemHelper as fsh
+from radish.exceptions import FeatureFileNotFoundError
 
 
 class FeatureParser(object):

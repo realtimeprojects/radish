@@ -2,8 +2,8 @@
 
 import re
 
-from radish.StepRegistry import StepRegistry
-from radish.Exceptions import StepLoadingError
+from radish.stepregistry import StepRegistry
+from radish.exceptions import StepLoadingError
 
 
 def step(regex):

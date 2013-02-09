@@ -4,7 +4,7 @@ import re
 from datetime import datetime
 from lxml import etree
 
-from radish.Config import Config
+from radish.config import Config
 
 
 class ReportWriter(object):

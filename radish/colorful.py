@@ -2,7 +2,7 @@
 
 try:
     from colorama import init as init_ansi_colors_on_windows
-    init_ansi_colors_on_windows( )
+    init_ansi_colors_on_windows()
 except ImportError:
     pass
 

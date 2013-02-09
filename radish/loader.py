@@ -2,10 +2,10 @@
 
 import os
 
-from radish.Config import Config
-from radish.StepRegistry import StepRegistry
-from radish.FileSystemHelper import FileSystemHelper as fsh
-from radish.Exceptions import StepDefinitionFileNotFoundError, StepDefinitionNotFoundError, WriterNotFoundError
+from radish.config import Config
+from radish.stepregistry import StepRegistry
+from radish.filesystemhelper import FileSystemHelper as fsh
+from radish.exceptions import StepDefinitionFileNotFoundError, StepDefinitionNotFoundError, WriterNotFoundError
 
 
 class Loader(object):
@@ -31,15 +31,15 @@ class Loader(object):
         if not fsh.locate(Config().basedir, "writer.py"):
             level = int(Config().verbosity)
             try:
-                fsh.import_module(os.path.join(os.path.dirname(os.path.abspath(__file__)), "Writers"), "Level_%d.py" % level, no_modules_error=True)
+                fsh.import_module(os.path.join(os.path.dirname(os.path.abspath(__file__)), "Writers"), "level_%d.py" % level, no_modules_error=True)
             except ImportError:
                 raise WriterNotFoundError(level)
         else:
             fsh.import_module(Config().basedir, "writer.py")
 
     def load_logger(self):
-        if fsh.locate(Config().basedir, "logger.py" ):
-            fsh.import_module(Config().basedir, "logger.py" )
+        if fsh.locate(Config().basedir, "logger.py"):
+            fsh.import_module(Config().basedir, "logger.py")
 
     def merge_steps_with_definitions(self):
         sr = StepRegistry()

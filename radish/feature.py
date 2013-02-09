@@ -2,8 +2,8 @@
 
 import os
 
-from radish.Config import Config
-from radish.Scenario import Scenario
+from radish.config import Config
+from radish.scenario import Scenario
 
 
 class Feature(object):

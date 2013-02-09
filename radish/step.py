@@ -5,9 +5,9 @@ import inspect
 import sys
 import datetime
 
-from radish.Config import Config
-from radish.UtilRegistry import UtilRegistry
-from radish.Exceptions import ValidationError
+from radish.config import Config
+from radish.utilregistry import UtilRegistry
+from radish.exceptions import ValidationError
 
 
 class Step(object):

@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-from radish.Colorful import colorful
+from radish.colorful import colorful
 
 
 class RadishError(Exception):
