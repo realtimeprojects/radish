@@ -31,7 +31,7 @@ class HookRegistry(object):
             self.when = when
 
         @classmethod
-        def _add_hook(cls, what, name):
+        def add_hook(cls, what, name):
             def wrapper(self, func):
                 HookRegistry().register(self.when, what, func)
                 return func
@@ -49,7 +49,7 @@ class HookRegistry(object):
                 continue
 
 for what, name in HookRegistry.possible_hooks:
-    HookRegistry.Hooker._add_hook(what, name)
+    HookRegistry.Hooker.add_hook(what, name)
 
 before = HookRegistry.Hooker("before")
 after = HookRegistry.Hooker("after")

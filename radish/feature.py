@@ -8,50 +8,49 @@ from radish.scenario import Scenario
 
 class Feature(object):
     def __init__(self, id, sentence, filename, line_no):
-        self.id = id
-        self.sentence = sentence
-        self.filename = filename
-        self.line_no = line_no
-        self.scenarios = []
-        self.description = ""
+        self._id = id
+        self._sentence = sentence
+        self._filename = filename
+        self._line_no = line_no
+        self._scenarios = []
+        self._description = ""
 
-    @property
-    def Id(self):
-        return self.id
+    def get_id(self):
+        return self._id
 
-    @property
-    def LineNo(self):
-        return self.line_no
+    def get_line_no(self):
+        return self._line_no
 
-    @property
-    def Sentence(self):
-        return self.sentence
+    def get_sentence(self):
+        return self._sentence
 
-    @property
-    def Indentation(self):
+    def get_filename(self):
+        return self._filename
+
+    def get_description(self):
+        return self._description
+
+    def get_indentation(self):
         return "  "
 
-    @property
-    def DryRun(self):
+    def is_dry_run(self):
         return Config().dry_run
 
-    @property
-    def Scenarios(self):
-        return self.scenarios
+    def get_scenarios(self):
+        return self._scenarios
 
-    @property
-    def Passed(self):
-        for s in self.scenarios:
-            if not s.Passed:
+    def has_passed(self):
+        for s in self._scenarios:
+            if not s.has_passed():
                 return False
         return True
 
-    def AppendScenario(self, scenario):
+    def append_scenario(self, scenario):
         if isinstance(scenario, Scenario):
-            self.scenarios.append(scenario)
+            self._scenarios.append(scenario)
 
-    def AppendDescriptionLine(self, line):
-        if self.description == "":
-            self.description = line
+    def append_description_line(self, line):
+        if self._description == "":
+            self._description = line
         else:
-            self.description += os.linesep + line
+            self._description += os.linesep + line

@@ -6,48 +6,40 @@ from radish.step import Step
 
 class Scenario(object):
     def __init__(self, id, feature_id, sentence, filename, line_no):
-        self.id = id
-        self.feature_id = feature_id
-        self.sentence = sentence
-        self.filename = filename
-        self.line_no = line_no
-        self.steps = []
+        self._id = id
+        self._feature_id = feature_id
+        self._sentence = sentence
+        self._filename = filename
+        self._line_no = line_no
+        self._steps = []
 
-    @property
-    def Id(self):
-        return self.id
+    def get_id(self):
+        return self._id
 
-    @property
-    def FeatureId(self):
-        return self.feature_id
+    def get_feature_id(self):
+        return self._feature_id
 
-    @property
-    def LineNo(self):
-        return self.line_no
+    def get_line_no(self):
+        return self._line_no
 
-    @property
-    def Sentence(self):
-        return self.sentence
+    def get_sentence(self):
+        return self._sentence
 
-    @property
-    def Indentation(self):
+    def get_indentation(self):
         return "  " + " " * len(str(Config().highest_feature_id)) + "  "
 
-    @property
-    def DryRun(self):
+    def is_dry_run(self):
         return Config().dry_run
 
-    @property
-    def Steps(self):
-        return self.steps
+    def get_steps(self):
+        return self._steps
 
-    @property
-    def Passed(self):
-        for s in self.steps:
-            if not s.Passed:
+    def has_passed(self):
+        for s in self._steps:
+            if not s.has_passed():
                 return False
         return True
 
-    def AppendStep(self, step):
+    def append_step(self, step):
         if isinstance(step, Step):
-            self.steps.append(step)
+            self._steps.append(step)

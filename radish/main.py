@@ -84,11 +84,11 @@ def main():
         fp.parse()
 
         # load terrain and steps
-        loader = radish.Loader(fp.Features)
+        loader = radish.Loader(fp.get_features())
         loader.load()
 
         # run the features
-        runner = radish.Runner(fp.Features)
+        runner = radish.Runner(fp.get_features())
         endResult = runner.run()
 
         # report writer
@@ -96,7 +96,7 @@ def main():
             rw = radish.ReportWriter(endResult)
             rw.write()
 
-        exitCode = 0 if endResult.all_passed else 1
+        exitCode = 0 if endResult.have_all_passed() else 1
     except radish.RadishError, e:
         print("%s %s" % (radish.colorful.bold_red("radish error:"), e))
         exitCode = 2

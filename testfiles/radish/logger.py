@@ -2,8 +2,8 @@
 
 import syslog
 
-from radish.HookRegistry import after, before
-from radish.Config import Config
+from radish.hookregistry import after, before
+from radish.config import Config
 
 
 class Logger(object):
@@ -34,32 +34,32 @@ def log_after_all(endResult):
 
 @before.each_feature
 def log_before_feature(feature):
-    Logger.log("testing feature %d" % (feature.Id))
+    Logger.log("testing feature %d" % (feature.get_id()))
 
 
 @after.each_feature
 def log_after_feature(feature):
-    Logger.log("feature %d terminated" % (feature.Id))
+    Logger.log("feature %d terminated" % (feature.get_id()))
 
 
 @before.each_scenario
 def log_before_scenario(scenario):
-    Logger.log("testing scenario %d" % (scenario.Id))
+    Logger.log("testing scenario %d" % (scenario.get_id()))
 
 
 @after.each_scenario
 def log_after_scenario(scenario):
-    Logger.log("scenario %d terminated" % (scenario.Id))
+    Logger.log("scenario %d terminated" % (scenario.get_id()))
 
 
 @before.each_step
 def log_before_step(step):
-    Logger.log("testing step %d" % (step.Id))
+    Logger.log("testing step %d" % (step.get_id()))
 
 
 @after.each_step
 def log_after_step(step):
-    if step.passed is False:
-        Logger.log("step %d FAILED" % (step.Id))
+    if step.has_passed() is False:
+        Logger.log("step %d FAILED" % (step.get_id()))
     else:
-        Logger.log("step %d terminated" % (step.Id))
+        Logger.log("step %d terminated" % (step.get_id()))

@@ -6,7 +6,7 @@ from radish.exceptions import BasedirNotFoundError
 
 
 class Config(object):
-    instance = None
+    _instance = None
 
     class __Config(object):
         def SetBasedir(self, basedir):
@@ -15,12 +15,12 @@ class Config(object):
             self.basedir = basedir
 
     def __new__(cls):
-        if not Config.instance:
-            Config.instance = Config.__Config()
-        return Config.instance
+        if not Config._instance:
+            Config._instance = Config.__Config()
+        return Config._instance
 
     def __getattr__(self, key):
-        return getattr(self.instance, key)
+        return getattr(self._instance, key)
 
     def __setattr__(self, key, value):
-        return setattr(self.instance, key, value)
+        return setattr(self._instance, key, value)

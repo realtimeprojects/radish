@@ -14,124 +14,117 @@ class Step(object):
     CHARS_PER_LINE = 100
 
     def __init__(self, id, scenario_id, feature_id, sentence, filename, line_no):
-        self.id = id
-        self.scenario_id = scenario_id
-        self.feature_id = feature_id
-        self.sentence = sentence
-        self.filename = filename
-        self.line_no = line_no
-        self.func = None
-        self.match = None
-        self.passed = None
-        self.fail_reason = None
-        self.starttime = None
-        self.endtime = None
-        self.validation_error = False
+        self._id = id
+        self._scenario_id = scenario_id
+        self._feature_id = feature_id
+        self._sentence = sentence
+        self._filename = filename
+        self._line_no = line_no
+        self._function = None
+        self._match = None
+        self._passed = None
+        self._fail_reason = None
+        self._starttime = None
+        self._endtime = None
+        self._validation_error = False
 
-    @property
-    def Id(self):
-        return self.id
+    def get_id(self):
+        return self._id
 
-    @property
-    def ScenarioId(self):
-        return self.scenario_id
+    def get_scenario_id(self):
+        return self._scenario_id
 
-    @property
-    def FeatureId(self):
-        return self.feature_id
+    def get_feature_id(self):
+        return self._feature_id
 
-    @property
-    def LineNo(self):
-        return self.line_no
+    def get_line_no(self):
+        return self._line_no
 
-    @property
-    def Sentence(self):
-        return self.sentence
+    def get_sentence(self):
+        return self._sentence
 
-    @property
-    def SplittedSentence(self):
+    def get_sentence_splitted(self):
         ur = UtilRegistry()
         if ur.has_util("split_sentence"):
             try:
                 return ur.call_util("split_sentence", self)
             except KeyboardInterrupt:
                 pass
-        splitted = [self.sentence[i:i + Step.CHARS_PER_LINE] for i in range(0, len(self.sentence), Step.CHARS_PER_LINE)]
-        return len(splitted), ("\n" + self.SentenceIndentation).join(splitted)
+        splitted = [self._sentence[i:i + Step.CHARS_PER_LINE] for i in range(0, len(self._sentence), Step.CHARS_PER_LINE)]
+        return len(splitted), ("\n" + self.get_sentence_indentation()).join(splitted)
 
-    @property
-    def Indentation(self):
+    def get_indentation(self):
         return "  " + " " * (len(str(Config().highest_feature_id)) + len(str(Config().highest_scenario_id))) + "    "
 
-    @property
-    def SentenceIndentation(self):
-        return self.Indentation + " " * len(str(Config().highest_step_id)) + "  "
+    def get_sentence_indentation(self):
+        return self.get_indentation() + " " * len(str(Config().highest_step_id)) + "  "
 
-    @property
-    def DryRun(self):
+    def is_dry_run(self):
         return Config().dry_run
 
-    @property
-    def Func(self):
-        return self.func
+    def get_function(self):
+        return self._function
 
-    @property
-    def Match(self):
-        return self.match
+    def set_function(self, function):
+        self._function = function
 
-    @property
-    def Passed(self):
-        return self.passed
+    def get_match(self):
+        return self._match
 
-    @property
-    def Duration(self):
-        if self.Passed is True or self.Passed is False:
-            td = self.endtime - self.starttime
+    def set_match(self, match):
+        self._match = match
+
+    def has_passed(self):
+        return self._passed
+
+    def get_duration(self):
+        if self._passed is True or self._passed is False:
+            td = self._endtime - self._starttime
             return (td.microseconds + (td.seconds + td.days * 24 * 3600) * 1e6) / 1e6
         return -1
 
+    def get_fail_reason(self):
+        return self._fail_reason
+
     class FailReason(object):
         def __init__(self, e):
-            self.exception = e
-            self.reason = str(e)
-            self.traceback = traceback.format_exc(e)
-            self.name = e.__class__.__name__
+            self._exception = e
+            self._reason = unicode(e)
+            self._traceback = traceback.format_exc(e)
+            self._name = e.__class__.__name__
 
-        @property
-        def Reason(self):
-            return self.reason
+        def get_reason(self):
+            return self._reason
 
-        @property
-        def Traceback(self):
-            return self.traceback
+        def get_traceback(self):
+            return self._traceback
 
-        @property
-        def Name(self):
-            return self.name
+        def get_name(self):
+            return self._name
 
     def run(self):
-        kw = self.match.groupdict()
+        kw = self._match.groupdict()
         try:
-            self.starttime = datetime.datetime.now()
+            self._starttime = datetime.datetime.now()
             if kw:
-                self.func(self, **kw)
+                self._function(self, **kw)
             else:
-                self.func(self, *self.match.groups())
-            self.passed = not self.validation_error
+                self._function(self, *self._match.groups())
+            self._passed = not self._validation_error
         except KeyboardInterrupt:
             raise
         except Exception, e:
-            self.passed = False
-            self.fail_reason = Step.FailReason(e)
-            if self.DryRun:
+            self._passed = False
+            self._fail_reason = Step.FailReason(e)
+            if self.is_dry_run():
                 caller = inspect.trace()[-1]
-                sys.stderr.write("%s:%d: error: %s\n" % (caller[1], caller[2], str(e)))
-        self.endtime = datetime.datetime.now()
-        return self.passed
+                sys.stderr.write("%s:%d: error: %s\n" % (caller[1], caller[2], unicode(e)))
+        self._endtime = datetime.datetime.now()
+        return self._passed
 
     def ValidationError(self, msg):
-        self.validation_error = True
-        if self.DryRun:
-            sys.stderr.write("%s:%d: error: %s\n" % (self.filename, self.line_no, msg))
+        self._validation_error = True
+        if self.is_dry_run():
+            sys.stderr.write("%s:%d: error: %s\n" % (self._filename, self._line_no, msg))
         else:
             raise ValidationError(msg)

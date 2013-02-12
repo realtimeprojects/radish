@@ -9,63 +9,63 @@ from radish.filesystemhelper import FileSystemHelper as fsh
 
 @before.each_feature
 def print_before_feature(feature):
-    if not feature.DryRun:
-        print(feature.Indentation + "%*d. " % (len(str(Config().highest_feature_id)), feature.Id) + feature.Sentence + " " * (Config().longest_feature_text - len(feature.Sentence)) + " " * 10 + "# " + fsh.filename(feature.filename))
-        for l in feature.description.splitlines():
-            print(feature.Indentation + " " * len(str(Config().highest_feature_id)) + "  " + l)
+    if not feature.is_dry_run():
+        print(feature.get_indentation() + "%*d. " % (len(str(Config().highest_feature_id)), feature.get_id()) + feature.get_sentence() + " " * (Config().longest_feature_text - len(feature.get_sentence())) + " " * 10 + "# " + fsh.filename(feature.get_filename()))
+        for l in feature.get_description().splitlines():
+            print(feature.get_indentation() + " " * len(str(Config().highest_feature_id)) + "  " + l)
         print("")
 
 
 @before.each_scenario
 def print_before_scenario(scenario):
-    if not scenario.DryRun:
-        print(scenario.Indentation + "%*d. %s" % (len(str(Config().highest_scenario_id)), scenario.Id, scenario.Sentence))
+    if not scenario.is_dry_run():
+        print(scenario.get_indentation() + "%*d. %s" % (len(str(Config().highest_scenario_id)), scenario.get_id(), scenario.get_sentence()))
 
 
 @after.each_scenario
 def print_after_scenario(scenario):
-    if not scenario.DryRun:
+    if not scenario.is_dry_run():
         print("")
 
 
 @before.each_step
 def print_before_step(step):
-    if not step.DryRun:
-        print(step.Indentation + "%*d. %s" % (len(str(Config().highest_step_id)), step.Id, step.SplittedSentence[1]))
+    if not step.is_dry_run():
+        print(step.get_indentation() + "%*d. %s" % (len(str(Config().highest_step_id)), step.get_id(), step.get_sentence_splitted()[1]))
 
 
 @after.each_step
 def print_after_step(step):
-    if not step.DryRun:
-        splitted = step.SplittedSentence
+    if not step.is_dry_run():
+        splitted = step.get_sentence_splitted()
         sys.stdout.write("\033[A" * splitted[0])
-        print(step.Indentation + "%*d. %s" % (len(str(Config().highest_step_id)), step.Id, splitted[1]))
+        print(step.get_indentation() + "%*d. %s" % (len(str(Config().highest_step_id)), step.get_id(), splitted[1]))
 
-        if step.passed is False:
+        if step.has_passed() is False:
             if Config().with_traceback:
-                for l in step.fail_reason.Traceback.splitlines():
-                    print(step.SentenceIndentation + l)
+                for l in step.get_fail_reason().get_traceback().splitlines():
+                    print(step.get_sentence_indentation() + l)
             else:
-                print(step.SentenceIndentation + step.fail_reason.Name + ": " + step.fail_reason.Reason)
+                print(step.get_sentence_indentation() + step.get_fail_reason().get_name() + ": " + step.get_fail_reason().get_reason())
 
 
 @after.all
 def print_after_all(endResult):
     if not Config().dry_run:
-        feature_text = str(endResult.passed_features) + " passed"
-        if endResult.failed_features > 0:
-            feature_text += ", " + str(endResult.failed_features) + " failed"
+        feature_text = str(endResult.get_passed_features()) + " passed"
+        if endResult.get_failed_features() > 0:
+            feature_text += ", " + str(endResult.get_failed_features()) + " failed"
 
-        scenario_text = str(endResult.passed_scenarios) + " passed"
-        if endResult.failed_scenarios > 0:
-            scenario_text += ", " + str(endResult.failed_scenarios) + " failed"
+        scenario_text = str(endResult.get_passed_scenarios()) + " passed"
+        if endResult.get_failed_scenarios() > 0:
+            scenario_text += ", " + str(endResult.get_failed_scenarios()) + " failed"
 
-        step_text = str(endResult.passed_steps) + " passed"
-        if endResult.failed_steps > 0:
-            step_text += ", " + str(endResult.failed_steps) + " failed"
-        if endResult.skipped_steps > 0:
-            step_text += ", " + str(endResult.skipped_steps) + " skipped"
+        step_text = str(endResult.get_passed_steps()) + " passed"
+        if endResult.get_failed_steps() > 0:
+            step_text += ", " + str(endResult.get_failed_steps()) + " failed"
+        if endResult.get_skipped_steps() > 0:
+            step_text += ", " + str(endResult.get_skipped_steps()) + " skipped"
 
-        print(str(endResult.total_features) + " features (%s" % (feature_text) + ")")
-        print(str(endResult.total_scenarios) + " scenarios (%s" % (scenario_text) + ")")
-        print(str(endResult.total_steps) + " steps (%s" % (step_text) + ")")
+        print(str(endResult.get_total_features()) + " features (%s" % (feature_text) + ")")
+        print(str(endResult.get_total_scenarios()) + " scenarios (%s" % (scenario_text) + ")")
+        print(str(endResult.get_total_steps()) + " steps (%s" % (step_text) + ")")
