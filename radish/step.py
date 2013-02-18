@@ -93,7 +93,7 @@ class Step(object):
     class FailReason(object):
         def __init__(self, e):
             self.exception = e
-            self.reason = unicode(e)
+            self.reason = str(e)
             self.traceback = traceback.format_exc(e)
             self.name = e.__class__.__name__
 
@@ -125,7 +125,7 @@ class Step(object):
             self.fail_reason = Step.FailReason(e)
             if self.DryRun:
                 caller = inspect.trace()[-1]
-                sys.stderr.write("%s:%d: error: %s\n" % (caller[1], caller[2], unicode(e)))
+                sys.stderr.write("%s:%d: error: %s\n" % (caller[1], caller[2], str(e)))
         self.endtime = datetime.datetime.now()
         return self.passed
 
