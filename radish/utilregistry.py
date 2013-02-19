@@ -1,15 +1,13 @@
 # -*- coding: utf-8 -*-
 
 
-class UtilRegistry(object):
-    def __new__(type, *args):
-        if not "instance" in type.__dict__:
-            type.instance = object.__new__(type)
-        return type.instance
+from radish.pysingleton.singleton import singleton
 
+
+@singleton()
+class UtilRegistry(object):
     def __init__(self):
-        if not "utils" in dir(self):
-            self.utils = {}
+        self.utils = {}
 
     def register(self, util, func):
         self.utils[util] = func

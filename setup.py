@@ -10,7 +10,7 @@ setup(
     author="Timo Furrer",
     author_email="tuxtimo@gmail.com",
     url="http://github.com/timofurrer/radish",
-    packages=["radish", "radish/Writers"],
+    packages=["radish", "radish.Writers", "radish.pysingleton"],
     entry_points={"console_scripts": ["radish = radish.main:main"]},
     package_data={"radish": ["*.md"]}
 )

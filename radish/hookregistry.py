@@ -1,6 +1,9 @@
 # -*- coding: utf-8 -*-
 
 
+from radish.pysingleton.singleton import singleton
+
+@singleton()
 class HookRegistry(object):
     hooks = {
         "all": {
@@ -22,11 +25,6 @@ class HookRegistry(object):
     }
 
     possible_hooks = (("all", "all"), ("feature", "each_feature"), ("scenario", "each_scenario"), ("step", "each_step"))
-
-    def __new__(type, *args):
-        if not "instance" in type.__dict__:
-            type.instance = object.__new__(type)
-        return type.instance
 
     class Hooker(object):
         def __init__(self, when):

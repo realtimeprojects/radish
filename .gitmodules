@@ -1,0 +1,3 @@
+[submodule "radish/pysingleton"]
+	path = radish/pysingleton
+	url = https://github.com/timofurrer/pysingleton.git
