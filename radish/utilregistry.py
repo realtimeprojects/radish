@@ -1,7 +1,6 @@
 # -*- coding: utf-8 -*-
 
-
-from radish.pysingleton.singleton import singleton
+from radish.singleton import singleton
 
 
 @singleton()

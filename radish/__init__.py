@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-from radish.pysingleton.singleton import singleton
+from radish.singleton import singleton
 from radish.featureparser import *
 from radish.feature import *
 from radish.scenario import *
