@@ -16,6 +16,7 @@ class Loader(object):
         self.load_terrain()
         self.load_step_definitions()
         self.load_writer()
+        self.load_logger()
 
     def load_terrain(self):
         fsh.import_module(Config().basedir, "terrain.py")
