@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
+from radish.singleton import singleton
 
-from radish.pysingleton.singleton import singleton
 
 @singleton()
 class HookRegistry(object):

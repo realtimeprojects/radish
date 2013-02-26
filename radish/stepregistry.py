@@ -2,7 +2,7 @@
 
 import re
 
-from radish.pysingleton.singleton import singleton
+from radish.singleton import singleton
 
 
 @singleton()
