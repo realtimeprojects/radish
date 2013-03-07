@@ -62,6 +62,12 @@ def main():
         action="store_true",
         help="Print traceback if a step fails"
     )
+    parser.add_option(
+        "--no-duration",
+        dest="no_duration",
+        action="store_true",
+        help="Do not print duration after execution"
+    )
 
     options, args = parser.parse_args()
 
@@ -78,6 +84,7 @@ def main():
         cf.xunit_file = options.xunit_file
         cf.profile = options.profile
         cf.with_traceback = options.with_traceback
+        cf.no_duration = options.no_duration
 
         # parse feature files
         fp = radish.FeatureParser()

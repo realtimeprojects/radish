@@ -81,3 +81,9 @@ def print_after_all(endResult):
         colorful.out.bold_white(str(endResult.get_total_features()) + " features (%s" % (feature_text) + white(")"))
         colorful.out.bold_white(str(endResult.get_total_scenarios()) + " scenarios (%s" % (scenario_text) + white(")"))
         colorful.out.bold_white(str(endResult.get_total_steps()) + " steps (%s" % (step_text) + white(")"))
+
+        if not Config().no_duration:
+            duration = 0.0
+            for f in endResult.get_features():
+                duration += f.get_duration()
+            colorful.out.cyan("(finished within %d minutes and %.2f seconds)" % (duration / 60, float(duration) % 60.0))

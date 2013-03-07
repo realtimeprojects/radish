@@ -28,6 +28,12 @@ class Scenario(object):
     def get_indentation(self):
         return "  " + " " * len(str(Config().highest_feature_id)) + "  "
 
+    def get_duration(self):
+        d = 0
+        for s in self._steps:
+            d += s.get_duration()
+        return d
+
     def is_dry_run(self):
         return Config().dry_run
 

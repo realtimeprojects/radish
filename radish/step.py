@@ -81,7 +81,7 @@ class Step(object):
         if self._passed is True or self._passed is False:
             td = self._endtime - self._starttime
             return (td.microseconds + (td.seconds + td.days * 24 * 3600) * 1e6) / 1e6
-        return -1
+        return 0
 
     def get_fail_reason(self):
         return self._fail_reason
