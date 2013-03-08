@@ -35,6 +35,9 @@ def print_before_step(step):
 @after.each_step
 def print_after_step(step):
     if not step.is_dry_run():
+        if step.has_passed() is None and Config( ).no_skipped_steps:
+            return
+
         splitted = step.get_sentence_splitted()
         print(step.get_indentation() + "%*d. %s" % (len(str(Config().highest_step_id)), step.get_id(), splitted[1]))
 

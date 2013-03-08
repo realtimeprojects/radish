@@ -68,6 +68,12 @@ def main():
         action="store_true",
         help="Do not print duration after execution"
     )
+    parser.add_option(
+        "--no-skipped-steps",
+        dest="no_skipped_steps",
+        action="store_true",
+        help="Do not print skipped steps"
+    )
 
     options, args = parser.parse_args()
 
@@ -85,6 +91,7 @@ def main():
         cf.profile = options.profile
         cf.with_traceback = options.with_traceback
         cf.no_duration = options.no_duration
+        cf.no_skipped_steps = options.no_skipped_steps
 
         # parse feature files
         fp = radish.FeatureParser()

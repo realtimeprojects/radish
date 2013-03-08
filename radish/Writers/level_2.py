@@ -39,6 +39,10 @@ def print_after_step(step):
     if not step.is_dry_run():
         splitted = step.get_sentence_splitted()
         sys.stdout.write("\033[A" * splitted[0] + "\033[K")
+
+        if step.has_passed() is None and Config( ).no_skipped_steps:
+            return
+
         print(step.get_indentation() + "%*d. %s" % (len(str(Config().highest_step_id)), step.get_id(), splitted[1]))
 
         if step.has_passed() is False:

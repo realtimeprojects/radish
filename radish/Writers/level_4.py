@@ -40,6 +40,10 @@ def print_after_step(step):
     if not step.is_dry_run():
         splitted = step.get_sentence_splitted()
         sys.stdout.write("\033[A" * splitted[0] + "\033[K")
+
+        if step.has_passed() is None and Config( ).no_skipped_steps:
+            return
+
         if step.has_passed():
             color_fn = colorful.out.bold_green
         elif step.has_passed() is False:
