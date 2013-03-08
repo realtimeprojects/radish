@@ -39,7 +39,7 @@ def print_before_step(step):
 def print_after_step(step):
     if not step.is_dry_run():
         splitted = step.get_sentence_splitted()
-        sys.stdout.write("\033[A" * splitted[0] + "\033[K")
+        sys.stdout.write("\033[A\033[K" * splitted[0])
 
         if step.has_passed() is None and Config( ).no_skipped_steps:
             return
