@@ -49,7 +49,7 @@ class FeatureParser(object):
         f = open(feature_file, "r")
         for l in f.readlines():
             line_no += 1
-            if not l.strip() or re.search("^[ ]*?#", l):
+            if not l.strip() or re.search("^[\s]*?#", l):
                 continue
 
             feature_match = re.search("Feature: ?(.*)$", l)
