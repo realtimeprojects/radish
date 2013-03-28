@@ -14,6 +14,10 @@ It is inspired by other `BDD`-Tools like `lettuce` and `cucumber`.<br />
 The feature, step and terrain files are all compatible with `lettuce`.
 
 ## How to install?
+Simply use pip:
+
+    pip install radish
+
 To install it on your system you can use the `setup.py` script:
 
     python setup.py install
