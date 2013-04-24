@@ -4,7 +4,7 @@ from radish import step, world
 from time import sleep
 
 
-@step(r'I have the number ([+0-9-]+)')
+@step(r'I have the number ([+0-9-]+)', metric_indicators=['a', 'c'])
 def have_the_number(step, number):
     if int(number) < 0:
         step.ValidationError("The number cannot be nagative")
@@ -16,14 +16,14 @@ def have_the_number(step, number):
         sleep(1)
 
 
-@step(r'I compute its factorial')
+@step(r'I compute its factorial', metric_indicators=['b', 'c'])
 def compute_its_factorial(step):
     if not step.is_dry_run():
         world.number = factorial(world.number)
         sleep(1)
 
 
-@step(r'I see the number (\d+)')
+@step(r'I see the number (\d+)', metric_indicators=['a', 'b', 'c'])
 def check_number(step, expected):
     if not step.is_dry_run():
         expected = int(expected)

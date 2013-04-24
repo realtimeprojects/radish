@@ -61,6 +61,11 @@ class WriterNotFoundError(RadishError):
     def __str__(self):
         return colorful.red("The writer for verbosity level '%d' could not be found!" % self.level)
 
+class NoMetricUtilFoundError(RadishError):
+    """Raised if metric should be shown but no utils hook was found"""
+    def __str__(self):
+        return colorful.red("Could not found util hook to show metric - implement: utils( \"show_metric\" )")
+
 
 class ValidationError(RadishError):
     """Raised when a validation error occured during run"""

@@ -10,12 +10,12 @@ class StepRegistry(object):
     def __init__(self):
         self._steps = {}
 
-    def register(self, regex, func):
-        self._steps[regex] = func
+    def register(self, regex, func, metric_indicators):
+        self._steps[regex] = { "func": func, "metric_indicators": metric_indicators }
 
     def find(self, sentence):
-        for regex, func in self._steps.items():
+        for regex, data in self._steps.items():
             match = re.search(regex, sentence)
             if match:
-                return match, func
-        return None, None
+                return match, data["func"], data["metric_indicators"]
+        return None, None, None

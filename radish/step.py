@@ -21,6 +21,7 @@ class Step(object):
         self._filename = filename
         self._line_no = line_no
         self._function = None
+        self._metric_indicators = None
         self._match = None
         self._passed = None
         self._fail_reason = None
@@ -67,6 +68,12 @@ class Step(object):
 
     def set_function(self, function):
         self._function = function
+
+    def get_metric_indicators(self):
+        return self._metric_indicators
+
+    def set_metric_indicators(self, metric_indicators):
+        self._metric_indicators = metric_indicators
 
     def get_match(self):
         return self._match

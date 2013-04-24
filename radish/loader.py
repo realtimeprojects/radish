@@ -47,9 +47,10 @@ class Loader(object):
         for feature in self._features:
             for scenario in feature.get_scenarios():
                 for step in scenario.get_steps():
-                    match, func = sr.find(step.get_sentence())
+                    match, func, metric_indicators = sr.find(step.get_sentence())
                     if match and func:
                         step.set_function(func)
                         step.set_match(match)
+                        step.set_metric_indicators(metric_indicators)
                     else:
                         raise StepDefinitionNotFoundError(step.get_sentence())

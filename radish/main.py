@@ -74,6 +74,12 @@ def main():
         action="store_true",
         help="Do not print skipped steps"
     )
+    parser.add_option(
+        "--show-metric",
+        dest="show_metric",
+        action="store_true",
+        help="Show metric of given feature files"
+    )
 
     options, args = parser.parse_args()
 
@@ -92,6 +98,7 @@ def main():
         cf.with_traceback = options.with_traceback
         cf.no_duration = options.no_duration
         cf.no_skipped_steps = options.no_skipped_steps
+        cf.show_metric = options.show_metric
 
         # parse feature files
         fp = radish.FeatureParser()
@@ -101,16 +108,27 @@ def main():
         loader = radish.Loader(fp.get_features())
         loader.load()
 
-        # run the features
-        runner = radish.Runner(fp.get_features())
-        endResult = runner.run()
+        if cf.show_metric:  # just get metrics of feature files
+            ur = radish.UtilRegistry()
+            if ur.has_util("show_metric"):
+                metric = radish.Metric(fp.get_features())
+                try:
+                    return ur.call_util("show_metric", metric.calculate())
+                except KeyboardInterrupt:
+                    pass
+            else:
+                raise radish.NoMetricUtilFoundError()
+        else:  # normal run
+            # run the features
+            runner = radish.Runner(fp.get_features())
+            endResult = runner.run()
 
-        # report writer
-        if cf.xunit_file:
-            rw = radish.ReportWriter(endResult)
-            rw.write()
+            # report writer
+            if cf.xunit_file:
+                rw = radish.ReportWriter(endResult)
+                rw.write()
 
-        exitCode = 0 if endResult.have_all_passed() else 1
+            exitCode = 0 if endResult.have_all_passed() else 1
     except radish.RadishError, e:
         print("%s %s" % (radish.colorful.bold_red("radish error:"), e))
         exitCode = 2

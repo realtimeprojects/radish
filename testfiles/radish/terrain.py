@@ -1,4 +1,4 @@
-from radish import before, after
+from radish import before, after, utils
 
 @before.all
 def before_all( ):
@@ -39,6 +39,10 @@ def bestep( step ):
 def aestep( step ):
   #print "After step: " + step.sentence
   pass
+
+@utils("show_metric")
+def show_metric( metric ):
+    print metric
 
 #@utils( "split_sentence" )
 #def util_split_sentence( sentence ):
