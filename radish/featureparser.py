@@ -21,6 +21,10 @@ class FeatureParser(object):
                 self._feature_files.extend(fsh.locate(f, "*.feature"))
             else:
                 self._feature_files.append(f)
+        self._comment_pattern = re.compile("^[\s]*?#")
+        self._feature_pattern = re.compile("Feature: ?(.*)$")
+        self._scenario_pattern = re.compile("Scenario: ?(.*)$")
+        self._loop_modifier_pattern = re.compile("run (\d+) times")
 
     def get_features(self):
         return self._features
@@ -48,15 +52,14 @@ class FeatureParser(object):
         step_id = 0
         line_no = 0
 
-        # FIXME: compile regex patterns
         f = open(feature_file, "r")
         for l in f.readlines():
             line_no += 1
-            if not l.strip() or re.search("^[\s]*?#", l):
+            if not l.strip() or self._comment_pattern.search(l):
                 continue
 
-            feature_match = re.search("Feature: ?(.*)$", l)
-            scenario_match = re.search("Scenario: ?(.*)$", l)
+            feature_match = self._feature_pattern.search(l)
+            scenario_match = self._scenario_pattern.search(l)
 
             if feature_match:  # create new feature
                 if scenario_loop:
@@ -120,11 +123,11 @@ class FeatureParser(object):
         modifiers = {"loop": None}
         while sentence_parts:
             p = sentence_parts.pop(0)
-            loop_match = re.search("run (\d+) times", p)
+            loop_match = self._loop_modifier_pattern.search(p)
             if loop_match:
                 modifiers["loop"] = (True, int(loop_match.group(1)) - 1, sentence)
         if modifiers["loop"]:
-            sentence += " | run %d times => run 1" % (modifiers["loop"][1] + 1)
+            sentence += " | run 1 of %d" % (modifiers["loop"][1] + 1)
         else:
             sentence = orig_sentence
         return sentence, modifiers
@@ -133,7 +136,7 @@ class FeatureParser(object):
         feature = features[-1]
         for i in range(times):
             self._feature_id += 1
-            new_sentence = sentence + " | run %d" % (i + 2)
+            new_sentence = sentence + " | run %d of %d" % (i + 2, times + 1)
             new_feature = copy.deepcopy(feature)
             new_feature.set_id(self._feature_id)
             new_feature.set_sentence(new_sentence)
@@ -147,7 +150,7 @@ class FeatureParser(object):
             last_scenario_id += 1
             new_scenario = copy.deepcopy(scenario)
             new_scenario.set_id(last_scenario_id)
-            new_scenario.set_sentence(sentence + " | run %d" % (i + 2))
+            new_scenario.set_sentence(sentence + " | run %d of %d" % (i + 2, times + 1))
             features[-1].append_scenario(new_scenario)
             if last_scenario_id > Config().highest_scenario_id:
                 Config().highest_scenario_id = last_scenario_id
