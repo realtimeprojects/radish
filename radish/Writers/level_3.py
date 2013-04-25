@@ -36,7 +36,7 @@ def print_before_step(step):
 @after.each_step
 def print_after_step(step):
     if not step.is_dry_run():
-        if step.has_passed() is None and Config( ).no_skipped_steps:
+        if step.has_passed() is None and Config().no_skipped_steps:
             return
 
         splitted = step.get_sentence_splitted()

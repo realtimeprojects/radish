@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 
+
 class Metric(object):
     def __init__(self, features):
         self._features = features

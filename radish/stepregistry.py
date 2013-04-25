@@ -11,7 +11,7 @@ class StepRegistry(object):
         self._steps = {}
 
     def register(self, regex, func, metric_indicators):
-        self._steps[regex] = { "func": func, "metric_indicators": metric_indicators }
+        self._steps[regex] = {"func": func, "metric_indicators": metric_indicators}
 
     def find(self, sentence):
         for regex, data in self._steps.items():
