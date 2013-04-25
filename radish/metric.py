@@ -10,9 +10,10 @@ class Metric(object):
         for feature in self._features:
             for scenario in feature.get_scenarios():
                 for step in scenario.get_steps():
-                    for indicator in step.get_metric_indicators():
-                        try:
-                            metric[indicator] += 1
-                        except KeyError:
-                            metric[indicator] = 1
+                    if step.get_metric_indicators():
+                        for indicator in step.get_metric_indicators():
+                            try:
+                                metric[indicator] += 1
+                            except KeyError:
+                                metric[indicator] = 1
         return metric

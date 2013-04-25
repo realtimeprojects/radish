@@ -113,7 +113,7 @@ def main():
             if ur.has_util("show_metric"):
                 metric = radish.Metric(fp.get_features())
                 try:
-                    return ur.call_util("show_metric", metric.calculate())
+                    return ur.call_util("show_metric", fp.get_features(), metric.calculate())
                 except KeyboardInterrupt:
                     pass
             else:

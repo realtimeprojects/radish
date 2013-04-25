@@ -41,7 +41,8 @@ def aestep( step ):
   pass
 
 @utils("show_metric")
-def show_metric( metric ):
+def show_metric( features, metric ):
+    print features
     print metric
 
 #@utils( "split_sentence" )
