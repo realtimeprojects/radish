@@ -1,5 +1,5 @@
 Feature: Compute factorial
-    In order to play with Lettuce
+    In order to play with radish
     As beginners
     We'll implement factorial
 
