@@ -18,11 +18,17 @@ class Feature(object):
     def get_id(self):
         return self._id
 
+    def set_id(self, id):
+        self._id = id
+
     def get_line_no(self):
         return self._line_no
 
     def get_sentence(self):
         return self._sentence
+
+    def set_sentence(self, sentence):
+        self._sentence = sentence
 
     def get_filename(self):
         return self._filename
@@ -44,6 +50,12 @@ class Feature(object):
 
     def get_scenarios(self):
         return self._scenarios
+
+    def get_scenario(self, id):
+        for s in self._scenarios:
+            if s.get_id() == id:
+                return s
+        return None
 
     def has_passed(self):
         for s in self._scenarios:

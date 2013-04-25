@@ -2,6 +2,7 @@
 
 import os
 import re
+import copy
 
 from radish.config import Config
 from radish.feature import Feature
@@ -41,7 +42,9 @@ class FeatureParser(object):
 
         features = []
         in_feature = False
+        feature_loop = None
         scenario_id = 0
+        scenario_loop = None
         step_id = 0
         line_no = 0
 
@@ -56,17 +59,37 @@ class FeatureParser(object):
             scenario_match = re.search("Scenario: ?(.*)$", l)
 
             if feature_match:  # create new feature
+                if scenario_loop:
+                    self._repeat_scenario(scenario_loop[1], scenario_loop[2], features, scenario_id)
+                scenario_loop = None
+
+                if feature_loop:
+                    self._repeat_feature(feature_loop[1], feature_loop[2], features)
+                feature_loop = None
+
                 in_feature = True
                 self._feature_id += 1
                 scenario_id = 0
-                features.append(Feature(self._feature_id, feature_match.group(1), feature_file, line_no))
+
+                sentence, modifiers = self._get_sentence_modifiers(feature_match.group(1))
+                feature_loop = modifiers["loop"]
+
+                features.append(Feature(self._feature_id, sentence, feature_file, line_no))
                 if len(feature_match.group(1)) > Config().longest_feature_text:
                     Config().longest_feature_text = len(feature_match.group(1))
             elif scenario_match:  # create new scenario
+                if scenario_loop:
+                    scenario_id = self._repeat_scenario(scenario_loop[1], scenario_loop[2], features, scenario_id)
+                scenario_loop = None
+
                 in_feature = False
                 scenario_id += 1
                 step_id = 0
-                features[-1].append_scenario(Scenario(scenario_id, self._feature_id, scenario_match.group(1), feature_file, line_no))
+
+                sentence, modifiers = self._get_sentence_modifiers(scenario_match.group(1))
+                scenario_loop = modifiers["loop"]
+
+                features[-1].append_scenario(Scenario(scenario_id, self._feature_id, sentence, feature_file, line_no))
                 if scenario_id > Config().highest_scenario_id:
                     Config().highest_scenario_id = scenario_id
             else:  # create new step or append feature description line
@@ -81,5 +104,51 @@ class FeatureParser(object):
                     if len(line) + 2 > Config().longest_feature_text:
                         Config().longest_feature_text = len(line) + 2
 
+        if scenario_loop:
+            self._repeat_scenario(scenario_loop[1], scenario_loop[2], features, scenario_id)
+
+        if feature_loop:
+            self._repeat_feature(feature_loop[1], feature_loop[2], features)
+
         f.close()
         return features
+
+    def _get_sentence_modifiers(self, sentence):
+        orig_sentence = sentence
+        sentence_parts = [p.strip() for p in orig_sentence.split("|")]
+        sentence = sentence_parts.pop(0)
+        modifiers = {"loop": None}
+        while sentence_parts:
+            p = sentence_parts.pop(0)
+            loop_match = re.search("run (\d+) times", p)
+            if loop_match:
+                modifiers["loop"] = (True, int(loop_match.group(1)) - 1, sentence)
+        if modifiers["loop"]:
+            sentence += " | run %d times => run 1" % (modifiers["loop"][1] + 1)
+        else:
+            sentence = orig_sentence
+        return sentence, modifiers
+
+    def _repeat_feature(self, times, sentence, features):
+        feature = features[-1]
+        for i in range(times):
+            self._feature_id += 1
+            new_sentence = sentence + " | run %d" % (i + 2)
+            new_feature = copy.deepcopy(feature)
+            new_feature.set_id(self._feature_id)
+            new_feature.set_sentence(new_sentence)
+            features.append(new_feature)
+            if len(new_sentence) > Config().longest_feature_text:
+                Config().longest_feature_text = len(new_sentence)
+
+    def _repeat_scenario(self, times, sentence, features, last_scenario_id):
+        scenario = features[-1].get_scenario(last_scenario_id)
+        for i in range(times):
+            last_scenario_id += 1
+            new_scenario = copy.deepcopy(scenario)
+            new_scenario.set_id(last_scenario_id)
+            new_scenario.set_sentence(sentence + " | run %d" % (i + 2))
+            features[-1].append_scenario(new_scenario)
+            if last_scenario_id > Config().highest_scenario_id:
+                Config().highest_scenario_id = last_scenario_id
+        return last_scenario_id

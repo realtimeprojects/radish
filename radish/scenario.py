@@ -16,6 +16,9 @@ class Scenario(object):
     def get_id(self):
         return self._id
 
+    def set_id(self, id):
+        self._id = id
+
     def get_feature_id(self):
         return self._feature_id
 
@@ -24,6 +27,9 @@ class Scenario(object):
 
     def get_sentence(self):
         return self._sentence
+
+    def set_sentence(self, sentence):
+        self._sentence = sentence
 
     def get_indentation(self):
         return "  " + " " * len(str(Config().highest_feature_id)) + "  "
