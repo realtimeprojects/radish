@@ -15,31 +15,36 @@ def print_before_feature(feature):
         for l in feature.get_description().splitlines():
             colorful.out.white(feature.get_indentation() + " " * len(str(Config().highest_feature_id)) + "  " + l)
         print("")
+        sys.stdout.flush()
 
 
 @before.each_scenario
 def print_before_scenario(scenario):
     if not scenario.is_dry_run():
         colorful.out.bold_white(scenario.get_indentation() + "%*d. %s" % (len(str(Config().highest_scenario_id)), scenario.get_id(), scenario.get_sentence()))
+        sys.stdout.flush()
 
 
 @after.each_scenario
 def print_after_scenario(scenario):
     if not scenario.is_dry_run():
         print("")
+        sys.stdout.flush()
 
 
 @before.each_step
 def print_before_step(step):
     if not step.is_dry_run():
         colorful.out.bold_brown(step.get_indentation() + "%*d. %s" % (len(str(Config().highest_step_id)), step.get_id(), step.get_sentence_splitted()[1]))
+        sys.stdout.flush()
 
 
 @after.each_step
 def print_after_step(step):
     if not step.is_dry_run():
         splitted = step.get_sentence_splitted()
-        sys.stdout.write("\033[A\033[K" * splitted[0])
+        if not Config().no_line_jump:
+            sys.stdout.write("\033[A\033[K" * splitted[0])
 
         if step.has_passed() is None and Config().no_skipped_steps:
             return
@@ -58,6 +63,7 @@ def print_after_step(step):
                     colorful.out.red(step.get_sentence_indentation() + l)
             else:
                 print(step.get_sentence_indentation() + colorful.red(step.get_fail_reason().get_name() + ": ") + colorful.bold_red(step.get_fail_reason().get_reason()))
+        sys.stdout.flush()
 
 
 @after.all
@@ -91,3 +97,4 @@ def print_after_all(endResult):
             for f in endResult.get_features():
                 duration += f.get_duration()
             colorful.out.cyan("(finished within %d minutes and %.2f seconds)" % (duration / 60, float(duration) % 60.0))
+        sys.stdout.flush()

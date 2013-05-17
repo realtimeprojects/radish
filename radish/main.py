@@ -27,12 +27,6 @@ def main():
         help="If one feature file fails this option will stop the execution"
     )
     parser.add_option(
-        "-v", "--verbosity",
-        dest="verbosity",
-        default=4,
-        help="The verbosity level for the output"
-    )
-    parser.add_option(
         "-m", "--marker",
         dest="marker",
         default=int(time.time()),
@@ -80,6 +74,18 @@ def main():
         action="store_true",
         help="Show metrics of given feature files"
     )
+    parser.add_option(
+        "--no-colors",
+        dest="no_colors",
+        action="store_true",
+        help="Do not print in colors"
+    )
+    parser.add_option(
+        "--no-line-jump",
+        dest="no_line_jump",
+        action="store_true",
+        help="Do not jump up lines to rewrite in another color"
+    )
 
     options, args = parser.parse_args()
 
@@ -90,7 +96,6 @@ def main():
         cf.SetBasedir(radish.FileSystemHelper.expand(options.basedir))
         cf.feature_files = args
         cf.abort_fail = options.abort_fail
-        cf.verbosity = options.verbosity
         cf.marker = options.marker
         cf.dry_run = options.dry_run
         cf.xunit_file = options.xunit_file
@@ -99,6 +104,8 @@ def main():
         cf.no_duration = options.no_duration
         cf.no_skipped_steps = options.no_skipped_steps
         cf.show_metrics = options.show_metrics
+        cf.no_colors = options.no_colors
+        cf.no_line_jump = options.no_line_jump
 
         # parse feature files
         fp = radish.FeatureParser()

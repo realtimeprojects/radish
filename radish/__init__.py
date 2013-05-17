@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 
 from radish.singleton import singleton
+from radish.config import *
 from radish.featureparser import *
 from radish.feature import *
 from radish.scenario import *
@@ -18,3 +19,4 @@ from radish.endresult import *
 from radish.exceptions import *
 from radish.reportwriter import *
 from radish.metrics import *
+from radish.writer import *

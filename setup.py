@@ -11,7 +11,7 @@ setup(
     author_email="tuxtimo@gmail.com",
     url="http://github.com/timofurrer/radish",
     package_dir={"radish.singleton": "radish/pysingleton/singleton"},
-    packages=["radish", "radish.Writers", "radish.singleton"],
+    packages=["radish", "radish.singleton"],
     entry_points={"console_scripts": ["radish = radish.main:main"]},
     package_data={"radish": ["*.md"]}
 )

@@ -1,5 +1,9 @@
 # -*- coding: utf-8 -*-
 
+import sys
+
+import radish
+
 try:
     from colorama import init as init_ansi_colors_on_windows
     init_ansi_colors_on_windows()
@@ -106,17 +110,27 @@ class ColorfulParser:
 
 
 class ColorfulMeta(type):
+    colors = True
+
     class _ColorfulOut(type):
         def __getattr__(cls, attr):
             def decorated_text(text):
-                print(ColorfulParser.parse_attr(attr) % (text))
+                output = text
+                if not radish.Config().no_colors:
+                    output = ColorfulParser.parse_attr(attr) % (text)
+
+                print(output)
+                sys.stdout.flush()
             return decorated_text
 
     out = _ColorfulOut("out", (object, ), {})
 
     def __getattr__(cls, attr):
         def decorated_text(text):
-            return ColorfulParser.parse_attr(attr) % (text)
+            output = text
+            if not radish.Config().no_colors:
+                output = ColorfulParser.parse_attr(attr) % (text)
+            return output
         return decorated_text
 
 colorful = ColorfulMeta("cf", (object, ), {})

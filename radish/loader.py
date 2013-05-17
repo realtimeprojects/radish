@@ -15,7 +15,6 @@ class Loader(object):
     def load(self):
         self._load_terrain()
         self._load_step_definitions()
-        self._load_writer()
         self._load_logger()
 
     def _load_terrain(self):
@@ -27,16 +26,6 @@ class Loader(object):
 
         fsh.import_module(Config().basedir, "steps.py")
         self._merge_steps_with_definitions()
-
-    def _load_writer(self):
-        if not fsh.locate(Config().basedir, "writer.py"):
-            level = int(Config().verbosity)
-            try:
-                fsh.import_module(os.path.join(os.path.dirname(os.path.abspath(__file__)), "Writers"), "level_%d.py" % level, no_modules_error=True)
-            except ImportError:
-                raise WriterNotFoundError(level)
-        else:
-            fsh.import_module(Config().basedir, "writer.py")
 
     def _load_logger(self):
         if fsh.locate(Config().basedir, "logger.py"):
