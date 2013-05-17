@@ -1,12 +1,12 @@
 # radish
 > `radish` is a "Behavior-Driven Developement"-Tool written in python
-> Version: 0.01.03
+> Version: 0.01.04
 
 ***
 
 **Author:** Timo Furrer <tuxtimo@gmail.com><br />
 **License:** GPL<br />
-**Version:** 0.01.03<br />
+**Version:** 0.01.04<br />
 
 ## What is `radish` ?
 `radish` is a "Behavior-Driven Developement"-Tool written in python.<br />

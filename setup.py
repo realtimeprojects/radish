@@ -5,7 +5,7 @@ from setuptools import setup
 
 setup(
     name="radish-bdd",
-    version="0.01.03",
+    version="0.01.04",
     description="Behaviour-Driven-Development tool for python",
     author="Timo Furrer",
     author_email="tuxtimo@gmail.com",
