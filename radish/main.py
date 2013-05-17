@@ -57,6 +57,18 @@ def main():
         help="Print traceback if a step fails"
     )
     parser.add_option(
+        "--no-colors",
+        dest="no_colors",
+        action="store_true",
+        help="Do not print in colors"
+    )
+    parser.add_option(
+        "--no-line-jump",
+        dest="no_line_jump",
+        action="store_true",
+        help="Do not jump up lines to rewrite in another color"
+    )
+    parser.add_option(
         "--no-duration",
         dest="no_duration",
         action="store_true",
@@ -74,18 +86,6 @@ def main():
         action="store_true",
         help="Show metrics of given feature files"
     )
-    parser.add_option(
-        "--no-colors",
-        dest="no_colors",
-        action="store_true",
-        help="Do not print in colors"
-    )
-    parser.add_option(
-        "--no-line-jump",
-        dest="no_line_jump",
-        action="store_true",
-        help="Do not jump up lines to rewrite in another color"
-    )
 
     options, args = parser.parse_args()
 
@@ -101,11 +101,11 @@ def main():
         cf.xunit_file = options.xunit_file
         cf.profile = options.profile
         cf.with_traceback = options.with_traceback
+        cf.no_colors = options.no_colors
+        cf.no_line_jump = options.no_line_jump
         cf.no_duration = options.no_duration
         cf.no_skipped_steps = options.no_skipped_steps
         cf.show_metrics = options.show_metrics
-        cf.no_colors = options.no_colors
-        cf.no_line_jump = options.no_line_jump
 
         # parse feature files
         fp = radish.FeatureParser()
