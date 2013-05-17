@@ -75,10 +75,10 @@ def main():
         help="Do not print skipped steps"
     )
     parser.add_option(
-        "--show-metric",
-        dest="show_metric",
+        "--show-metrics",
+        dest="show_metrics",
         action="store_true",
-        help="Show metric of given feature files"
+        help="Show metrics of given feature files"
     )
 
     options, args = parser.parse_args()
@@ -98,7 +98,7 @@ def main():
         cf.with_traceback = options.with_traceback
         cf.no_duration = options.no_duration
         cf.no_skipped_steps = options.no_skipped_steps
-        cf.show_metric = options.show_metric
+        cf.show_metrics = options.show_metrics
 
         # parse feature files
         fp = radish.FeatureParser()
@@ -108,12 +108,12 @@ def main():
         loader = radish.Loader(fp.get_features())
         loader.load()
 
-        if cf.show_metric:  # just get metrics of feature files
+        if cf.show_metrics:  # just get metrics of feature files
             ur = radish.UtilRegistry()
-            if ur.has_util("show_metric"):
-                metric = radish.Metric(fp.get_features())
+            if ur.has_util("show_metrics"):
+                metrics = radish.Metrics(fp.get_features())
                 try:
-                    return ur.call_util("show_metric", fp.get_features(), metric.calculate())
+                    return ur.call_util("show_metrics", fp.get_features(), metrics.calculate())
                 except KeyboardInterrupt:
                     pass
             else:

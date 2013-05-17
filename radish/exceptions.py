@@ -65,7 +65,7 @@ class WriterNotFoundError(RadishError):
 class NoMetricUtilFoundError(RadishError):
     """Raised if metric should be shown but no utils hook was found"""
     def __str__(self):
-        return colorful.red("Could not found util hook to show metric - implement: utils( \"show_metric\" )")
+        return colorful.red("Could not found util hook to show metric - implement: utils( \"show_metrics\" )")
 
 
 class ValidationError(RadishError):

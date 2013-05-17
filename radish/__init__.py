@@ -17,4 +17,4 @@ from radish.colorful import *
 from radish.endresult import *
 from radish.exceptions import *
 from radish.reportwriter import *
-from radish.metric import *
+from radish.metrics import *

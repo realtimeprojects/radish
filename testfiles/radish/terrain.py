@@ -40,10 +40,10 @@ def aestep( step ):
   #print "After step: " + step.sentence
   pass
 
-@utils("show_metric")
-def show_metric( features, metric ):
+@utils("show_metrics")
+def show_metrics( features, metrics ):
     print features
-    print metric
+    print metrics
 
 #@utils( "split_sentence" )
 #def util_split_sentence( sentence ):
