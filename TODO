@@ -1,9 +1,4 @@
-High Prio
-==================================================================================================================
-
-    * Maybe Ctrl+C has to be fixed
-
-Low Prio
-==================================================================================================================
-
-    * -
+    * Validation of feature files before parse
+    * Maybe use docopt module instead of optionparser or argparse
+    * Maybe use argcomplete to complete arguments
+    * step tables
