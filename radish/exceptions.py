@@ -7,6 +7,15 @@ class RadishError(Exception):
     pass
 
 
+class FeatureFileNotValidError(RadishError):
+    """Raised when a feature file could not be parsed"""
+    def __init__(self, feature_file):
+        self._feature_file = feature_file
+
+    def __str__(self):
+        return colorful.red("The feature file '%s' is not valid" % (self._feature_file))
+
+
 class StepLoadingError(RadishError):
     """Raised when a step decorator regex is not valid to compile"""
     def __init__(self, regex):

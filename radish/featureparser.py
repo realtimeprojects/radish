@@ -9,7 +9,7 @@ from radish.feature import Feature
 from radish.scenario import Scenario
 from radish.step import Step
 from radish.filesystemhelper import FileSystemHelper as fsh
-from radish.exceptions import FeatureFileNotFoundError
+from radish.exceptions import FeatureFileNotFoundError, FeatureFileNotValidError
 
 
 class FeatureParser(object):
@@ -37,7 +37,10 @@ class FeatureParser(object):
         conf.longest_feature_text = 0
         self._feature_id = 0
         for f in self._feature_files:
-            self._features.extend(self._parse_feature(f))
+            try:
+                self._features.extend(self._parse_feature(f))
+            except:
+                raise FeatureFileNotValidError(f)
         conf.highest_feature_id = self._feature_id
 
     def _parse_feature(self, feature_file):
