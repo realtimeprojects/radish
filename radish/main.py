@@ -93,6 +93,10 @@ def main():
     try:
         # initialize config object
         cf = radish.Config()
+        cf.no_colors = options.no_colors
+        cf.no_line_jump = options.no_line_jump
+        cf.no_duration = options.no_duration
+        cf.no_skipped_steps = options.no_skipped_steps
         cf.SetBasedir(radish.FileSystemHelper.expand(options.basedir))
         cf.feature_files = args
         cf.abort_fail = options.abort_fail
@@ -101,10 +105,6 @@ def main():
         cf.xunit_file = options.xunit_file
         cf.profile = options.profile
         cf.with_traceback = options.with_traceback
-        cf.no_colors = options.no_colors
-        cf.no_line_jump = options.no_line_jump
-        cf.no_duration = options.no_duration
-        cf.no_skipped_steps = options.no_skipped_steps
         cf.show_metrics = options.show_metrics
 
         # parse feature files
