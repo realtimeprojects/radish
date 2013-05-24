@@ -52,6 +52,8 @@ class Step(object):
             except KeyboardInterrupt:
                 pass
         splitted = [self._sentence[i:i + Step.CHARS_PER_LINE] for i in range(0, len(self._sentence), Step.CHARS_PER_LINE)]
+        if Config().no_indentation:
+            return len(splitted), "\n".join(splitted)
         return len(splitted), ("\n" + self.get_sentence_indentation()).join(splitted)
 
     def get_indentation(self):

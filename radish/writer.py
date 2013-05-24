@@ -11,16 +11,19 @@ from radish.filesystemhelper import FileSystemHelper as fsh
 @before.each_feature
 def print_before_feature(feature):
     if not feature.is_dry_run():
-        sys.stdout.write(feature.get_indentation())
+        if not Config().no_indentation:
+            sys.stdout.write(feature.get_indentation())
         if not Config().no_numbers:
-            sys.stdout.write(colorful.bold_white("%*d. " % (len(str(Config().highest_feature_id)), feature.get_id())))
+            sys.stdout.write(colorful.bold_white("%*d. " % (0 if Config().no_indentation else len(str(Config().highest_feature_id)), feature.get_id())))
         if Config().with_section_names:
             sys.stdout.write(colorful.bold_white("Feature: "))
         sys.stdout.write(colorful.bold_white(feature.get_sentence() + " " * (Config().longest_feature_text - len(feature.get_sentence()))))
         sys.stdout.write(" " * 10 + colorful.bold_black("# " + fsh.filename(feature.get_filename())))
         sys.stdout.write("\n")
         for l in feature.get_description().splitlines():
-            colorful.out.white(feature.get_indentation() + " " * len(str(Config().highest_feature_id)) + "  " + l)
+            if not Config().no_indentation:
+                sys.stdout.write(feature.get_indentation() + " " * len(str(Config().highest_feature_id)) + "  ")
+            colorful.out.white(l)
         sys.stdout.write("\n")
         sys.stdout.flush()
 
@@ -28,9 +31,10 @@ def print_before_feature(feature):
 @before.each_scenario
 def print_before_scenario(scenario):
     if not scenario.is_dry_run():
-        sys.stdout.write(scenario.get_indentation())
+        if not Config().no_indentation:
+            sys.stdout.write(scenario.get_indentation())
         if not Config().no_numbers:
-            sys.stdout.write(colorful.bold_white("%*d. " % (len(str(Config().highest_scenario_id)), scenario.get_id())))
+            sys.stdout.write(colorful.bold_white("%*d. " % (0 if Config().no_indentation else len(str(Config().highest_scenario_id)), scenario.get_id())))
         if Config().with_section_names:
             sys.stdout.write(colorful.bold_white("Scenario: "))
         sys.stdout.write(colorful.bold_white(scenario.get_sentence()))
@@ -48,9 +52,10 @@ def print_after_scenario(scenario):
 @before.each_step
 def print_before_step(step):
     if not step.is_dry_run():
-        sys.stdout.write(step.get_indentation())
+        if not Config().no_indentation:
+            sys.stdout.write(step.get_indentation())
         if not Config().no_numbers:
-            sys.stdout.write(colorful.bold_brown("%*d. " % (len(str(Config().highest_step_id)), step.get_id())))
+            sys.stdout.write(colorful.bold_brown("%*d. " % (0 if Config().no_indentation else len(str(Config().highest_step_id)), step.get_id())))
         sys.stdout.write(colorful.bold_brown(step.get_sentence_splitted()[1]))
         sys.stdout.write("\n")
         sys.stdout.flush()
@@ -73,18 +78,23 @@ def print_after_step(step):
         elif step.has_passed() is None:
             color_fn = colorful.cyan
 
-        sys.stdout.write(step.get_indentation())
+        if not Config().no_indentation:
+            sys.stdout.write(step.get_indentation())
         if not Config().no_numbers:
-            sys.stdout.write(color_fn("%*d. " % (len(str(Config().highest_step_id)), step.get_id())))
+            sys.stdout.write(color_fn("%*d. " % (0 if Config().no_indentation else len(str(Config().highest_step_id)), step.get_id())))
         sys.stdout.write(color_fn(splitted[1]))
         sys.stdout.write("\n")
 
         if step.has_passed() is False:
             if Config().with_traceback:
                 for l in step.get_fail_reason().get_traceback().splitlines():
-                    colorful.out.red(step.get_sentence_indentation() + l)
+                    if not Config().no_indentation:
+                        sys.stdout.write(step.get_sentence_indentation())
+                    colorful.out.red(l)
             else:
-                print(step.get_sentence_indentation() + colorful.red(step.get_fail_reason().get_name() + ": ") + colorful.bold_red(step.get_fail_reason().get_reason()))
+                if not Config().no_indentation:
+                    sys.stdout.write(step.get_sentence_indentation())
+                print(colorful.red(step.get_fail_reason().get_name() + ": ") + colorful.bold_red(step.get_fail_reason().get_reason()))
         sys.stdout.flush()
 
 

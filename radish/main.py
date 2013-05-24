@@ -87,6 +87,12 @@ def main():
         help="Do not print numbers before feature, scenario and step sentences"
     )
     parser.add_option(
+        "--no-indentation",
+        dest="no_indentation",
+        action="store_true",
+        help="Do not print any indentation before sentences"
+    )
+    parser.add_option(
         "--no-skipped-steps",
         dest="no_skipped_steps",
         action="store_true",
@@ -122,6 +128,7 @@ def main():
         cf.split_xunit = options.split_xunit
         cf.profile = options.profile
         cf.no_numbers = options.no_numbers
+        cf.no_indentation = options.no_indentation
         cf.no_duration = options.no_duration
         cf.no_skipped_steps = options.no_skipped_steps
         cf.with_section_names = options.with_section_names
