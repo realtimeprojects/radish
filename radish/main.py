@@ -158,7 +158,7 @@ def main():
 
             exitCode = 0 if endResult.have_all_passed() else 1
     except radish.RadishError, e:
-        print("%s %s" % (radish.colorful.bold_red("radish error:"), e))
+        sys.stderr.write("%s %s\n" % (radish.colorful.bold_red("radish error:"), e))
         exitCode = 2
 
     sys.exit(exitCode)
