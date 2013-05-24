@@ -11,31 +11,44 @@ from radish.filesystemhelper import FileSystemHelper as fsh
 @before.each_feature
 def print_before_feature(feature):
     if not feature.is_dry_run():
-        print(colorful.bold_white(feature.get_indentation() + "%*d. " % (len(str(Config().highest_feature_id)), feature.get_id()) + feature.get_sentence() + " " * (Config().longest_feature_text - len(feature.get_sentence()))) + " " * 10 + colorful.bold_black("# " + fsh.filename(feature.get_filename())))
+        sys.stdout.write(feature.get_indentation())
+        if not Config().no_numbers:
+            sys.stdout.write(colorful.bold_white("%*d. " % (len(str(Config().highest_feature_id)), feature.get_id())))
+        sys.stdout.write(colorful.bold_white(feature.get_sentence() + " " * (Config().longest_feature_text - len(feature.get_sentence()))))
+        sys.stdout.write(" " * 10 + colorful.bold_black("# " + fsh.filename(feature.get_filename())))
+        sys.stdout.write("\n")
         for l in feature.get_description().splitlines():
             colorful.out.white(feature.get_indentation() + " " * len(str(Config().highest_feature_id)) + "  " + l)
-        print("")
+        sys.stdout.write("\n")
         sys.stdout.flush()
 
 
 @before.each_scenario
 def print_before_scenario(scenario):
     if not scenario.is_dry_run():
-        colorful.out.bold_white(scenario.get_indentation() + "%*d. %s" % (len(str(Config().highest_scenario_id)), scenario.get_id(), scenario.get_sentence()))
+        sys.stdout.write(scenario.get_indentation())
+        if not Config().no_numbers:
+            sys.stdout.write(colorful.bold_white("%*d. " % (len(str(Config().highest_scenario_id)), scenario.get_id())))
+        sys.stdout.write(colorful.bold_white(scenario.get_sentence()))
+        sys.stdout.write("\n")
         sys.stdout.flush()
 
 
 @after.each_scenario
 def print_after_scenario(scenario):
     if not scenario.is_dry_run():
-        print("")
+        sys.stdout.write("\n")
         sys.stdout.flush()
 
 
 @before.each_step
 def print_before_step(step):
     if not step.is_dry_run():
-        colorful.out.bold_brown(step.get_indentation() + "%*d. %s" % (len(str(Config().highest_step_id)), step.get_id(), step.get_sentence_splitted()[1]))
+        sys.stdout.write(step.get_indentation())
+        if not Config().no_numbers:
+            sys.stdout.write(colorful.bold_brown("%*d. " % (len(str(Config().highest_step_id)), step.get_id())))
+        sys.stdout.write(colorful.bold_brown(step.get_sentence_splitted()[1]))
+        sys.stdout.write("\n")
         sys.stdout.flush()
 
 
@@ -50,12 +63,17 @@ def print_after_step(step):
             return
 
         if step.has_passed():
-            color_fn = colorful.out.bold_green
+            color_fn = colorful.bold_green
         elif step.has_passed() is False:
-            color_fn = colorful.out.bold_red
+            color_fn = colorful.bold_red
         elif step.has_passed() is None:
-            color_fn = colorful.out.cyan
-        color_fn(step.get_indentation() + "%*d. %s" % (len(str(Config().highest_step_id)), step.get_id(), splitted[1]))
+            color_fn = colorful.cyan
+
+        sys.stdout.write(step.get_indentation())
+        if not Config().no_numbers:
+            sys.stdout.write(color_fn("%*d. " % (len(str(Config().highest_step_id)), step.get_id())))
+        sys.stdout.write(color_fn(splitted[1]))
+        sys.stdout.write("\n")
 
         if step.has_passed() is False:
             if Config().with_traceback:

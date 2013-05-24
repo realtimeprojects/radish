@@ -45,6 +45,12 @@ def main():
         help="Location where to write to JUnit xml report file"
     )
     parser.add_option(
+        "--split-xunit",
+        dest="split_xunit",
+        action="store_true",
+        help="If you have specified the -x option this option will split the xunit xml file and create one file per feature file"
+    )
+    parser.add_option(
         "-p", "--profile",
         dest="profile",
         default=None,
@@ -75,6 +81,12 @@ def main():
         help="Do not print duration after execution"
     )
     parser.add_option(
+        "--no-numbers",
+        dest="no_numbers",
+        action="store_true",
+        help="Do not print numbers before feature, scenario and step sentences"
+    )
+    parser.add_option(
         "--no-skipped-steps",
         dest="no_skipped_steps",
         action="store_true",
@@ -95,15 +107,17 @@ def main():
         cf = radish.Config()
         cf.no_colors = options.no_colors
         cf.no_line_jump = options.no_line_jump
-        cf.no_duration = options.no_duration
-        cf.no_skipped_steps = options.no_skipped_steps
         cf.SetBasedir(radish.FileSystemHelper.expand(options.basedir))
         cf.feature_files = args
         cf.abort_fail = options.abort_fail
         cf.marker = options.marker
         cf.dry_run = options.dry_run
         cf.xunit_file = options.xunit_file
+        cf.split_xunit = options.split_xunit
         cf.profile = options.profile
+        cf.no_numbers = options.no_numbers
+        cf.no_duration = options.no_duration
+        cf.no_skipped_steps = options.no_skipped_steps
         cf.with_traceback = options.with_traceback
         cf.show_metrics = options.show_metrics
 
