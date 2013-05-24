@@ -93,6 +93,12 @@ def main():
         help="Do not print skipped steps"
     )
     parser.add_option(
+        "--with-section-names",
+        dest="with_section_names",
+        action="store_true",
+        help="print section name before feature and scenario sentences"
+    )
+    parser.add_option(
         "--show-metrics",
         dest="show_metrics",
         action="store_true",
@@ -118,6 +124,7 @@ def main():
         cf.no_numbers = options.no_numbers
         cf.no_duration = options.no_duration
         cf.no_skipped_steps = options.no_skipped_steps
+        cf.with_section_names = options.with_section_names
         cf.with_traceback = options.with_traceback
         cf.show_metrics = options.show_metrics
 

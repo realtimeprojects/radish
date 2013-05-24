@@ -14,6 +14,8 @@ def print_before_feature(feature):
         sys.stdout.write(feature.get_indentation())
         if not Config().no_numbers:
             sys.stdout.write(colorful.bold_white("%*d. " % (len(str(Config().highest_feature_id)), feature.get_id())))
+        if Config().with_section_names:
+            sys.stdout.write(colorful.bold_white("Feature: "))
         sys.stdout.write(colorful.bold_white(feature.get_sentence() + " " * (Config().longest_feature_text - len(feature.get_sentence()))))
         sys.stdout.write(" " * 10 + colorful.bold_black("# " + fsh.filename(feature.get_filename())))
         sys.stdout.write("\n")
@@ -29,6 +31,8 @@ def print_before_scenario(scenario):
         sys.stdout.write(scenario.get_indentation())
         if not Config().no_numbers:
             sys.stdout.write(colorful.bold_white("%*d. " % (len(str(Config().highest_scenario_id)), scenario.get_id())))
+        if Config().with_section_names:
+            sys.stdout.write(colorful.bold_white("Scenario: "))
         sys.stdout.write(colorful.bold_white(scenario.get_sentence()))
         sys.stdout.write("\n")
         sys.stdout.flush()
