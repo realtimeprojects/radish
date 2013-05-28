@@ -37,7 +37,7 @@ class ReportWriter(object):
                 for step in scenario.get_steps():
                     testcase = etree.Element(
                         "testcase",
-                        classname="%s.%s" % (feature.get_sentence(), scenario.get_sentence()),
+                        classname="%s/%s" % (feature.get_sentence(), scenario.get_sentence()),
                         name=step.get_sentence(),
                         time=str(step.get_duration())
                     )
