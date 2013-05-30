@@ -37,7 +37,7 @@ class ReportWriter(object):
                 for step in scenario.get_steps():
                     testcase = etree.Element(
                         "testcase",
-                        classname="%s/%s" % (feature.get_sentence(), scenario.get_sentence()),
+                        classname="%s/%s" % (self._escape_slash(feature.get_sentence()), self._escape_slash(scenario.get_sentence())),
                         name=step.get_sentence(),
                         time=str(step.get_duration())
                     )
@@ -57,3 +57,6 @@ class ReportWriter(object):
     def _strip_ansi_text(self, text):
         pattern = re.compile("(\\033\[\d+(?:;\d+)*m)")
         return pattern.sub("", text)
+
+    def _escape_slash(self, text):
+        return text.replace("/", "\/")
