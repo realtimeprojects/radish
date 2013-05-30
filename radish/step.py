@@ -13,10 +13,9 @@ from radish.exceptions import ValidationError
 class Step(object):
     CHARS_PER_LINE = 100
 
-    def __init__(self, id, scenario_id, feature_id, sentence, filename, line_no):
+    def __init__(self, id, scenario, sentence, filename, line_no):
         self._id = id
-        self._scenario_id = scenario_id
-        self._feature_id = feature_id
+        self._scenario = scenario
         self._sentence = sentence
         self._filename = filename
         self._line_no = line_no
@@ -32,11 +31,8 @@ class Step(object):
     def get_id(self):
         return self._id
 
-    def get_scenario_id(self):
-        return self._scenario_id
-
-    def get_feature_id(self):
-        return self._feature_id
+    def get_scenario(self):
+        return self._scenario
 
     def get_line_no(self):
         return self._line_no

@@ -5,9 +5,9 @@ from radish.step import Step
 
 
 class Scenario(object):
-    def __init__(self, id, feature_id, sentence, filename, line_no):
+    def __init__(self, id, feature, sentence, filename, line_no):
         self._id = id
-        self._feature_id = feature_id
+        self._feature = feature
         self._sentence = sentence
         self._filename = filename
         self._line_no = line_no
@@ -19,8 +19,8 @@ class Scenario(object):
     def set_id(self, id):
         self._id = id
 
-    def get_feature_id(self):
-        return self._feature_id
+    def get_feature(self):
+        return self._feature
 
     def get_line_no(self):
         return self._line_no

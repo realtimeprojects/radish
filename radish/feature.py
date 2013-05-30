@@ -52,6 +52,9 @@ class Feature(object):
         return self._scenarios
 
     def get_scenario(self, id):
+        if id == -1:
+            return self._scenarios[-1]
+
         for s in self._scenarios:
             if s.get_id() == id:
                 return s
