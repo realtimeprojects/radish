@@ -1,62 +1,61 @@
 # -*- coding: utf-8 -*-
 
-import re
+import os
 from datetime import datetime
 from lxml import etree
 
 from radish.config import Config
+from radish.filesystemhelper import FileSystemHelper as fsh
 
 
 class ReportWriter(object):
     REPORT_FILENAME = "radishtests.xml"
+    ONE_XUNIT = "radish.one_xunit"
 
     def __init__(self, endResult):
         self._endResult = endResult
 
-    def write(self):
-        doc = self._generate()
-        f = open(Config().xunit_file or ReportWriter.REPORT_FILENAME, "w")
-        f.write(etree.tostring(doc, pretty_print=True, xml_declaration=True, encoding="utf-8"))
-        f.close()
+    def generate(self):
+        outputs = {}
+        if Config().split_xunit:
+            for f in self._endResult.get_features():
+                filename = fsh.filename(f.get_filename(), with_extension=False)
+                path = os.path.join(Config().xunit_file, filename + ".xml")
+                if path not in outputs:
+                    outputs[path] = []
+                outputs[path].append(f)
+        else:
+            outputs[ReportWriter.ONE_XUNIT] = self._endResult.get_features()
 
-    def _generate(self):
-        testsuite = etree.Element(
-            "testsuite",
-            name="radish",
-            hostname="localhost",
-            tests=str(self._endResult.get_total_steps()),
-            errors="0",
-            failures=str(self._endResult.get_failed_steps()),
-            timestamp=datetime.now().strftime("%Y-%m-%dT%H:%M:%S")
-        )
+        for filename, features in outputs.iteritems():
+            if filename == ReportWriter.ONE_XUNIT:
+                filename = Config().xunit_file or ReportWriter.REPORT_FILENAME
 
-        total_duration = 0
+            testsuite = etree.Element(
+                "testsuite",
+                name="radish",
+                hostname="localhost",
+                tests="0",
+                errors="0",
+                failures="0",
+                timestamp=datetime.now().strftime("%Y-%m-%dT%H:%M:%S")
+            )
 
-        for feature in self._endResult.get_features():
-            for scenario in feature.get_scenarios():
-                for step in scenario.get_steps():
-                    testcase = etree.Element(
-                        "testcase",
-                        classname="%s/%s" % (self._escape_slash(feature.get_sentence()), self._escape_slash(scenario.get_sentence())),
-                        name=step.get_sentence(),
-                        time=str(step.get_duration())
-                    )
-                    if step.has_passed() is False:
-                        failure = etree.Element(
-                            "failure",
-                            type=step.get_fail_reason().get_name(),
-                            message=self._strip_ansi_text(step.get_fail_reason().get_reason())
-                        )
-                        failure.text = etree.CDATA(self._strip_ansi_text(step.get_fail_reason().get_traceback()))
-                        testcase.append(failure)
-                    testsuite.append(testcase)
-                    total_duration += (step.get_duration() if step.get_duration() > 0 else 0)
-        testsuite.attrib["time"] = str(total_duration)
-        return etree.ElementTree(testsuite)
+            total_steps = 0
+            failed_steps = 0
+            total_duration = 0
+            for f in features:
+                for s in f.get_scenarios():
+                    for step in s.get_steps():
+                        total_steps += 1
+                        d = step.get_duration()
+                        total_duration += d if d > 0 else 0
+                        if step.has_passed() is False:
+                            failed_steps += 1
+                        testsuite.append(step.get_report_as_xunit_tag())
+            testsuite.attrib["tests"] = str(total_steps)
+            testsuite.attrib["failures"] = str(failed_steps)
+            testsuite.attrib["time"] = str(total_duration)
 
-    def _strip_ansi_text(self, text):
-        pattern = re.compile("(\\033\[\d+(?:;\d+)*m)")
-        return pattern.sub("", text)
-
-    def _escape_slash(self, text):
-        return text.replace("/", "\/")
+            with open(filename, "w") as f:
+                f.write(etree.tostring(testsuite, pretty_print=True, xml_declaration=True, encoding="utf-8"))

@@ -4,6 +4,9 @@ import traceback
 import inspect
 import sys
 import datetime
+import re
+
+from lxml import etree
 
 from radish.config import Config
 from radish.utilregistry import UtilRegistry
@@ -133,3 +136,25 @@ class Step(object):
             sys.stderr.write("%s:%d: error: %s\n" % (self._filename, self._line_no, msg))
         else:
             raise ValidationError(msg)
+
+    def get_report_as_xunit_tag(self):
+        testcase = etree.Element(
+            "testcase",
+            classname="%s/%s" % (self._scenario.get_feature().get_sentence().replace("/", "\/"), self._scenario.get_sentence().replace("/", "\/")),
+            name=self._sentence,
+            time=str(self.get_duration())
+        )
+        if self._passed is False:
+            failure = etree.Element(
+                "failure",
+                type=self._fail_reason.get_name(),
+                message=self._strip_ansi_text(self._fail_reason.get_reason())
+            )
+            failure.text = etree.CDATA(self._strip_ansi_text(self._fail_reason.get_traceback()))
+            testcase.append(failure)
+        return testcase
+
+    # FIXME: register this methods somewhere as util
+    def _strip_ansi_text(self, text):
+        pattern = re.compile("(\\033\[\d+(?:;\d+)*m)")
+        return pattern.sub("", text)

@@ -48,7 +48,7 @@ def main():
         "--split-xunit",
         dest="split_xunit",
         action="store_true",
-        help="If you have specified the -x option this option will split the xunit xml file and create one file per feature file"
+        help="If you have specified the -x option this option will split the xunit xml file and create one file per feature file; the -x argument specifies the location"
     )
     parser.add_option(
         "-p", "--profile",
@@ -161,7 +161,7 @@ def main():
             # report writer
             if cf.xunit_file:
                 rw = radish.ReportWriter(endResult)
-                rw.write()
+                rw.generate()
 
             exitCode = 0 if endResult.have_all_passed() else 1
     except radish.RadishError, e:
