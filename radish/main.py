@@ -160,8 +160,8 @@ def main():
 
             # report writer
             if cf.xunit_file:
-                rw = radish.ReportWriter(endResult)
-                rw.generate()
+                xunit = radish.XunitWriter(endResult)
+                xunit.generate()
 
             exitCode = 0 if endResult.have_all_passed() else 1
     except radish.RadishError, e:

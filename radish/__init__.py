@@ -17,6 +17,6 @@ from radish.terrain import *
 from radish.colorful import *
 from radish.endresult import *
 from radish.exceptions import *
-from radish.reportwriter import *
+from radish.xunitwriter import *
 from radish.metrics import *
 from radish.writer import *

@@ -8,7 +8,7 @@ from radish.config import Config
 from radish.filesystemhelper import FileSystemHelper as fsh
 
 
-class ReportWriter(object):
+class XunitWriter(object):
     REPORT_FILENAME = "radishtests.xml"
     ONE_XUNIT = "radish.one_xunit"
 
@@ -25,11 +25,11 @@ class ReportWriter(object):
                     outputs[path] = []
                 outputs[path].append(f)
         else:
-            outputs[ReportWriter.ONE_XUNIT] = self._endResult.get_features()
+            outputs[XunitWriter.ONE_XUNIT] = self._endResult.get_features()
 
         for filename, features in outputs.iteritems():
-            if filename == ReportWriter.ONE_XUNIT:
-                filename = Config().xunit_file or ReportWriter.REPORT_FILENAME
+            if filename == XunitWriter.ONE_XUNIT:
+                filename = Config().xunit_file or XunitWriter.REPORT_FILENAME
 
             testsuite = etree.Element(
                 "testsuite",
