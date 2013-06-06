@@ -5,7 +5,7 @@ import os
 from radish.config import Config
 from radish.stepregistry import StepRegistry
 from radish.filesystemhelper import FileSystemHelper as fsh
-from radish.exceptions import StepDefinitionFileNotFoundError, StepDefinitionNotFoundError, WriterNotFoundError
+from radish.exceptions import StepDefinitionFileNotFoundError, StepDefinitionNotFoundError
 
 
 class Loader(object):
