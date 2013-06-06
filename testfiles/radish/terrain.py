@@ -1,8 +1,10 @@
-from radish import before, after, utils
+from radish import before, after, utils, world
 
 @before.all
 def before_all( ):
   #print "before_all"
+  world.object = object()
+  world.fail_after_times_count = 0
   pass
 
 @after.all

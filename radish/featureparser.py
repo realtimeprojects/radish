@@ -2,7 +2,7 @@
 
 import os
 import re
-import copy
+import pickle
 
 from radish.config import Config
 from radish.feature import Feature
@@ -139,24 +139,28 @@ class FeatureParser(object):
 
     def _repeat_feature(self, times, sentence, features):
         feature = features[-1]
+        pickle.dump(feature, open(".repeated_feature.p", "wb"))
         for i in range(times):
             self._feature_id += 1
             new_sentence = sentence + " | run %d of %d" % (i + 2, times + 1)
-            new_feature = copy.deepcopy(feature)
+            new_feature = pickle.load(open(".repeated_feature.p", "rb"))
             new_feature.set_id(self._feature_id)
             new_feature.set_sentence(new_sentence)
             features.append(new_feature)
             if len(new_sentence) > Config().longest_feature_text:
                 Config().longest_feature_text = len(new_sentence)
+        os.remove(".repeated_feature.p")
 
     def _repeat_scenario(self, times, sentence, features, last_scenario_id):
         scenario = features[-1].get_scenario(last_scenario_id)
+        pickle.dump(scenario, open(".repeated_scenario.p", "wb"))
         for i in range(times):
             last_scenario_id += 1
-            new_scenario = copy.deepcopy(scenario)
+            new_scenario = pickle.load(open(".repeated_scenario.p", "rb"))
             new_scenario.set_id(last_scenario_id)
             new_scenario.set_sentence(sentence + " | run %d of %d" % (i + 2, times + 1))
             features[-1].append_scenario(new_scenario)
             if last_scenario_id > Config().highest_scenario_id:
                 Config().highest_scenario_id = last_scenario_id
+        os.remove(".repeated_scenario.p")
         return last_scenario_id

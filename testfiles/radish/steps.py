@@ -36,6 +36,14 @@ def dfg(step, dfg):
     if not step.is_dry_run():
         sleep(1)
 
+@step(r'I fail after (\d+) times')
+def fail_after_times(step, times):
+    times = int(times)
+    if world.fail_after_times_count >= times:
+        assert False, "Sorry, but it's the %d time" % times
+    print world.fail_after_times_count
+    world.fail_after_times_count += 1
+
 
 def factorial(number):
     return -1
