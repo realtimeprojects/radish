@@ -108,6 +108,12 @@ class ColorfulParser:
 
         return modifiers + forecolor + backcolor + "%s" + cls._translate_to_ansi_decorator(cls._modifiers, "reset")
 
+    @classmethod
+    def encode(cls, string):
+        if isinstance(string, unicode):
+            string = string.encode("utf-8")
+        return string
+
 
 class ColorfulMeta(type):
     colors = True
@@ -119,7 +125,7 @@ class ColorfulMeta(type):
                 if not radish.Config().no_colors:
                     output = ColorfulParser.parse_attr(attr) % (text)
 
-                print(output)
+                print(ColorfulParser.encode(output))
                 sys.stdout.flush()
             return decorated_text
 
@@ -130,7 +136,7 @@ class ColorfulMeta(type):
             output = text
             if not radish.Config().no_colors:
                 output = ColorfulParser.parse_attr(attr) % (text)
-            return output
+            return ColorfulParser.encode(output)
         return decorated_text
 
 colorful = ColorfulMeta("cf", (object, ), {})

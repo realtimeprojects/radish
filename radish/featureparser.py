@@ -3,6 +3,7 @@
 import os
 import re
 import pickle
+import codecs
 
 from radish.config import Config
 from radish.feature import Feature
@@ -57,7 +58,7 @@ class FeatureParser(object):
         step_id = 0
         line_no = 0
 
-        f = open(feature_file, "r")
+        f = codecs.open(feature_file, "r", "utf-8")
         for l in f.readlines():
             line_no += 1
             if not l.strip() or self._comment_pattern.search(l):
