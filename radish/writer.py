@@ -109,10 +109,14 @@ def print_after_all(endResult):
         feature_text = green(str(endResult.get_passed_features()) + " passed")
         if endResult.get_failed_features() > 0:
             feature_text += white(", ") + red(str(endResult.get_failed_features()) + " failed")
+        if endResult.get_skipped_features() > 0:
+            feature_text += white(", ") + cyan(str(endResult.get_skipped_features()) + " skipped")
 
         scenario_text = green(str(endResult.get_passed_scenarios()) + " passed")
         if endResult.get_failed_scenarios() > 0:
             scenario_text += white(", ") + red(str(endResult.get_failed_scenarios()) + " failed")
+        if endResult.get_skipped_scenarios() > 0:
+            scenario_text += white(", ") + cyan(str(endResult.get_skipped_scenarios()) + " skipped")
 
         step_text = green(str(endResult.get_passed_steps()) + " passed")
         if endResult.get_failed_steps() > 0:

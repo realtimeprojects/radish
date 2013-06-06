@@ -61,10 +61,13 @@ class Feature(object):
         return None
 
     def has_passed(self):
+        skipped = True
         for s in self._scenarios:
-            if not s.has_passed():
+            if s.has_passed() is False:
                 return False
-        return True
+            elif s.has_passed():
+                skipped = False
+        return None if skipped else True
 
     def append_scenario(self, scenario):
         if isinstance(scenario, Scenario):

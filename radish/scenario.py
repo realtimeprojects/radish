@@ -47,10 +47,13 @@ class Scenario(object):
         return self._steps
 
     def has_passed(self):
+        skipped = True
         for s in self._steps:
-            if not s.has_passed():
+            if s.has_passed() is False:
                 return False
-        return True
+            elif s.has_passed():
+                skipped = False
+        return None if skipped else True
 
     def append_step(self, step):
         if isinstance(step, Step):
