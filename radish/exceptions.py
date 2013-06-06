@@ -27,11 +27,12 @@ class StepLoadingError(RadishError):
 
 class StepDefinitionNotFoundError(RadishError):
     """Raised when a step definition could not be found"""
-    def __init__(self, step_sentence):
+    def __init__(self, step_sentence, step_filename):
         self.step_sentence = step_sentence
+        self._step_filename = step_filename
 
     def __str__(self):
-        return colorful.red("The step definition for the step '%s' could not be found" % (self.step_sentence))
+        return colorful.red("The step definition for '%s' from file '%s' could not be found" % (self.step_sentence, self._step_filename))
 
 
 class FeatureFileNotFoundError(RadishError):

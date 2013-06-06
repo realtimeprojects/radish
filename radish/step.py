@@ -55,6 +55,9 @@ class Step(object):
             return len(splitted), "\n".join(splitted)
         return len(splitted), ("\n" + self.get_sentence_indentation()).join(splitted)
 
+    def get_filename(self):
+        return self._filename
+
     def get_indentation(self):
         return "  " + " " * (len(str(Config().highest_feature_id)) + len(str(Config().highest_scenario_id))) + "    "
 
