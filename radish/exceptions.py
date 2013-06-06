@@ -19,57 +19,57 @@ class FeatureFileNotValidError(RadishError):
 class StepLoadingError(RadishError):
     """Raised when a step decorator regex is not valid to compile"""
     def __init__(self, regex):
-        self.regex = regex
+        self._regex = regex
 
     def __str__(self):
-        return colorful.red("The step decorator regex '%s' is not valid to compile" % (self.regex))
+        return colorful.red("The step decorator regex '%s' is not valid to compile" % (self._regex))
 
 
 class StepDefinitionNotFoundError(RadishError):
     """Raised when a step definition could not be found"""
     def __init__(self, step_sentence, step_filename):
-        self.step_sentence = step_sentence
+        self._step_sentence = step_sentence
         self._step_filename = step_filename
 
     def __str__(self):
-        return colorful.red("The step definition for '%s' from file '%s' could not be found" % (self.step_sentence, self._step_filename))
+        return colorful.red("The step definition for '%s' from file '%s' could not be found" % (self._step_sentence, self._step_filename))
 
 
 class FeatureFileNotFoundError(RadishError):
     """Raised when a feature file could not be found"""
     def __init__(self, path):
-        self.path = path
+        self._path = path
 
     def __str__(self):
-        return colorful.red("The feature file '%s' could not be found" % (self.path))
+        return colorful.red("The feature file '%s' could not be found" % (self._path))
 
 
 class BasedirNotFoundError(RadishError):
     """Raised when the basedir could not be found"""
     def __init__(self, basedir):
-        self.basedir = basedir
+        self._basedir = basedir
 
     def __str__(self):
-        return colorful.red("The basedir '%s' could not be found" % (self.basedir))
+        return colorful.red("The basedir '%s' could not be found" % (self._basedir))
 
 
 class StepDefinitionFileNotFoundError(RadishError):
     """Raised when the step definition file could not be found"""
     def __init__(self, root, pattern):
-        self.root = root
-        self.pattern = pattern
+        self._root = root
+        self._pattern = pattern
 
     def __str__(self):
-        return colorful.red("The step definition file '%s' could not be found in the directory '%s'" % (self.pattern, self.root))
+        return colorful.red("The step definition file '%s' could not be found in the directory '%s'" % (self._pattern, self._root))
 
 
 class WriterNotFoundError(RadishError):
     """Raised when the writer could not be found"""
     def __init__(self, level):
-        self.level = level
+        self._level = level
 
     def __str__(self):
-        return colorful.red("The writer for verbosity level '%d' could not be found!" % self.level)
+        return colorful.red("The writer for verbosity level '%d' could not be found!" % self._level)
 
 
 class NoMetricUtilFoundError(RadishError):
@@ -81,7 +81,7 @@ class NoMetricUtilFoundError(RadishError):
 class ValidationError(RadishError):
     """Raised when a validation error occured during run"""
     def __init__(self, msg):
-        self.msg = msg
+        self._msg = msg
 
     def __str__(self):
-        return colorful.bold_red(self.msg)
+        return colorful.bold_red(self._msg)
