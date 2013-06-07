@@ -8,7 +8,6 @@ radish_version = load_source("version", "radish/version.py")
 
 setup(
     name="radish-bdd",
-    #version="0.01.08",
     version=radish_version.__version__,
     license="GPL",
     description="Behaviour-Driven-Development tool for python",
