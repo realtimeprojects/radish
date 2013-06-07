@@ -11,8 +11,9 @@ import optparse
 
 def main():
     parser = optparse.OptionParser(
-        description="radish is a smart 'Behavior Driven Developement'-Tool written in python",
-        epilog="(C) Copyright 2012 by Timo Furrer <tuxtimo@gmail.com>"
+        description="radish is a smart 'Behavior Driven Developement'-Tool written in python\nVersion: %s" % radish.version.__version__,
+        version=radish.version.__version__,
+        epilog="(C) Copyright 2013 by Timo Furrer <tuxtimo@gmail.com>"
     )
     parser.add_option(
         "-b", "--basedir",

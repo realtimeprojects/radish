@@ -20,3 +20,4 @@ from radish.exceptions import *
 from radish.xunitwriter import *
 from radish.metrics import *
 from radish.writer import *
+from radish.version import *
