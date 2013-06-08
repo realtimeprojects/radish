@@ -10,15 +10,15 @@
 
 ## <a name='TOC'>Table of contents</a>
 
-    1. [What is radish](#whatis)
-    1. [Installation](#installation)
-        1. [Simple installation with pip](#installation_pip)
-        1. [Manual installation from source](#installation_source)
-        1. [Update source installation](#installation_update)
-    1. [How to use?](#usage)
-    1. [Writing tests](#write_tests)
-    1. [Contribution](#contribution)
-    1. [Infos](#infos)
+  1. [What is radish](#whatis)
+  1. [Installation](#installation)
+    1. [Simple installation with pip](#installation_pip)
+    1. [Manual installation from source](#installation_source)
+  1. [Update source installation](#installation_update)
+  1. [How to use?](#usage)
+  1. [Writing tests](#write_tests)
+  1. [Contribution](#contribution)
+  1. [Infos](#infos)
 
 ## <a name='whatis'></a>What is `radish` ?
 `radish` is a "Behavior-Driven Developement"-Tool written in python.<br />
