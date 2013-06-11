@@ -155,6 +155,12 @@ class Step(object):
             )
             failure.text = etree.CDATA(self._strip_ansi_text(self._fail_reason.get_traceback()))
             testcase.append(failure)
+        elif self._passed is None:
+            skipped = etree.Element(
+                "skipped",
+                type="NormalSkip"
+            )
+            testcase.append(skipped)
         return testcase
 
     # FIXME: register this methods somewhere as util
