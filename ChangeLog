@@ -1,4 +1,4 @@
-radish (X.XX.XX)
+radish (0.01.10)
 
   * xunit output knows skipped steps
   * improved README
