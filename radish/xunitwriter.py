@@ -41,17 +41,14 @@ class XunitWriter(object):
                 timestamp=datetime.now().strftime("%Y-%m-%dT%H:%M:%S")
             )
 
-            total_duration = 0
             for f in features:
                 for s in f.get_scenarios():
                     for step in s.get_steps():
-                        d = step.get_duration()
-                        total_duration += d if d > 0 else 0
                         testsuite.append(step.get_report_as_xunit_tag())
             testsuite.attrib["tests"] = str(self._endResult.get_total_steps())
             testsuite.attrib["failures"] = str(self._endResult.get_failed_steps())
             testsuite.attrib["skipped"] = str(self._endResult.get_skipped_steps())
-            testsuite.attrib["time"] = str(total_duration)
+            testsuite.attrib["time"] = str(sum([f.get_duration() for f in features]))
 
             with open(filename, "w") as f:
                 f.write(etree.tostring(testsuite, pretty_print=True, xml_declaration=True, encoding="utf-8"))
