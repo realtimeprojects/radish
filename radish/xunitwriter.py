@@ -35,20 +35,19 @@ class XunitWriter(object):
                 "testsuite",
                 name="radish",
                 hostname="localhost",
-                tests="0",
+                time=str(sum([f.get_duration() for f in features])),
+                tests=str(self._endResult.get_total_steps()),
+                failures=str(self._endResult.get_failed_steps()),
+                skipped=str(self._endResult.get_skipped_steps()),
                 errors="0",
-                failures="0",
                 timestamp=datetime.now().strftime("%Y-%m-%dT%H:%M:%S")
             )
 
+            # append steps to testsuite
             for f in features:
                 for s in f.get_scenarios():
                     for step in s.get_steps():
                         testsuite.append(step.get_report_as_xunit_tag())
-            testsuite.attrib["tests"] = str(self._endResult.get_total_steps())
-            testsuite.attrib["failures"] = str(self._endResult.get_failed_steps())
-            testsuite.attrib["skipped"] = str(self._endResult.get_skipped_steps())
-            testsuite.attrib["time"] = str(sum([f.get_duration() for f in features]))
 
             with open(filename, "w") as f:
                 f.write(etree.tostring(testsuite, pretty_print=True, xml_declaration=True, encoding="utf-8"))
