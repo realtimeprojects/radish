@@ -1,3 +1,10 @@
+radish (0.01.11)
+
+  * test release
+
+  -- Timo Furrer <tuxtimo@gmail.com> Thu, 13 Jun 2013 14:12:10 +0200
+
+
 radish (0.01.10)
 
   * xunit output knows skipped steps
