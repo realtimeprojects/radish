@@ -8,140 +8,78 @@ import sys
 import time
 import optparse
 
+from docopt import docopt
+
 
 def main():
-    parser = optparse.OptionParser(
-        description="radish is a smart 'Behavior Driven Developement'-Tool written in python\nVersion: %s" % radish.version.__version__,
-        version=radish.version.__version__,
-        epilog="(C) Copyright 2013 by Timo Furrer <tuxtimo@gmail.com>"
-    )
-    parser.add_option(
-        "-b", "--basedir",
-        dest="basedir",
-        default=os.path.join(os.getcwd(), "radish"),
-        help="The basedir is used to locate the steps.py and terrain.py"
-    )
-    parser.add_option(
-        "-a", "--abort-fail",
-        dest="abort_fail",
-        action="store_true",
-        help="If one feature file fails this option will stop the execution"
-    )
-    parser.add_option(
-        "-m", "--marker",
-        dest="marker",
-        default=int(time.time()),
-        help="A specific marker for the step loggings"
-    )
-    parser.add_option(
-        "-d", "--dry-run",
-        dest="dry_run",
-        action="store_true",
-        help="Executes a dry run to validate steps"
-    )
-    parser.add_option(
-        "-x", "--xunit-file",
-        dest="xunit_file",
-        default=None,
-        help="Location where to write to JUnit xml report file"
-    )
-    parser.add_option(
-        "--split-xunit",
-        dest="split_xunit",
-        action="store_true",
-        help="If you have specified the -x option this option will split the xunit xml file and create one file per feature file; the -x argument specifies the location"
-    )
-    parser.add_option(
-        "-p", "--profile",
-        dest="profile",
-        default=None,
-        help="Define profile"
-    )
-    parser.add_option(
-        "-t", "--with-traceback",
-        dest="with_traceback",
-        action="store_true",
-        help="Print traceback if a step fails"
-    )
-    parser.add_option(
-        "--no-colors",
-        dest="no_colors",
-        action="store_true",
-        help="Do not print in colors"
-    )
-    parser.add_option(
-        "--no-line-jump",
-        dest="no_line_jump",
-        action="store_true",
-        help="Do not jump up lines to rewrite in another color"
-    )
-    parser.add_option(
-        "--no-overwrite",
-        dest="no_overwrite",
-        action="store_true",
-        help="Do not overwrite step. Step will always be in the color indicating that it's still executing, so recommended is combining with --no-colors"
-    )
-    parser.add_option(
-        "--no-duration",
-        dest="no_duration",
-        action="store_true",
-        help="Do not print duration after execution"
-    )
-    parser.add_option(
-        "--no-numbers",
-        dest="no_numbers",
-        action="store_true",
-        help="Do not print numbers before feature, scenario and step sentences"
-    )
-    parser.add_option(
-        "--no-indentation",
-        dest="no_indentation",
-        action="store_true",
-        help="Do not print any indentation before sentences"
-    )
-    parser.add_option(
-        "--no-skipped-steps",
-        dest="no_skipped_steps",
-        action="store_true",
-        help="Do not print skipped steps"
-    )
-    parser.add_option(
-        "--with-section-names",
-        dest="with_section_names",
-        action="store_true",
-        help="print section name before feature and scenario sentences"
-    )
-    parser.add_option(
-        "--show-metrics",
-        dest="show_metrics",
-        action="store_true",
-        help="Show metrics of given feature files"
-    )
+    """
+Usage:
+    radish (-b | --basedir <basedir> ) <features>... [-m | --marker] [-d | --dry-run]
+                                                     [-a | --abort-fail] [-p | --profile]
+                                                     [-t | --with-traceback]
+                                                     [-x=<output> | --xunit-file=<output> [--split-xunit]]
+                                                     [--no-colors] [--no-line-jump] [--no-overwrite]
+                                                     [--no-indentation] [--no-duration] [--no-numbers]
+                                                     [--no-skipped-steps] [--with-section-names]
+                                                     [--show-metrics]
+    radish (-h | --help)
+    radish (-v | --version)
 
-    options, args = parser.parse_args()
+Arguments:
+    features                             feature files to run
+
+Options:
+    -h --help                            show this screen
+    -v --version                         show version
+
+    -b --basedir                         set base dir from where the step.py and terrain.py will be loaded
+    -m --marker                          specific marker which you can use to implement some kind of logging delimitiers
+    -d --dry-run                         execute a dry run to validate steps
+    -a --abort-fail                      abort run if one step fails
+    -p --profile                         define porfile which you can use in your step implementation
+    -t --with-traceback                  print traceback if a step fails
+
+    -x=<output> --xunit-file=<output>    generate xunit file after run at specific location
+    --split-xunit                        split the xunit file into multiple files - one file per inputted feature file
+
+    --no-colors                          do not print in colors
+    --no-line-jump                       do not jump up lines to rewrite in another color
+    --no-overwrite                       do not overwrite step
+    --no-duration                        do not print duration after run
+    --no-numbers                         do not print numbers before feature, scenario and step sentences
+    --no-indentation                     do not print any indentation before sentences
+    --no-skipped-steps                   do not print skipped steps
+    --with-section-names                 print section name before feature and scenario sentences
+
+    --show-metrics                       show metrics of given feature files after run
+
+(C) Copyright 2013 by Timo Furrer <tuxtimo@gmail.com>"""
+
+    arguments = docopt("radish %s\n%s" % (radish.version.__version__, main.__doc__), version=radish.version.__version__)
 
     exitCode = 0
     try:
         # initialize config object
+        # FIXME: clean up config and arguments
         cf = radish.Config()
-        cf.no_colors = options.no_colors
-        cf.no_line_jump = options.no_line_jump
-        cf.SetBasedir(radish.FileSystemHelper.expand(options.basedir))
-        cf.feature_files = args
-        cf.abort_fail = options.abort_fail
-        cf.marker = options.marker
-        cf.dry_run = options.dry_run
-        cf.xunit_file = options.xunit_file
-        cf.split_xunit = options.split_xunit
-        cf.profile = options.profile
-        cf.no_numbers = options.no_numbers
-        cf.no_indentation = options.no_indentation
-        cf.no_overwrite = options.no_overwrite
-        cf.no_duration = options.no_duration
-        cf.no_skipped_steps = options.no_skipped_steps
-        cf.with_section_names = options.with_section_names
-        cf.with_traceback = options.with_traceback
-        cf.show_metrics = options.show_metrics
+        cf.no_colors = arguments["--no-colors"]
+        cf.no_line_jump = arguments["--no-line-jump"]
+        cf.SetBasedir(radish.FileSystemHelper.expand(arguments["<basedir>"]))
+        cf.feature_files = arguments["<features>"]
+        cf.abort_fail = arguments["--abort-fail"]
+        cf.marker = arguments["--marker"]
+        cf.dry_run = arguments["--dry-run"]
+        cf.xunit_file = arguments["--xunit-file"]
+        cf.split_xunit = arguments["--split-xunit"]
+        cf.profile = arguments["--profile"]
+        cf.no_numbers = arguments["--no-numbers"]
+        cf.no_indentation = arguments["--no-indentation"]
+        cf.no_overwrite = arguments["--no-overwrite"]
+        cf.no_duration = arguments["--no-duration"]
+        cf.no_skipped_steps = arguments["--no-skipped-steps"]
+        cf.with_section_names = arguments["--with-section-names"]
+        cf.with_traceback = arguments["--with-traceback"]
+        cf.show_metrics = arguments["--show-metrics"]
 
         # parse feature files
         fp = radish.FeatureParser()
@@ -177,6 +115,3 @@ def main():
         exitCode = 2
 
     sys.exit(exitCode)
-
-if __name__ == "__main__":
-    main()
