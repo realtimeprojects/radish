@@ -65,7 +65,7 @@ def print_before_step(step):
 def print_after_step(step):
     if not step.is_dry_run():
         splitted = step.get_sentence_splitted()
-        if not Config().no_line_jump:
+        if not Config().no_line_jump and not Config().no_overwrite:
             sys.stdout.write("\033[A\033[K" * splitted[0])
 
         if step.has_passed() is None and Config().no_skipped_steps:
@@ -78,12 +78,13 @@ def print_after_step(step):
         elif step.has_passed() is None:
             color_fn = colorful.cyan
 
-        if not Config().no_indentation:
-            sys.stdout.write(step.get_indentation())
-        if not Config().no_numbers:
-            sys.stdout.write(color_fn("%*d. " % (0 if Config().no_indentation else len(str(Config().highest_step_id)), step.get_id())))
-        sys.stdout.write(color_fn(splitted[1]))
-        sys.stdout.write("\n")
+        if not Config().no_overwrite:
+            if not Config().no_indentation:
+                sys.stdout.write(step.get_indentation())
+            if not Config().no_numbers:
+                sys.stdout.write(color_fn("%*d. " % (0 if Config().no_indentation else len(str(Config().highest_step_id)), step.get_id())))
+            sys.stdout.write(color_fn(splitted[1]))
+            sys.stdout.write("\n")
 
         if step.has_passed() is False:
             if Config().with_traceback:

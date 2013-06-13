@@ -76,6 +76,12 @@ def main():
         help="Do not jump up lines to rewrite in another color"
     )
     parser.add_option(
+        "--no-overwrite",
+        dest="no_overwrite",
+        action="store_true",
+        help="Do not overwrite step. Step will always be in the color indicating that it's still executing, so recommended is combining with --no-colors"
+    )
+    parser.add_option(
         "--no-duration",
         dest="no_duration",
         action="store_true",
@@ -130,6 +136,7 @@ def main():
         cf.profile = options.profile
         cf.no_numbers = options.no_numbers
         cf.no_indentation = options.no_indentation
+        cf.no_overwrite = options.no_overwrite
         cf.no_duration = options.no_duration
         cf.no_skipped_steps = options.no_skipped_steps
         cf.with_section_names = options.with_section_names
