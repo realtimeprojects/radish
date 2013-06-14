@@ -14,14 +14,16 @@ from docopt import docopt
 def main():
     """
 Usage:
-    radish (-b | --basedir <basedir> ) <features>... [-m=<marker> | --marker=<marker>] [-p=<profile> | --profile=<profile>]
-                                                     [-d | --dry-run] [-a | --abort-fail]
-                                                     [-t | --with-traceback]
-                                                     [-x=<output> | --xunit-file=<output> [--split-xunit]]
-                                                     [--no-colors] [--no-line-jump] [--no-overwrite]
-                                                     [--no-indentation] [--no-duration] [--no-numbers]
-                                                     [--no-skipped-steps] [--with-section-names]
-                                                     [--show-metrics]
+    radish <features>...
+           [-b=<basedir> | --basedir=<basedir>]
+           [-m=<marker> | --marker=<marker>] [-p=<profile> | --profile=<profile>]
+           [-d | --dry-run] [-a | --abort-fail]
+           [-t | --with-traceback]
+           [-x=<output> | --xunit-file=<output> [--split-xunit]]
+           [--no-colors] [--no-line-jump] [--no-overwrite]
+           [--no-indentation] [--no-duration] [--no-numbers]
+           [--no-skipped-steps] [--with-section-names]
+           [--show-metrics]
     radish (-h | --help)
     radish (-v | --version)
 
@@ -32,7 +34,7 @@ Options:
     -h --help                            show this screen
     -v --version                         show version
 
-    -b --basedir                         set base dir from where the step.py and terrain.py will be loaded
+    -b=<basedir> --basedir=<basedir>      set base dir from where the step.py and terrain.py will be loaded [default: $PWD/radish/]
     -m=<marker> --marker=<marker>        specific marker which you can use to implement some kind of logging delimitiers [default: time.time()]
     -d --dry-run                         execute a dry run to validate steps
     -a --abort-fail                      abort run if one step fails
@@ -64,7 +66,7 @@ Options:
         cf = radish.Config()
         cf.no_colors = arguments["--no-colors"]
         cf.no_line_jump = arguments["--no-line-jump"]
-        cf.SetBasedir(radish.FileSystemHelper.expand(arguments["<basedir>"]))
+        cf.SetBasedir(radish.FileSystemHelper.expand(os.path.join(os.getcwd(), "radish") if arguments["--basedir"] == "$PWD/radish/" else arguments["--basedir"]))
         cf.feature_files = arguments["<features>"]
         cf.abort_fail = arguments["--abort-fail"]
         cf.marker = time.time() if arguments["--marker"] == "time.time()" else arguments["--marker"]
