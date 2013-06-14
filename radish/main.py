@@ -14,8 +14,8 @@ from docopt import docopt
 def main():
     """
 Usage:
-    radish (-b | --basedir <basedir> ) <features>... [-m | --marker] [-d | --dry-run]
-                                                     [-a | --abort-fail] [-p | --profile]
+    radish (-b | --basedir <basedir> ) <features>... [-m=<marker> | --marker=<marker>] [-p=<profile> | --profile=<profile>]
+                                                     [-d | --dry-run] [-a | --abort-fail]
                                                      [-t | --with-traceback]
                                                      [-x=<output> | --xunit-file=<output> [--split-xunit]]
                                                      [--no-colors] [--no-line-jump] [--no-overwrite]
@@ -33,10 +33,10 @@ Options:
     -v --version                         show version
 
     -b --basedir                         set base dir from where the step.py and terrain.py will be loaded
-    -m --marker                          specific marker which you can use to implement some kind of logging delimitiers
+    -m=<marker> --marker=<marker>        specific marker which you can use to implement some kind of logging delimitiers [default: time.time()]
     -d --dry-run                         execute a dry run to validate steps
     -a --abort-fail                      abort run if one step fails
-    -p --profile                         define porfile which you can use in your step implementation
+    -p=<profile> --profile<profile>      define porfile which you can use in your step implementation
     -t --with-traceback                  print traceback if a step fails
 
     -x=<output> --xunit-file=<output>    generate xunit file after run at specific location
@@ -67,7 +67,7 @@ Options:
         cf.SetBasedir(radish.FileSystemHelper.expand(arguments["<basedir>"]))
         cf.feature_files = arguments["<features>"]
         cf.abort_fail = arguments["--abort-fail"]
-        cf.marker = arguments["--marker"]
+        cf.marker = time.time() if arguments["--marker"] == "time.time()" else arguments["--marker"]
         cf.dry_run = arguments["--dry-run"]
         cf.xunit_file = arguments["--xunit-file"]
         cf.split_xunit = arguments["--split-xunit"]
