@@ -18,6 +18,7 @@ setup(
     platforms=["Linux", "Windows", "MAC OS X"],
     url="http://github.com/timofurrer/radish",
     download_url="http://github.com/timofurrer/radish",
+    install_requires=["docopt==0.6.1", "lxml==3.2.1"],
     package_dir={"radish.singleton": "radish/pysingleton/singleton"},
     packages=["radish", "radish.singleton"],
     entry_points={"console_scripts": ["radish = radish.main:main"]},

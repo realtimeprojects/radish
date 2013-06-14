@@ -12,3 +12,6 @@ radish_bdd.egg-info/
 radishtests.xml
 
 README.rst
+
+# virutal env
+radish-env
