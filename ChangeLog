@@ -1,3 +1,11 @@
+radish (0.01.13)
+
+  * use docopt to parse sys arguments
+  * better help screen
+  * --split-xunit cannot be specified when --xunit-file is not given
+
+  -- Timo Furrer <tuxtimo@gmail.com> Fri, 14 Jun 2013 13:20:30 +0200
+
 radish (0.01.11)
 
   * --no-overwrite argument to not overwrite the steps
