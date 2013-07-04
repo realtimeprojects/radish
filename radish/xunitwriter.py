@@ -35,6 +35,7 @@ class XunitWriter(object):
                 "testsuite",
                 name="radish",
                 hostname="localhost",
+                id=unicode(Config().marker),
                 time=str(sum([f.get_duration() for f in features])),
                 tests=str(self._endResult.get_total_steps()),
                 failures=str(self._endResult.get_failed_steps()),

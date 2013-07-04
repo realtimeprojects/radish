@@ -143,6 +143,7 @@ class Step(object):
     def get_report_as_xunit_tag(self):
         testcase = etree.Element(
             "testcase",
+            id="%d.%d.%d" % (self._scenario.get_feature().get_id(), self._scenario.get_id(), self._id),
             classname="%s/%s" % (self._scenario.get_feature().get_sentence().replace("/", "\/"), self._scenario.get_sentence().replace("/", "\/")),
             name=self._sentence,
             time=str(self.get_duration())
