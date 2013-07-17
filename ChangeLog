@@ -1,3 +1,10 @@
+radish (0.01.15)
+
+  * fix profile argument
+  * exceptions in external hooks are now caught by the hook registery
+
+  -- Timo Furrer <tuxtimo@gmail.com> Wed, 17 Jul 2013 14:13:14 +0200
+
 radish (0.01.13)
 
   * use docopt to parse sys arguments
