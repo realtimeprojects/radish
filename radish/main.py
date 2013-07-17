@@ -34,11 +34,11 @@ Options:
     -h --help                            show this screen
     -v --version                         show version
 
-    -b=<basedir> --basedir=<basedir>      set base dir from where the step.py and terrain.py will be loaded [default: $PWD/radish/]
+    -b=<basedir> --basedir=<basedir>     set base dir from where the step.py and terrain.py will be loaded [default: $PWD/radish/]
     -m=<marker> --marker=<marker>        specific marker which you can use to implement some kind of logging delimitiers [default: time.time()]
     -d --dry-run                         execute a dry run to validate steps
     -a --abort-fail                      abort run if one step fails
-    -p=<profile> --profile<profile>      define porfile which you can use in your step implementation
+    -p=<profile> --profile=<profile>     define porfile which you can use in your step implementation
     -t --with-traceback                  print traceback if a step fails
 
     -x=<output> --xunit-file=<output>    generate xunit file after run at specific location
