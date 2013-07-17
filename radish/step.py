@@ -101,8 +101,11 @@ class Step(object):
         def __init__(self, e):
             self._exception = e
             self._reason = unicode(str(e), "utf-8")
-            self._traceback = traceback.format_exc(e)
+            self._traceback = traceback.format_exc()
             self._name = e.__class__.__name__
+            tr_infos = traceback.extract_tb(sys.exc_info()[2])[-1]
+            self._filename = tr_infos[0]
+            self._line_no = tr_infos[1]
 
         def get_reason(self):
             return self._reason
@@ -112,6 +115,12 @@ class Step(object):
 
         def get_name(self):
             return self._name
+
+        def get_filename(self):
+            return self._filename
+
+        def get_line_no(self):
+            return self._line_no
 
     def run(self):
         kw = self._match.groupdict()

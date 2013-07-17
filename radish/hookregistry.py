@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 
 from radish.singleton import singleton
+from radish.step import Step
 
 
 @singleton()
@@ -47,6 +48,9 @@ class HookRegistry(object):
                 h(*args, **kw)
             except KeyboardInterrupt:
                 continue
+            except Exception, e:
+                return Step.FailReason(e)
+        return None
 
 for what, name in HookRegistry.possible_hooks:
     HookRegistry.Hooker.add_hook(what, name)
