@@ -31,7 +31,7 @@ welcome any feedback!
 
         git clone https://github.com/timofurrer/radish.git ~/radish
 
-6. Follow the instructions at "Manual installation from source" from the [README.md].
+6. Follow the instructions at "Manual installation from source" from the [README.md](README.md).
 
 If everything went fine, you should now be able to use radish:
 
