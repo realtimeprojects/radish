@@ -13,7 +13,7 @@ welcome any feedback!
 
 ## Requisites
 
-    - Cygwin http://www.cygwin.com
+- Cygwin (http://www.cygwin.com)
 
 
 It is inspired by other `BDD`-Tools like `cucumber` or `lettuce`.<br />
