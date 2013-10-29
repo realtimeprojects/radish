@@ -6,7 +6,7 @@
 ## About this document
 
 In order to use radish on your Windows system, you find here a quick
-installation guide on how to get radish running on your windows system.
+installation guide on how to get radish running on it.
 
 There may are additional ways in how to get radish running on windows. We
 welcome any feedback!
@@ -31,7 +31,7 @@ welcome any feedback!
 
         git clone https://github.com/timofurrer/radish.git ~/radish
 
-6. Follow the instructions at "Manual installation from source" from the [README.md](README.md).
+6. Follow the instructions at "Manual installation from source" from the [README.md](https://github.com/timofurrer/radish#installation_source).
 
 If everything went fine, you should now be able to use radish:
 
