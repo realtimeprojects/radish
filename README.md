@@ -15,6 +15,7 @@
     1. [Simple installation with pip](#installation_pip)
     1. [Manual installation from source](#installation_source)
     1. [Update source installation](#installation_update)
+    1. [Install on Windows](WINDOWS_INSTALLATION_GUIDE.md)
   1. [How to use?](#usage)
   1. [Writing tests](#write_tests)
   1. [Contribution](#contribution)
