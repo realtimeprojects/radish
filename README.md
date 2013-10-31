@@ -36,7 +36,7 @@ There are several ways to install `radish` on your computer:
 ### <a name='missing_dependencies'></a>Missing dependencies
 `radish` needs `libxml` to generated xunit files. So, if you haven't already installed it:
 
-    apt-get install libxml2 lixbml2-dev libxslt1-develop
+    apt-get install libxml2 lixbml2-dev libxslt1-dev
 
 On some computers I've seen the problem that `zlib1g-dev` was not installed, which is used to compile lxml.
 It result in the error:
@@ -46,6 +46,8 @@ It result in the error:
 You can fix it with:
 
     apt-get install zlib1g-develop
+    
+[[⬆]](#TOC)
 
 ### <a name='installation_pip'></a>Simple installation with pip
 This is probably the simplest way to install `radish`.<br />
