@@ -24,6 +24,7 @@ Usage:
            [--no-indentation] [--no-duration] [--no-numbers]
            [--no-skipped-steps] [--with-section-names]
            [--show-metrics]
+    radish (-c | --create-basedir)
     radish (-h | --help)
     radish (-v | --version)
 
@@ -34,7 +35,8 @@ Options:
     -h --help                            show this screen
     -v --version                         show version
 
-    -b=<basedir> --basedir=<basedir>     set base dir from where the step.py and terrain.py will be loaded [default: $PWD/radish/]
+    -c --create-basedir                  create basedir and initial steps and terrain files
+    -b=<basedir> --basedir=<basedir>     set base dir from where the step.py and terrain.py will be loaded [default: $PWD/radish]
     -m=<marker> --marker=<marker>        specific marker which you can use to implement some kind of logging delimitiers [default: time.time()]
     -d --dry-run                         execute a dry run to validate steps
     -a --abort-fail                      abort run if one step fails
@@ -59,17 +61,51 @@ Options:
 
     arguments = docopt("radish %s\n%s" % (radish.version.__version__, main.__doc__), version=radish.version.__version__)
 
+    cf = radish.Config()
+    cf.no_colors = arguments["--no-colors"]
+
+    if arguments['--create-basedir']:
+        basedir = radish.FileSystemHelper.expand(arguments["--basedir"])
+        if os.path.exists(basedir):
+            print "basedir already exists: %s"%basedir
+        else:
+            print "creating %s"%basedir
+            os.mkdir(basedir)
+        filename = "%s/steps.py"%basedir
+        if os.path.exists(filename):
+            print "file already exists: %s"%filename
+        else:
+            print "creating %s"%filename
+            f = open(filename, "w")
+            f.write("# -*- coding: utf-8 -*-\n\n")
+            f.write("from radish import step\n\n")
+            f.close()
+        filename = "%s/terrain.py"%basedir
+        if os.path.exists(filename):
+            print "file already exists: %s"%filename
+        else:
+            print "creating %s"%filename
+            f = open(filename, "w")
+            f.write("# -*- coding: utf-8 -*-\n\n")
+            f.write("from radish import world, before, after\n\n")
+            f.write("@before.all\ndef before_all():\n    pass\n\n")
+            f.write("@after.all\ndef after_all(result):\n    pass\n\n")
+            f.write("@before.each_step\ndef before_each_step(step):\n    pass\n\n")
+            f.write("@after.each_step\ndef after_each_step(step):\n    pass\n\n")
+            f.close()
+
+        sys.exit(0)
+
     exitCode = 0
     try:
         # initialize config object
         # FIXME: clean up config and arguments
-        cf = radish.Config()
-        cf.no_colors = arguments["--no-colors"]
         cf.no_line_jump = arguments["--no-line-jump"]
         cf.SetBasedir(radish.FileSystemHelper.expand(os.path.join(os.getcwd(), "radish") if arguments["--basedir"] == "$PWD/radish/" else arguments["--basedir"]))
         cf.feature_files = arguments["<features>"]
         cf.abort_fail = arguments["--abort-fail"]
         cf.marker = time.time() if arguments["--marker"] == "time.time()" else arguments["--marker"]
+        cf.create_basedir = arguments["--create-basedir"]
         cf.dry_run = arguments["--dry-run"]
         cf.xunit_file = arguments["--xunit-file"]
         cf.split_xunit = arguments["--split-xunit"]
@@ -113,7 +149,7 @@ Options:
 
             exitCode = 0 if endResult.have_all_passed() else 1
     except radish.RadishError, e:
-        sys.stderr.write("%s %s\n" % (radish.colorful.bold_red("radish error:"), e))
+        e.show()
         exitCode = 2
 
     sys.exit(exitCode)

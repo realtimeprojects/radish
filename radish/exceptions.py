@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 
+import sys
 from radish.colorful import colorful
 
 
@@ -9,6 +10,9 @@ class RadishError(Exception):
 
     def __str__(self):
         return colorful.bold_red(self._msg)
+
+    def show(self):
+        sys.stderr.write("%s %s\n" % (colorful.bold_red("radish error:"), self))
 
 class FeatureFileNotValidError(RadishError):
     """Raised when a feature file could not be parsed"""
@@ -30,13 +34,25 @@ class StepLoadingError(RadishError):
 
 class StepDefinitionNotFoundError(RadishError):
     """Raised when a step definition could not be found"""
-    def __init__(self, step_sentence, step_filename):
+    def __init__(self, step_sentence, step_filename, step_line_no):
         self._step_sentence = step_sentence
         self._step_filename = step_filename
+        self._step_line_no  = step_line_no
 
-    def __str__(self):
-        return colorful.red("The step definition for '%s' from file '%s' could not be found" % (self._step_sentence, self._step_filename))
-
+    def show(self):
+        import re
+        sys.stderr.write(colorful.bold_red("%s:%d" % (self._step_filename, self._step_line_no)))
+        sys.stderr.write(colorful.red(": error: no step definition found for '%s'\n" % (self._step_sentence)))
+        sys.stderr.write("you might want to add the following to your steps.py:\n\n")
+        sentence = self._step_sentence
+        sentence = re.sub("^When ", "", sentence)
+        sentence = re.sub("^Given ", "", sentence)
+        sentence = re.sub("^Then ", "", sentence)
+        sys.stderr.write("@step(u'%s')\n"%sentence)
+        sentence = sentence.replace(" ", "_")
+        sentence = sentence.replace(".", "_")
+        sys.stderr.write("def %s(step):\n"%sentence)
+        sys.stderr.write("    assert False, \"Not implemented yet\"\n\n")
 
 class FeatureFileNotFoundError(RadishError):
     """Raised when a feature file could not be found"""
@@ -53,8 +69,11 @@ class BasedirNotFoundError(RadishError):
         self._basedir = basedir
 
     def __str__(self):
-        return colorful.red("The basedir '%s' could not be found" % (self._basedir))
+        return colorful.red("basedir not found: '%s'" % (self._basedir))
 
+    def show(self):
+        RadishError.show(self)
+        sys.stderr.write("\nyou might want to create the basedir and initial steps and terrain files by running radish -c\n\n")
 
 class StepDefinitionFileNotFoundError(RadishError):
     """Raised when the step definition file could not be found"""
@@ -74,8 +93,6 @@ class NoMetricUtilFoundError(RadishError):
 
 class ValidationError(RadishError):
     """Raised when a validation error occured during run"""
-    def __init__(self, msg):
-        self._msg = msg
 
     def __str__(self):
         return colorful.bold_red(self._msg)

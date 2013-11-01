@@ -42,4 +42,4 @@ class Loader(object):
                         step.set_match(match)
                         step.set_metric_indicators(metric_indicators)
                     else:
-                        raise StepDefinitionNotFoundError(step.get_sentence(), step.get_filename())
+                        raise StepDefinitionNotFoundError(step.get_sentence(), step.get_filename(), step.get_line_no())
