@@ -4,8 +4,11 @@ from radish.colorful import colorful
 
 
 class RadishError(Exception):
-    pass
+    def __init__(self, msg):
+        self._msg = msg
 
+    def __str__(self):
+        return colorful.bold_red(self._msg)
 
 class FeatureFileNotValidError(RadishError):
     """Raised when a feature file could not be parsed"""

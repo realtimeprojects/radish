@@ -6,8 +6,6 @@ import sys
 import datetime
 import re
 
-from lxml import etree
-
 from radish.config import Config
 from radish.utilregistry import UtilRegistry
 from radish.exceptions import ValidationError
@@ -150,6 +148,11 @@ class Step(object):
             raise ValidationError(msg)
 
     def get_report_as_xunit_tag(self):
+        try:
+            from lxml import etree
+        except:
+            raise RadishError("No lxml support. Please install python-lxml")
+
         testcase = etree.Element(
             "testcase",
             id="%d.%d.%d" % (self._scenario.get_feature().get_id(), self._scenario.get_id(), self._id),

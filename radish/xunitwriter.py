@@ -2,7 +2,6 @@
 
 import os
 from datetime import datetime
-from lxml import etree
 
 from radish.config import Config
 from radish.filesystemhelper import FileSystemHelper as fsh
@@ -16,6 +15,11 @@ class XunitWriter(object):
         self._endResult = endResult
 
     def generate(self):
+        try:
+            from lxml import etree
+        except:
+            raise RadishError("No lxml support. Please install python-lxml")
+
         outputs = {}
         if Config().split_xunit:
             for f in self._endResult.get_features():
