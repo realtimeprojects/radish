@@ -71,27 +71,49 @@ Options:
             print "creating %s" % basedir
             os.mkdir(basedir)
         filename = "%s/steps.py" % basedir
+
         if os.path.exists(filename):
             print("file already exists: %s" % filename)
         else:
+            content = """
+# -*- coding: utf-8 -*-
+
+from radish import step
+"""
+
             print("creating %s" % filename)
-            f = open(filename, "w")
-            f.write("# -*- coding: utf-8 -*-\n\n")
-            f.write("from radish import step\n\n")
-            f.close()
+            with open(filename, "w") as f:
+                f.write(content)
+
         filename = "%s/terrain.py" % basedir
         if os.path.exists(filename):
             print("file already exists: %s" % filename)
         else:
             print("creating %s" % filename)
-            f = open(filename, "w")
-            f.write("# -*- coding: utf-8 -*-\n\n")
-            f.write("from radish import world, before, after\n\n")
-            f.write("@before.all\ndef before_all():\n    pass\n\n")
-            f.write("@after.all\ndef after_all(result):\n    pass\n\n")
-            f.write("@before.each_step\ndef before_each_step(step):\n    pass\n\n")
-            f.write("@after.each_step\ndef after_each_step(step):\n    pass\n\n")
-            f.close()
+            content = """
+# -*- coding: utf-8 -*-
+
+from radish import world, before, after
+
+
+@before.all
+def before_all():
+    pass
+
+@after.all
+def after_all(result):
+    pass
+
+@before.each_step
+def before_each_step(step):
+    pass
+
+@after.each_step
+def after_each_step(step):
+    pass"""
+
+            with open(filename, "w") as f:
+                f.write(content)
 
         sys.exit(0)
 
