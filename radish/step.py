@@ -8,7 +8,7 @@ import re
 
 from radish.config import Config
 from radish.utilregistry import UtilRegistry
-from radish.exceptions import ValidationError
+from radish.exceptions import ValidationError, RadishError
 
 
 class Step(object):

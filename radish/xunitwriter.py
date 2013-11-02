@@ -5,6 +5,7 @@ from datetime import datetime
 
 from radish.config import Config
 from radish.filesystemhelper import FileSystemHelper as fsh
+from radish.exceptions import RadishError
 
 
 class XunitWriter(object):
