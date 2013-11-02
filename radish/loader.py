@@ -1,7 +1,5 @@
 # -*- coding: utf-8 -*-
 
-import os
-
 from radish.config import Config
 from radish.stepregistry import StepRegistry
 from radish.filesystemhelper import FileSystemHelper as fsh

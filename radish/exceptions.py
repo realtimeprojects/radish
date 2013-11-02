@@ -14,6 +14,7 @@ class RadishError(Exception):
     def show(self):
         sys.stderr.write("%s %s\n" % (colorful.bold_red("radish error:"), self))
 
+
 class FeatureFileNotValidError(RadishError):
     """Raised when a feature file could not be parsed"""
     def __init__(self, feature_file):
@@ -37,7 +38,7 @@ class StepDefinitionNotFoundError(RadishError):
     def __init__(self, step_sentence, step_filename, step_line_no):
         self._step_sentence = step_sentence
         self._step_filename = step_filename
-        self._step_line_no  = step_line_no
+        self._step_line_no = step_line_no
 
     def show(self):
         import re
@@ -48,11 +49,12 @@ class StepDefinitionNotFoundError(RadishError):
         sentence = re.sub("^When ", "", sentence)
         sentence = re.sub("^Given ", "", sentence)
         sentence = re.sub("^Then ", "", sentence)
-        sys.stderr.write("@step(u'%s')\n"%sentence)
+        sys.stderr.write("@step(u'%s')\n" % sentence)
         sentence = sentence.replace(" ", "_")
         sentence = sentence.replace(".", "_")
-        sys.stderr.write("def %s(step):\n"%sentence)
+        sys.stderr.write("def %s(step):\n" % sentence)
         sys.stderr.write("    assert False, \"Not implemented yet\"\n\n")
+
 
 class FeatureFileNotFoundError(RadishError):
     """Raised when a feature file could not be found"""
@@ -74,6 +76,7 @@ class BasedirNotFoundError(RadishError):
     def show(self):
         RadishError.show(self)
         sys.stderr.write("\nyou might want to create the basedir and initial steps and terrain files by running radish -c\n\n")
+
 
 class StepDefinitionFileNotFoundError(RadishError):
     """Raised when the step definition file could not be found"""
