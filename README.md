@@ -46,7 +46,7 @@ It result in the error:
 You can fix it with:
 
     apt-get install zlib1g-develop
-    
+
 [[⬆]](#TOC)
 
 ### <a name='installation_pip'></a>Simple installation with pip

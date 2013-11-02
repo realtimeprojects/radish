@@ -66,24 +66,24 @@ Options:
     if arguments['--create-basedir']:
         basedir = radish.FileSystemHelper.expand(arguments["--basedir"])
         if os.path.exists(basedir):
-            print "basedir already exists: %s" % basedir
+            print("basedir already exists: %s" % basedir)
         else:
             print "creating %s" % basedir
             os.mkdir(basedir)
         filename = "%s/steps.py" % basedir
         if os.path.exists(filename):
-            print "file already exists: %s" % filename
+            print("file already exists: %s" % filename)
         else:
-            print "creating %s" % filename
+            print("creating %s" % filename)
             f = open(filename, "w")
             f.write("# -*- coding: utf-8 -*-\n\n")
             f.write("from radish import step\n\n")
             f.close()
         filename = "%s/terrain.py" % basedir
         if os.path.exists(filename):
-            print "file already exists: %s" % filename
+            print("file already exists: %s" % filename)
         else:
-            print "creating %s" % filename
+            print("creating %s" % filename)
             f = open(filename, "w")
             f.write("# -*- coding: utf-8 -*-\n\n")
             f.write("from radish import world, before, after\n\n")
