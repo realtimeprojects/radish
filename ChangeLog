@@ -1,9 +1,19 @@
+radish (0.01.16)
+
+  * Installation Guide for windows
+  * lxml dependency optional
+  * argument to create basedir
+  * improve error messages
+  * deuglify end sentence
+
+  -- Timo Furrer <tuxtimo@gmail.com>  Mon, 18 Nov 2013 13:31:08 +0100
+
 radish (0.01.15)
 
   * fix profile argument
   * exceptions in external hooks are now caught by the hook registery
 
-  -- Timo Furrer <tuxtimo@gmail.com> Wed, 17 Jul 2013 14:13:14 +0200
+  -- Timo Furrer <tuxtimo@gmail.com>  Wed, 17 Jul 2013 14:13:14 +0200
 
 radish (0.01.13)
 
@@ -11,23 +21,23 @@ radish (0.01.13)
   * better help screen
   * --split-xunit cannot be specified when --xunit-file is not given
 
-  -- Timo Furrer <tuxtimo@gmail.com> Fri, 14 Jun 2013 13:20:30 +0200
+  -- Timo Furrer <tuxtimo@gmail.com>  Fri, 14 Jun 2013 13:20:30 +0200
 
 radish (0.01.11)
 
   * --no-overwrite argument to not overwrite the steps
 
-  -- Timo Furrer <tuxtimo@gmail.com> Thu, 13 Jun 2013 15:28:21 +0200
+  -- Timo Furrer <tuxtimo@gmail.com>  Thu, 13 Jun 2013 15:28:21 +0200
 
 radish (0.01.11)
 
   * test release
 
-  -- Timo Furrer <tuxtimo@gmail.com> Thu, 13 Jun 2013 14:12:10 +0200
+  -- Timo Furrer <tuxtimo@gmail.com>  Thu, 13 Jun 2013 14:12:10 +0200
 
 radish (0.01.10)
 
   * xunit output knows skipped steps
   * improved README
 
-  -- Timo Furrer <tuxtimo@gmail.com> Tue, 11 Jun 2013 15:40:51 +0200
+  -- Timo Furrer <tuxtimo@gmail.com>  Tue, 11 Jun 2013 15:40:51 +0200
