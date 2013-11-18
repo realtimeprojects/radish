@@ -6,7 +6,6 @@ import radish
 import os
 import sys
 import time
-import shutil
 
 from docopt import docopt
 
@@ -24,7 +23,7 @@ Usage:
            [--no-indentation] [--no-duration] [--no-numbers]
            [--no-skipped-steps] [--with-section-names]
            [--show-metrics]
-    radish (-c | --create-basedir)  [-b=<basedir> | --basedir=<basedir>]
+    radish (-c | --create-basedir)
     radish (-h | --help)
     radish (-v | --version)
 
@@ -65,27 +64,56 @@ Options:
     cf.no_colors = arguments["--no-colors"]
 
     if arguments['--create-basedir']:
-        datadir = os.path.join(radish.__path__[0], "../templates")
         basedir = radish.FileSystemHelper.expand(arguments["--basedir"])
         if os.path.exists(basedir):
             print("basedir already exists: %s" % basedir)
         else:
             print "creating %s" % basedir
             os.mkdir(basedir)
-
         filename = "%s/steps.py" % basedir
+
         if os.path.exists(filename):
             print("file already exists: %s" % filename)
         else:
+            content = """
+# -*- coding: utf-8 -*-
+
+from radish import step
+"""
+
             print("creating %s" % filename)
-            shutil.copyfile(os.path.join(datadir, "steps.py"), filename)
+            with open(filename, "w") as f:
+                f.write(content)
 
         filename = "%s/terrain.py" % basedir
         if os.path.exists(filename):
             print("file already exists: %s" % filename)
         else:
             print("creating %s" % filename)
-            shutil.copyfile(os.path.join(datadir, "terrain.py"), filename)
+            content = """
+# -*- coding: utf-8 -*-
+
+from radish import world, before, after
+
+
+@before.all
+def before_all():
+    pass
+
+@after.all
+def after_all(result):
+    pass
+
+@before.each_step
+def before_each_step(step):
+    pass
+
+@after.each_step
+def after_each_step(step):
+    pass"""
+
+            with open(filename, "w") as f:
+                f.write(content)
 
         sys.exit(0)
 
