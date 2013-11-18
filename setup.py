@@ -22,7 +22,7 @@ setup(
     install_requires=["docopt==0.6.1"],
     package_dir={"radish.singleton": "radish/pysingleton/singleton"},
     packages=["radish", "radish.singleton"],
-    data_files=["templates/steps.py", "templates/terrain.py"],
+    #data_files=[("templates", ["templates/steps.py", "templates/terrain.py"])],
     entry_points={"console_scripts": ["radish = radish.main:main"]},
     package_data={"radish": ["*.md"]},
     classifiers=[

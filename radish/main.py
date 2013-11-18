@@ -65,7 +65,7 @@ Options:
     cf.no_colors = arguments["--no-colors"]
 
     if arguments['--create-basedir']:
-        datadir = os.path.join(radish.__path__[0], "..")
+        datadir = os.path.join(radish.__path__[0], "../templates")
         basedir = radish.FileSystemHelper.expand(arguments["--basedir"])
         if os.path.exists(basedir):
             print("basedir already exists: %s" % basedir)
