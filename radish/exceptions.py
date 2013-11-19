@@ -36,6 +36,7 @@ class StepLoadingError(RadishError):
 class StepDefinitionNotFoundError(RadishError):
     """Raised when a step definition could not be found"""
     def __init__(self, step_sentence, step_filename, step_line_no):
+        RadishError.__init__(self, "no step definition found for '%s'"%step_sentence)
         self._step_sentence = step_sentence
         self._step_filename = step_filename
         self._step_line_no = step_line_no
