@@ -6,3 +6,4 @@ Feature: Compute factorial
     Scenario: Factorial of 0 - WILL PASS
         Given I have the number 0
         When I compute its factorial
+        Then I see the number 43
