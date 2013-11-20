@@ -3,3 +3,6 @@ set tabstop=4
 set shiftwidth=4
 
 let g:flake8_max_line_length=150
+
+let s:project = escape(expand('<sfile>:p:h'), '\')
+let s:radish_basedir = escape(expand(s:project."/testfiles/radish"), '\')
