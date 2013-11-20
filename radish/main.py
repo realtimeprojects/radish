@@ -10,6 +10,7 @@ import time
 from docopt import docopt
 from radish.colorful import colorful
 
+
 def main():
     """
 Usage:
@@ -177,7 +178,7 @@ def after_each_step(step):
         sys.stderr.write(colorful.red("%s\n" % str(e)))
 
         if hasattr(e, 'desc'):
-            sys.stderr.write("\n%s\n"%e.desc())
+            sys.stderr.write("\n%s\n" % e.desc())
         exitCode = 2
 
     sys.exit(exitCode)
