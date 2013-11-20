@@ -91,7 +91,65 @@ python setup.py install
 [[⬆]](#TOC)
 
 ## <a name='usage'></a>How to use?
-Coming soon ...
+
+```bash
+mkdir testprj
+cd testprj
+radish -c
+```
+
+```bash
+creating radish/
+creating radish/steps.py
+creating radish/terrain.py
+```
+
+```bash
+mkdir tests
+cat > tests/001-howto.feature <<EOF
+Feature: Provide a first test as example for using radish
+  In order to be a good program, provide an example how to write a test.
+
+  Scenario: Getting started using radish
+    # Show the steps that need to be done to get testing with radish.
+
+    Given I have radish version 0.01.15 installed
+
+EOF
+```
+
+```bash
+radish tests/001-howto.feature
+```
+
+```bash
+tests/001-howto.feature:7: error: no step definition found for 'Given I have radish version 0.01.15 installed'
+you might want to add the following to your steps.py:
+
+@step(u'I have radish version 0.01.15 installed')
+def I_have_radish_version_0_01_15_installed(step):
+    assert False, "Not implemented yet"
+
+```
+
+add these 3 lines to radish/steps.py and run radish again:
+
+```bash
+radish tests/001-howto.feature
+```
+
+  1. Provide a first test as example for using radish                                  # 001-howto.feature
+     In order to be a good program, provide an example how to write a test.
+
+     1. Getting started using radish
+        1. Given I have radish version 0.01.15 installed
+           AssertionError: Not implemented yet
+
+1 features (0 passed, 1 failed)
+1 scenarios (0 passed, 1 failed)
+1 steps (0 passed, 1 failed)
+(finished within 0 minutes and 0.00 seconds)
+
 
 [[⬆]](#TOC)
 
