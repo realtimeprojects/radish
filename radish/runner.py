@@ -73,7 +73,11 @@ class Runner(object):
         return self._create_endresult()
 
     def _print_traceback(self, fail_reason):
-        print(colorful.bold_red(fail_reason.get_name()) + colorful.red(" exception caught from external hook at ") + colorful.bold_red(fail_reason.get_filename()) + colorful.red(":") + colorful.bold_red(fail_reason.get_line_no()))
+        print(colorful.bold_red(fail_reason.get_name())
+                + colorful.red(" exception caught from external hook at ")
+                + colorful.bold_red(fail_reason.get_filename())
+                + colorful.red(":")
+                + colorful.bold_red(str(fail_reason.get_line_no())))
         if Config().with_traceback:
             for l in fail_reason.get_traceback().splitlines():
                 colorful.out.red("  " + l)

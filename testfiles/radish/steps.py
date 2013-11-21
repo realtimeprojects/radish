@@ -46,4 +46,5 @@ def fail_after_times(step, times):
 
 
 def factorial(number):
-    return -1
+    from math import factorial
+    return factorial(number)

@@ -103,7 +103,7 @@ class Step(object):
             self._name = e.__class__.__name__
             tr_infos = traceback.extract_tb(sys.exc_info()[2])[-1]
             self._filename = tr_infos[0]
-            self._line_no = tr_infos[1]
+            self._line_no = int(tr_infos[1])
 
         def get_reason(self):
             return self._reason

@@ -8,6 +8,7 @@ import sys
 import time
 
 from docopt import docopt
+from radish.colorful import colorful
 
 
 def main():
@@ -170,7 +171,14 @@ def after_each_step(step):
 
             exitCode = 0 if endResult.have_all_passed() else 1
     except radish.RadishError, e:
-        e.show()
+        if hasattr(e, "fileline"):
+            sys.stderr.write(colorful.bold_red("%s:%d" % e.fileline()))
+            sys.stderr.write(colorful.red(": error: "))
+
+        sys.stderr.write(colorful.red("%s\n" % str(e)))
+
+        if hasattr(e, 'desc'):
+            sys.stderr.write("\n%s\n" % e.desc())
         exitCode = 2
 
     sys.exit(exitCode)
