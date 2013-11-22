@@ -4,6 +4,7 @@ import os
 import sys
 import fnmatch
 import traceback
+import importlib
 
 
 class FileSystemHelper(object):
@@ -51,8 +52,10 @@ class FileSystemHelper(object):
                 sys.path.insert(0, root)
                 module_name = cls.filename(f, False)
                 try:
-                    __import__(module_name)
+                    loaded_module = importlib.import_module(module_name)
+                    reload(loaded_module)
                     sys.path.remove(root)
+                    return loaded_module
                 except ValueError, e:
                     if "empty module name" in traceback.format_exc(e).lower():
                         continue
